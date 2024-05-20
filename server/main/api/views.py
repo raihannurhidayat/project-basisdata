@@ -3,14 +3,20 @@ from rest_framework import status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import User, Category, Thread, Post
-from .serializers import UserSerializer, CategorySerializer, ThreadSerializer, PostSerializer
+from .serializers import (
+    AuthSerializer,
+    UserSerializer,
+    CategorySerializer,
+    ThreadSerializer,
+    PostSerializer
+)
 
 # auth handler
 
 
 class UserRegister(generics.CreateAPIView):
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = AuthSerializer
     permission_classes = [permissions.AllowAny, ]
 
 # Views untuk User
