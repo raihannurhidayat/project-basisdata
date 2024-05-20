@@ -1,11 +1,21 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import status
+from rest_framework import status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import User, Category, Thread, Post
 from .serializers import UserSerializer, CategorySerializer, ThreadSerializer, PostSerializer
 
+# auth handler
+
+
+class UserRegister(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.AllowAny, ]
+
 # Views untuk User
+
+
 @api_view(['GET', 'POST'])
 def user_list(request):
     if request.method == 'GET':
@@ -19,6 +29,7 @@ def user_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def user_detail(request, pk):
@@ -40,6 +51,8 @@ def user_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Views untuk Category
+
+
 @api_view(['GET', 'POST'])
 def category_list(request):
     if request.method == 'GET':
@@ -53,6 +66,7 @@ def category_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def category_detail(request, pk):
@@ -74,6 +88,8 @@ def category_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Views untuk Thread
+
+
 @api_view(['GET', 'POST'])
 def thread_list(request):
     if request.method == 'GET':
@@ -87,6 +103,7 @@ def thread_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def thread_detail(request, pk):
@@ -108,6 +125,8 @@ def thread_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 # Views untuk Post
+
+
 @api_view(['GET', 'POST'])
 def post_list(request):
     if request.method == 'GET':
@@ -121,6 +140,7 @@ def post_list(request):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 @api_view(['GET', 'PUT', 'DELETE'])
 def post_detail(request, pk):
