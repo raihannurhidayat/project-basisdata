@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import status, generics, permissions
+from django.conf import settings
+from rest_framework import views, status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User, Category, Thread, Post
 from .serializers import (
     AuthSerializer,
@@ -10,14 +12,54 @@ from .serializers import (
     ThreadSerializer,
     PostSerializer
 )
-
 # auth handler
+
+
+class CustomTokenObtainPairView(TokenObtainPairView):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
+
+        if response.status_code == status.HTTP_200_OK:
+
+            # set token in cookie
+            response.set_cookie(
+                key=settings.SIMPLE_JWT['AUTH_COOKIE'],
+                value=response.data['access'],
+                expires=settings.SIMPLE_JWT['ACCESS_TOKEN_LIFETIME'],
+                httponly=True,
+                secure=settings.SIMPLE_JWT['COOKIE_SECURE'],
+            )
+
+            response.set_cookie(
+                key=settings.SIMPLE_JWT['REFRESH_COOKIE'],
+                value=response.data['refresh'],
+                expires=settings.SIMPLE_JWT['REFRESH_TOKEN_LIFETIME'],
+                httponly=True,
+                secure=settings.SIMPLE_JWT['COOKIE_SECURE'],
+            )
+
+            # delete token from response
+            del response.data['refresh']
+            del response.data['access']
+
+        return response
+
+
+class LogoutView(views.APIView):
+    def post(self, request):
+        response = Response({'detail': "Succesfully logout"},
+                            status=status.HTTP_200_OK)
+        response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'])
+        response.delete_cookie(settings.SIMPLE_JWT['REFRESH_COOKIE'])
+
+        return response
 
 
 class UserRegister(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = AuthSerializer
     permission_classes = [permissions.AllowAny, ]
+
 
 # Views untuk User
 
