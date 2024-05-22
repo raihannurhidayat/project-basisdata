@@ -12,6 +12,7 @@ from .serializers import (
     ThreadSerializer,
     PostSerializer
 )
+
 # auth handler
 
 
@@ -64,39 +65,47 @@ class UserRegister(generics.CreateAPIView):
 # Views untuk User
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def user_list(request):
     if request.method == 'GET':
-        users = User.objects.all()
+        users = User.objects.filter(is_active=True)
         serializer = UserSerializer(users, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = UserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def user_detail(request, pk):
-    user = get_object_or_404(User, pk=pk)
+def user_detail(request, slug):
+    user = get_object_or_404(User, slug=slug)
+    auth_user = request.user
 
     if request.method == 'GET':
         serializer = UserSerializer(user)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
-        serializer = UserSerializer(user, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # check if it is the user that authenticated
+    if auth_user.slug == user.slug:
 
-    elif request.method == 'DELETE':
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        if request.method == 'PUT':
+            serializer = UserSerializer(user, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        elif request.method == 'DELETE':
+            user.is_active = False
+            user.save()
+
+            response = Response(status=status.HTTP_204_NO_CONTENT)
+
+            # delete token from cookie
+            response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'])
+            response.delete_cookie(settings.SIMPLE_JWT['REFRESH_COOKIE'])
+
+            return response
+
+    else:
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 # Views untuk Category
 

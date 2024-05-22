@@ -26,7 +26,7 @@ class AuthSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'profile_picture_url',
+        fields = ('username', 'slug', 'email', 'profile_picture_url',
                   'user_bio', 'birth_date', 'date_joined')
 
 
