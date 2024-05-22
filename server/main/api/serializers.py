@@ -31,10 +31,19 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    threads = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
-        fields = ('category_id', 'category_name', 'slug')
+        fields = ('category_id', 'category_name', 'slug', 'threads')
         read_only_fields = ('category_id', 'slug')
+
+    def get_threads(self, obj):
+        threads = Thread.objects.filter(
+            category=obj.category_id).filter(is_active=True)
+        serializer = ThreadResponseSerializer(threads, many=True)
+
+        return serializer.data
 
 # Thread serializers
 
