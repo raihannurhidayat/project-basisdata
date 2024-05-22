@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from rest_framework import views, status, generics, permissions
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .models import User, Category, Thread, Post
 from .serializers import (
@@ -13,7 +13,33 @@ from .serializers import (
     PostSerializer
 )
 
-# auth handler
+# Admin Views
+
+
+@api_view(['DELETE',])
+@permission_classes([permissions.IsAdminUser])
+def destroy_user(request, slug):
+    """Handle destroying user\n
+    Warning: This will permanently remove user from database, along with its related threads and posts"""
+
+    user = get_object_or_404(User, slug=slug)
+    user.delete()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(['DELETE',])
+@permission_classes([permissions.IsAdminUser])
+def destroy_thread(request, slug):
+    """Handle destroying thread\n
+    Warning: This will permanently remove thread from database, along with its related posts"""
+
+    thread = get_object_or_404(Thread, slug=slug)
+    thread.delete()
+
+    return Response(status=status.HTTP_204_NO_CONTENT)
+
+# Authentication Views
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):

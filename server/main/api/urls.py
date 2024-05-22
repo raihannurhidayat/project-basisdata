@@ -3,6 +3,10 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from . import views
 
 urlpatterns = [
+    path('superuser/users/<slug:slug>/', views.destroy_user, name='destroy_user'),
+    path('superuser/threads/<slug:slug>/',
+         views.destroy_thread, name='destroy_thread'),
+
     path('auth/register/', views.UserRegister.as_view(), name='register'),
     path('auth/login/', views.CustomTokenObtainPairView.as_view(), name='login'),
     path('auth/token_refresh/', TokenRefreshView.as_view(), name='token_refresh'),
