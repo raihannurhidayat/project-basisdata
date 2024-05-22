@@ -60,7 +60,7 @@ class Thread(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    is_closed = models.BooleanField(default=True)
+    is_closed = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
