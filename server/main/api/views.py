@@ -9,7 +9,8 @@ from .serializers import (
     AuthSerializer,
     UserSerializer,
     CategorySerializer,
-    ThreadSerializer,
+    ThreadRequestSerializer,
+    ThreadResponseSerializer,
     PostSerializer
 )
 
@@ -38,6 +39,7 @@ def destroy_thread(request, slug):
     thread.delete()
 
     return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 # Authentication Views
 
@@ -133,6 +135,7 @@ def user_detail(request, slug):
     else:
         return Response(status=status.HTTP_403_FORBIDDEN)
 
+
 # Views untuk Category
 
 
@@ -170,6 +173,7 @@ def category_detail(request, pk):
         category.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 # Views untuk Thread
 
 
@@ -177,27 +181,31 @@ def category_detail(request, pk):
 def thread_list(request):
     if request.method == 'GET':
         threads = Thread.objects.all()
-        serializer = ThreadSerializer(threads, many=True)
+        serializer = ThreadResponseSerializer(threads, many=True)
         return Response(serializer.data)
 
     elif request.method == 'POST':
-        serializer = ThreadSerializer(data=request.data)
+        serializer = ThreadRequestSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            instance = serializer.save(created_by=request.user)
+
+            response = get_object_or_404(Thread, slug=instance.slug)
+
+            return Response(ThreadResponseSerializer(response).data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def thread_detail(request, pk):
-    thread = get_object_or_404(Thread, pk=pk)
+def thread_detail(request, slug):
+    thread = get_object_or_404(Thread, slug=slug)
 
     if request.method == 'GET':
-        serializer = ThreadSerializer(thread)
+        serializer = ThreadResponseSerializer(thread)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = ThreadSerializer(thread, data=request.data)
+        serializer = ThreadRequestSerializer(thread, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
