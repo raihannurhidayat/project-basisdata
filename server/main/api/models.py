@@ -9,9 +9,9 @@ from . import managers
 
 class User(AbstractBaseUser, PermissionsMixin):
     user_id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=100, unique=True)
-    email = models.EmailField(max_length=100, unique=True)
+    username = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=100, unique=True, null=True)
+    email = models.EmailField(max_length=100, unique=True, null=True)
     profile_picture_url = models.TextField(blank=True, null=True)
     user_bio = models.TextField(blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
