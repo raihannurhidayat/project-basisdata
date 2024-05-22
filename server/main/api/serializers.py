@@ -27,19 +27,29 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'slug', 'email', 'profile_picture_url',
-                  'user_bio', 'birth_date', 'date_joined')
+                  'user_bio', 'birth_date', 'date_joined',)
 
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('category_name', )
+
+# Thread serializers
 
 
-class ThreadSerializer(serializers.ModelSerializer):
+class ThreadRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thread
-        fields = '__all__'
+        fields = ('thread_name', 'thread_desc',
+                  'category', 'thread_picture_url',)
+
+
+class ThreadResponseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Thread
+        fields = ('thread_name', 'slug', 'thread_desc', 'category', 'thread_picture_url',
+                  'created_at', 'modified_at', 'created_by', 'is_closed')
 
 
 class PostSerializer(serializers.ModelSerializer):
