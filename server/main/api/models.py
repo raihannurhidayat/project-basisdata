@@ -60,6 +60,8 @@ class Thread(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_closed = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -71,7 +73,8 @@ class Thread(models.Model):
 
 
 class Post(models.Model):
-    post_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
+    post_id = models.IntegerField()
     post_content = models.TextField()
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
     reply_to = models.ForeignKey(
@@ -80,5 +83,25 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        constraints = (
+            models.UniqueConstraint(
+                fields=('thread', 'post_id'), name="thread_post_id"
+            ),
+        )
+
+    def save(self, *args, **kwargs):
+        if not self.post_id:
+            # get id of latest post
+            last_post = Post.objects.filter(
+                thread=self.thread).order_by('-post_id').first()
+
+            if last_post:
+                self.post_id = last_post.post_id + 1
+            else:
+                self.post_id = 1
+
+            super().save(*args, **kwargs)
+
     def __str__(self):
-        return f"Post {self.post_id} by {self.created_by}"
+        return f"Post({self.thread.thread_id}:{self.post_id}) by {self.created_by.slug}"
