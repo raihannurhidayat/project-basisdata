@@ -46,6 +46,9 @@ class ThreadRequestSerializer(serializers.ModelSerializer):
 
 
 class ThreadResponseSerializer(serializers.ModelSerializer):
+    category = serializers.StringRelatedField()
+    created_by = serializers.StringRelatedField()
+
     class Meta:
         model = Thread
         fields = ('thread_name', 'slug', 'thread_desc', 'category', 'thread_picture_url',
