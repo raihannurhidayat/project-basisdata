@@ -1,0 +1,453 @@
+{
+    "clientName": "Thunder Client",
+    "collectionName": "Forum",
+    "collectionId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+    "dateExported": "2024-05-22T17:36:10.384Z",
+    "version": "1.2",
+    "folders": [
+        {
+            "_id": "93af0f87-cc53-45f5-b291-45a53b4ea278",
+            "name": "User Authentication",
+            "containerId": "",
+            "created": "2024-05-21T06:53:17.495Z",
+            "sortNum": 10000
+        },
+        {
+            "_id": "f7de353c-7d9e-4adb-a018-8a9eb9426c7b",
+            "name": "Another User For Testing",
+            "containerId": "",
+            "created": "2024-05-22T14:50:17.813Z",
+            "sortNum": 12500
+        },
+        {
+            "_id": "0041311c-31df-4d60-a0a7-64060672d400",
+            "name": "User",
+            "containerId": "",
+            "created": "2024-05-22T00:23:05.512Z",
+            "sortNum": 15000
+        },
+        {
+            "_id": "9876d163-01e7-49aa-845e-585aa8b04853",
+            "name": "Category",
+            "containerId": "",
+            "created": "2024-05-22T09:30:11.124Z",
+            "sortNum": 17500,
+            "settings": {
+                "runOptions": {
+                    "delay": 0,
+                    "iterations": 1,
+                    "dataFilePath": "e:\\GitHub\\project-basisdata\\server\\documentation\\populate_category.json"
+                }
+            }
+        },
+        {
+            "_id": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
+            "name": "Thread",
+            "containerId": "",
+            "created": "2024-05-21T06:53:39.055Z",
+            "sortNum": 20000
+        },
+        {
+            "_id": "95f33a7d-e4b6-43a1-aba5-d094926a2400",
+            "name": "Post",
+            "containerId": "",
+            "created": "2024-05-22T14:59:38.172Z",
+            "sortNum": 50000
+        },
+        {
+            "_id": "5fbd608d-beb8-4d2a-9391-365a122c36f6",
+            "name": "Clean up",
+            "containerId": "",
+            "created": "2024-05-22T05:48:00.954Z",
+            "sortNum": 80000
+        }
+    ],
+    "requests": [
+        {
+            "_id": "baf7c96c-1fb3-4006-809d-060009af9206",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "93af0f87-cc53-45f5-b291-45a53b4ea278",
+            "name": "Register User",
+            "url": "auth/register/",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-05-20T13:13:26.086Z",
+            "modified": "2024-05-22T00:35:50.817Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"{{username}}\",\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "53f1cd98-9b71-4fa0-9c55-53f3504e86b9",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "f7de353c-7d9e-4adb-a018-8a9eb9426c7b",
+            "name": "Register User",
+            "url": "auth/register/",
+            "method": "POST",
+            "sortNum": 10000,
+            "created": "2024-05-22T14:50:17.813Z",
+            "modified": "2024-05-22T14:51:46.576Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"test user2\",\n  \"email\": \"testuser2@gmail.com\",\n  \"password\": \"testuser2\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "67de6e1d-e9a1-42e4-8f06-ac4777a749d7",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "93af0f87-cc53-45f5-b291-45a53b4ea278",
+            "name": "Login User",
+            "url": "auth/login/",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-05-20T13:13:39.756Z",
+            "modified": "2024-05-22T00:36:02.286Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "e9038474-aeba-49d7-80e5-f7be48fd3d4f",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "f7de353c-7d9e-4adb-a018-8a9eb9426c7b",
+            "name": "Login User",
+            "url": "auth/login/",
+            "method": "POST",
+            "sortNum": 20000,
+            "created": "2024-05-22T14:50:17.814Z",
+            "modified": "2024-05-22T14:52:07.964Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"testuser2@gmail.com\",\n  \"password\": \"testuser2\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "d0af8596-f888-44d8-bff4-d500c7cd086a",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
+            "name": "Create Thread",
+            "url": "threads/",
+            "method": "POST",
+            "sortNum": 25000,
+            "created": "2024-05-22T09:24:02.653Z",
+            "modified": "2024-05-22T17:34:35.192Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.slug",
+                    "action": "setto",
+                    "value": "{{thread_slug}}"
+                }
+            ]
+        },
+        {
+            "_id": "f64d8c49-d387-4fd0-84c4-6d9fd2c5c180",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "f7de353c-7d9e-4adb-a018-8a9eb9426c7b",
+            "name": "Delete User",
+            "url": "users/test-user2/",
+            "method": "DELETE",
+            "sortNum": 30000,
+            "created": "2024-05-22T16:42:20.112Z",
+            "modified": "2024-05-22T16:43:09.254Z",
+            "headers": []
+        },
+        {
+            "_id": "923bc139-5ccc-4eec-bf3e-1e335ec999ae",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "93af0f87-cc53-45f5-b291-45a53b4ea278",
+            "name": "Logout User",
+            "url": "auth/logout/",
+            "method": "POST",
+            "sortNum": 40000,
+            "created": "2024-05-20T13:33:22.762Z",
+            "modified": "2024-05-22T06:07:59.351Z",
+            "headers": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "200"
+                }
+            ]
+        },
+        {
+            "_id": "f4635e66-bbe6-4f9a-9009-bb47c4925dad",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
+            "name": "Get All Active Threads",
+            "url": "threads/",
+            "method": "GET",
+            "sortNum": 50000,
+            "created": "2024-05-21T06:53:44.728Z",
+            "modified": "2024-05-21T13:27:40.330Z",
+            "headers": []
+        },
+        {
+            "_id": "7e96e37e-f2a8-4e07-b584-79fcf7f888d9",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "5fbd608d-beb8-4d2a-9391-365a122c36f6",
+            "name": "Login Superuser",
+            "url": "auth/login/",
+            "method": "POST",
+            "sortNum": 55000,
+            "created": "2024-05-22T05:51:18.669Z",
+            "modified": "2024-05-22T17:35:38.561Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"email\": \"{{superuser}}\",\n  \"password\": \"{{superuser_pass}}\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "496fdb75-cb07-44f0-8613-932ee346eb39",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "0041311c-31df-4d60-a0a7-64060672d400",
+            "name": "Get All Active User",
+            "url": "users/?active_user=False",
+            "method": "GET",
+            "sortNum": 60000,
+            "created": "2024-05-22T00:23:26.621Z",
+            "modified": "2024-05-22T01:23:37.766Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "active_user",
+                    "value": "False",
+                    "isPath": false
+                }
+            ]
+        },
+        {
+            "_id": "0380eb38-1482-4693-98d9-0dd482cde237",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "0041311c-31df-4d60-a0a7-64060672d400",
+            "name": "Get User Detail",
+            "url": "users/{{slug}}/",
+            "method": "GET",
+            "sortNum": 70000,
+            "created": "2024-05-22T00:23:37.796Z",
+            "modified": "2024-05-22T01:08:41.241Z",
+            "headers": []
+        },
+        {
+            "_id": "6ddebe5b-a273-47b7-9ac1-bef79f80ba36",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "0041311c-31df-4d60-a0a7-64060672d400",
+            "name": "Update User Detail",
+            "url": "users/{{slug}}/",
+            "method": "PUT",
+            "sortNum": 80000,
+            "created": "2024-05-22T00:32:18.574Z",
+            "modified": "2024-05-22T17:34:53.696Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"username\": \"test user changed\",\n  \"slug\": \"test_user\",\n  \"email\": \"testuser@gmail.com\",\n  \"profile_picture_url\": \"\",\n  \"user_bio\": \"The user data has been changed\",\n  \"birth_date\": \"2000-01-01\",\n  \"date_joined\": \"2024-05-21T13:14:59Z\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "2537f98b-dcd7-4432-adcb-735844c6a0a9",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "0041311c-31df-4d60-a0a7-64060672d400",
+            "name": "Delete User",
+            "url": "users/{{slug}}/",
+            "method": "DELETE",
+            "sortNum": 90000,
+            "created": "2024-05-22T01:25:35.746Z",
+            "modified": "2024-05-22T01:27:54.839Z",
+            "headers": []
+        },
+        {
+            "_id": "56898bc6-fa72-480c-8ca2-3bbc203940af",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
+            "name": "Get Thread",
+            "url": "threads/{{thread_slug}}/",
+            "method": "GET",
+            "sortNum": 100000,
+            "created": "2024-05-22T04:55:29.079Z",
+            "modified": "2024-05-22T14:12:18.909Z",
+            "headers": []
+        },
+        {
+            "_id": "7799ab04-30f8-42db-bf86-35b113f2cfd8",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "5fbd608d-beb8-4d2a-9391-365a122c36f6",
+            "name": "Destroy User",
+            "url": "superuser/users/{{slug}}",
+            "method": "DELETE",
+            "sortNum": 110000,
+            "created": "2024-05-22T05:48:16.753Z",
+            "modified": "2024-05-22T08:35:33.690Z",
+            "headers": [],
+            "tests": [
+                {
+                    "type": "res-code",
+                    "custom": "",
+                    "action": "equal",
+                    "value": "204"
+                }
+            ]
+        },
+        {
+            "_id": "6c36ad8f-c9fc-47b9-b7b8-aff0b29e6050",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "5fbd608d-beb8-4d2a-9391-365a122c36f6",
+            "name": "Logout Superuser",
+            "url": "auth/logout/",
+            "method": "POST",
+            "sortNum": 120000,
+            "created": "2024-05-22T06:02:24.907Z",
+            "modified": "2024-05-22T06:02:42.526Z",
+            "headers": []
+        },
+        {
+            "_id": "7fa3b327-f589-4300-adf0-ec9313b01528",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "9876d163-01e7-49aa-845e-585aa8b04853",
+            "name": "Create Category",
+            "url": "categories/",
+            "method": "POST",
+            "sortNum": 140000,
+            "created": "2024-05-22T09:30:30.455Z",
+            "modified": "2024-05-22T13:52:48.480Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"category_name\": \"Category Test\"\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.category_id",
+                    "action": "setto",
+                    "value": "{{category_id}}"
+                }
+            ]
+        },
+        {
+            "_id": "9ade414b-4fba-46b7-b014-328141da3d8a",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
+            "name": "Update Thread",
+            "url": "threads/{{thread_slug}}/",
+            "method": "PUT",
+            "sortNum": 150000,
+            "created": "2024-05-22T14:11:32.198Z",
+            "modified": "2024-05-22T17:35:25.426Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test, changed\",\n  \"category\": {{category_id}},\n  \"thread_picture_url\":\"\",\n  \"is_closed\": false\n}",
+                "form": []
+            },
+            "preReq": {
+                "runRequests": [
+                    {
+                        "reqId": "56898bc6-fa72-480c-8ca2-3bbc203940af",
+                        "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+                        "triggerCondition": "run-always",
+                        "triggerValue": ""
+                    }
+                ]
+            }
+        },
+        {
+            "_id": "b42aed37-673f-4099-bf69-d68562d147ca",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
+            "name": "Delete Thread",
+            "url": "threads/{{thread_slug}}/",
+            "method": "DELETE",
+            "sortNum": 160000,
+            "created": "2024-05-22T14:56:01.535Z",
+            "modified": "2024-05-22T14:56:23.331Z",
+            "headers": []
+        },
+        {
+            "_id": "1bbbe88c-d8d5-4a39-9e67-3b72b57e090c",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "9876d163-01e7-49aa-845e-585aa8b04853",
+            "name": "Get Category",
+            "url": "categories/{{category_id}}",
+            "method": "GET",
+            "sortNum": 170000,
+            "created": "2024-05-22T15:31:14.263Z",
+            "modified": "2024-05-22T15:39:52.734Z",
+            "headers": []
+        }
+    ],
+    "settings": {
+        "options": {
+            "baseUrl": "localhost:8000/api/"
+        },
+        "envId": "862e7a01-ca49-41c6-a90e-21755ab15501"
+    },
+    "ref": "YW8Sya3sjFZnm7j_qPYkfbjuCtdnIrm9xwedYhuB3tHfGXHir1q0-W_OzsFnxQNXugDg-ror4y6s1gxlBO9y0A"
+}

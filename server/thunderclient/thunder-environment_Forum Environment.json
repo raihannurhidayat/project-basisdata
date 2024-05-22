@@ -1,0 +1,42 @@
+{
+    "clientName": "Thunder Client",
+    "environmentName": "Forum Environment",
+    "environmentId": "862e7a01-ca49-41c6-a90e-21755ab15501",
+    "dateExported": "2024-05-22T17:38:20.646Z",
+    "version": "1.2",
+    "variables": [
+        {
+            "name": "username",
+            "value": "test user"
+        },
+        {
+            "name": "email",
+            "value": "testuser@gmail.com"
+        },
+        {
+            "name": "password",
+            "value": "testuser"
+        },
+        {
+            "name": "slug",
+            "value": "test-user"
+        },
+        {
+            "name": "superuser",
+            "value": "admin@gmail.com"
+        },
+        {
+            "name": "superuser_pass",
+            "value": "admin"
+        },
+        {
+            "name": "category_id",
+            "value": ""
+        },
+        {
+            "name": "thread_slug",
+            "value": ""
+        }
+    ],
+    "ref": "2NXkN64f-mOZ6CyhUOJmkfIUKCzU9FRcKLLAwzYBAfKifaBne0xVe0lNcd-2pvxk"
+}
