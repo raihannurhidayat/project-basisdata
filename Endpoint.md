@@ -20,11 +20,19 @@ Destroy action mean permanently remove an object from database
 | POST       | api/users/:slug/ | User         | Register new user                  |
 | PUT        | api/users/:slug/ | User         | Update user detail                 |
 | DELETE     | api/users/:slug/ | User         | Delete user (set user as inactive) |
-## Thread (NOT YET IMPLEMENTED)
+## Category
+| HTTP Verbs | Endpoints             | Authenticate | Action                                        |
+| ---------- | --------------------- | ------------ | --------------------------------------------- |
+| GET        | api/categories/       | User         | Get all categories                            |
+| GET        | api/categories/:slug/ | User         | Get categories detail and all threads related |
+| POST       | api/categories/:slug/ | User         | Create new category                           |
+| PUT        | api/categories/:slug/ | User         | Update category detail                        |
+| DELETE     | api/categories/:slug/ | User         | Destroy category (not reccomended)            |
+## Thread (Not Fully Implemented)
 | HTTP Verbs | Endpoints          | Authenticate | Action                                  |
 | ---------- | ------------------ | ------------ | --------------------------------------- |
 | GET        | api/threads/       | User         | Get all active threads                  |
-| GET        | api/threads/:slug/ | User         | Get thread detail and see posts related |
+| GET        | api/threads/:slug/ | User         | Get thread detail and all posts related |
 | POST       | api/threads/:slug/ | User         | Create new thread                       |
 | PUT        | api/threads/:slug/ | User         | Update thread detail                    |
 | DELETE     | api/threads/:slug/ | User         | Delete thread (set thread as inactive)  |
