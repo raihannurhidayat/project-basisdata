@@ -10,6 +10,7 @@ from .serializers import (
     UserSerializer,
     CategorySerializer,
     ThreadRequestSerializer,
+    ThreadValidateUpdateSerializer,
     ThreadResponseSerializer,
     PostSerializer
 )
@@ -150,7 +151,9 @@ def category_list(request):
         serializer = CategorySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -205,10 +208,14 @@ def thread_detail(request, slug):
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = ThreadRequestSerializer(thread, data=request.data)
+        serializer = ThreadValidateUpdateSerializer(thread, data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+
+            response = get_object_or_404(Thread, slug=slug)
+
+            return Response(ThreadResponseSerializer(response).data, status=status.HTTP_200_OK)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':

@@ -33,7 +33,8 @@ class UserSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('category_name', )
+        fields = ('category_id', 'category_name', 'slug')
+        read_only_fields = ('category_id', 'slug')
 
 # Thread serializers
 
@@ -41,8 +42,14 @@ class CategorySerializer(serializers.ModelSerializer):
 class ThreadRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thread
-        fields = ('thread_name', 'thread_desc',
-                  'category', 'thread_picture_url',)
+        fields = ('thread_name', 'thread_desc', 'category')
+
+
+class ThreadValidateUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Thread
+        fields = ('thread_name', 'thread_desc', 'category',
+                  'thread_picture_url', 'is_closed')
 
 
 class ThreadResponseSerializer(serializers.ModelSerializer):
