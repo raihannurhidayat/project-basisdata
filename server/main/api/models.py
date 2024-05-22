@@ -24,8 +24,19 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('username', )
 
+    def deactivate_user(self):
+        # Delete all user detail
+        self.is_active = False
+        self.slug = None
+        self.username = "User Deleted"
+        self.email = None
+        self.profile_picture_url = None
+        self.user_bio = None
+        self.birth_date = None
+        self.save()
+
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.slug == None and not self.slug:
             self.slug = slugify(self.username)
         super().save(*args, **kwargs)
 

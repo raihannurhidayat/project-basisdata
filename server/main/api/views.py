@@ -122,8 +122,8 @@ def user_detail(request, slug):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         elif request.method == 'DELETE':
-            user.is_active = False
-            user.save()
+            # delete user
+            user.deactivate_user()
 
             response = Response(status=status.HTTP_204_NO_CONTENT)
 
