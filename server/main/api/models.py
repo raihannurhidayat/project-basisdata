@@ -66,11 +66,13 @@ class Thread(models.Model):
     thread_name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(max_length=50, unique=True)
     thread_desc = models.TextField(blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(
+        Category, related_name='threads', on_delete=models.CASCADE)
     thread_picture_url = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(auto_now=True)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        User, related_name='threads', on_delete=models.CASCADE)
     is_closed = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
 
@@ -87,10 +89,12 @@ class Post(models.Model):
     id = models.AutoField(primary_key=True)
     post_id = models.IntegerField()
     post_content = models.TextField()
-    thread = models.ForeignKey(Thread, on_delete=models.CASCADE)
+    thread = models.ForeignKey(
+        Thread, related_name='posts', on_delete=models.CASCADE)
     reply_to = models.ForeignKey(
         'self', null=True, blank=True, on_delete=models.SET_NULL)
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        User, related_name='posts', on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(auto_now=True)
 
