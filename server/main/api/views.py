@@ -312,14 +312,17 @@ def post_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_detail(request, thread_id, post_id):
+    post = get_object_or_404(Post, thread__slug=thread_id, post_id=post_id)
 
     if request.method == 'GET':
         serializer = PostRequestSerializer(post)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
+        if post.created_by != User:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        
         serializer = PostRequestSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -327,7 +330,11 @@ def post_detail(request, pk):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     elif request.method == 'DELETE':
-        post.delete()
+        if post.created_by != User:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        
+        post.post_content = ""
+        post.save()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
