@@ -203,7 +203,7 @@ def thread_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def thread_detail(request, slug):
     thread = get_object_or_404(Thread, slug=slug)
     user = request.user
@@ -223,6 +223,17 @@ def thread_detail(request, slug):
 
         return Response(response, status=status.HTTP_200_OK)
 
+    elif request.method == 'POST':
+        serializer = PostRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            instance = serializer.save(created_by=request.user, thread=thread)
+
+            response = get_object_or_404(
+                Post, thread=thread, post_id=instance.post_id)
+
+            return Response(PostResponseSerializer(response).data, status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
     if created_by == user:
 
@@ -251,19 +262,23 @@ def thread_detail(request, slug):
 # Views untuk Post
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def post_list(request):
     if request.method == 'GET':
         posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
+        serializer = PostRequestSerializer(posts, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # elif request.method == 'POST':
+    #     serializer = PostRequestSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         instance = serializer.save(created_by=request.user)
+
+    #         response = get_object_or_404(Post, slug=instance.slug)
+
+    #         return Response(response.data, status=status.HTTP_201_CREATED)
+
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -271,11 +286,11 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
     if request.method == 'GET':
-        serializer = PostSerializer(post)
+        serializer = PostRequestSerializer(post)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = PostSerializer(post, data=request.data)
+        serializer = PostRequestSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
