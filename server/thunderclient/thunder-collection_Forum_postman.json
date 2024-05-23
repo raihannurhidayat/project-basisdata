@@ -1,6 +1,6 @@
 {
     "info": {
-        "_postman_id": "de2eb9cd-2205-4878-8d25-dc518c1ccf56",
+        "_postman_id": "643e7331-98ec-48b5-b7c2-d3fa39b966cd",
         "name": "Forum",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": ""
@@ -210,6 +210,55 @@
         {
             "name": "User",
             "item": [
+                {
+                    "name": "Get User With Filter",
+                    "item": [
+                        {
+                            "name": "Get Threads by User",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "users/{{slug}}?filter=threads",
+                                    "query": [
+                                        {
+                                            "key": "filter",
+                                            "value": "threads"
+                                        }
+                                    ],
+                                    "variable": [],
+                                    "path": [
+                                        "{{slug}}"
+                                    ],
+                                    "host": [
+                                        "users"
+                                    ]
+                                }
+                            }
+                        },
+                        {
+                            "name": "Get Posts by User",
+                            "request": {
+                                "method": "GET",
+                                "url": {
+                                    "raw": "users/{{slug}}?filter=posts",
+                                    "query": [
+                                        {
+                                            "key": "filter",
+                                            "value": "posts"
+                                        }
+                                    ],
+                                    "variable": [],
+                                    "path": [
+                                        "{{slug}}"
+                                    ],
+                                    "host": [
+                                        "users"
+                                    ]
+                                }
+                            }
+                        }
+                    ]
+                },
                 {
                     "name": "Get All Active User",
                     "request": {

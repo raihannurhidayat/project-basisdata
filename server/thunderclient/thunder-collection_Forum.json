@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "Forum",
     "collectionId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-    "dateExported": "2024-05-22T17:36:10.384Z",
+    "dateExported": "2024-05-23T09:25:01.740Z",
     "version": "1.2",
     "folders": [
         {
@@ -60,6 +60,13 @@
             "containerId": "",
             "created": "2024-05-22T05:48:00.954Z",
             "sortNum": 80000
+        },
+        {
+            "_id": "c474d45a-edb2-413c-a0e0-26725600a5e1",
+            "name": "Get User With Filter",
+            "containerId": "0041311c-31df-4d60-a0a7-64060672d400",
+            "created": "2024-05-23T09:17:33.856Z",
+            "sortNum": 90000
         }
     ],
     "requests": [
@@ -160,7 +167,7 @@
             "method": "POST",
             "sortNum": 25000,
             "created": "2024-05-22T09:24:02.653Z",
-            "modified": "2024-05-22T17:34:35.192Z",
+            "modified": "2024-05-23T04:46:55.793Z",
             "headers": [
                 {
                     "name": "Content-Type",
@@ -169,7 +176,7 @@
             ],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}",
+                "raw": "{\n  \"thread_name\": \"Thread Test2\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}",
                 "form": []
             },
             "tests": [
@@ -317,12 +324,24 @@
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
             "name": "Get Thread",
-            "url": "threads/{{thread_slug}}/",
+            "url": "threads/{{thread_slug}}/?page&page_size=2",
             "method": "GET",
             "sortNum": 100000,
             "created": "2024-05-22T04:55:29.079Z",
-            "modified": "2024-05-22T14:12:18.909Z",
-            "headers": []
+            "modified": "2024-05-23T05:02:57.786Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "page",
+                    "value": "",
+                    "isPath": false
+                },
+                {
+                    "name": "page_size",
+                    "value": "2",
+                    "isPath": false
+                }
+            ]
         },
         {
             "_id": "7799ab04-30f8-42db-bf86-35b113f2cfd8",
@@ -441,6 +460,66 @@
             "created": "2024-05-22T15:31:14.263Z",
             "modified": "2024-05-22T15:39:52.734Z",
             "headers": []
+        },
+        {
+            "_id": "d40ef4b3-688d-4638-b445-cb90a9f7796b",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "95f33a7d-e4b6-43a1-aba5-d094926a2400",
+            "name": "Create Post",
+            "url": "threads/{{thread_slug}}/",
+            "method": "POST",
+            "sortNum": 180000,
+            "created": "2024-05-23T04:16:01.942Z",
+            "modified": "2024-05-23T04:35:58.248Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"post_content\": \"*text bold*\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "17b35ab8-5345-4f00-9066-bc0f4eb16d4d",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "c474d45a-edb2-413c-a0e0-26725600a5e1",
+            "name": "Get Threads by User",
+            "url": "users/{{slug}}?filter=threads",
+            "method": "GET",
+            "sortNum": 190000,
+            "created": "2024-05-23T09:17:49.475Z",
+            "modified": "2024-05-23T09:18:55.173Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "filter",
+                    "value": "threads",
+                    "isPath": false
+                }
+            ]
+        },
+        {
+            "_id": "95970918-fbd0-4e84-917e-a7b2c29541fb",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "c474d45a-edb2-413c-a0e0-26725600a5e1",
+            "name": "Get Posts by User",
+            "url": "users/{{slug}}?filter=posts",
+            "method": "GET",
+            "sortNum": 200000,
+            "created": "2024-05-23T09:19:16.012Z",
+            "modified": "2024-05-23T09:19:31.500Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "filter",
+                    "value": "posts",
+                    "isPath": false
+                }
+            ]
         }
     ],
     "settings": {
@@ -449,5 +528,5 @@
         },
         "envId": "862e7a01-ca49-41c6-a90e-21755ab15501"
     },
-    "ref": "YW8Sya3sjFZnm7j_qPYkfbjuCtdnIrm9xwedYhuB3tHfGXHir1q0-W_OzsFnxQNXugDg-ror4y6s1gxlBO9y0A"
+    "ref": "YW8Sya3sjFZnm7j_qPYkfVr9wXWoakHAqjHsvwT9tYf9tK7B4jL8hBtDykq36WMG_jTzHtHYjjZXgTKnpbHPMw"
 }
