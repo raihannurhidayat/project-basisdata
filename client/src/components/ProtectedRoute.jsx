@@ -1,8 +1,16 @@
 import { Outlet, Navigate } from "react-router-dom";
 import Navbar from "./Navbar";
+import { useEffect } from "react";
 
 const ProtectedRoute = () => {
   const userInfo = localStorage.getItem("userinfo");
+
+  useEffect(() => {
+    if(!userInfo){
+      localStorage.clear()
+    }
+  }, [userInfo])
+  
   return userInfo ? (
     <>
     <div className="bg-[#222831] py-2 min-h-screen">

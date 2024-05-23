@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import logoUnsil from "../../assets/logo-unsil.png";
 import InputForm from "../../components/InputForm";
+import { loginApi } from "../../service/api/Auth";
 
 const MySwal = withReactContent(Swal);
 
@@ -20,23 +21,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const data = {
-      email,
-      password,
-    };
+    
 
     try {
       setIsLoading(true);
-      const response = await axios.post(
-        "http://localhost:8000/api/auth/login/",
-        data,
-        {
-          withCredentials: true,
-        }
-      );
-      localStorage.setItem("userinfo", JSON.stringify({
-        status: "login"
-      }))
+      const response = await loginApi(email, password)
     } catch (error) {
       console.log(error.response.data.detail);
       setIsError(true);

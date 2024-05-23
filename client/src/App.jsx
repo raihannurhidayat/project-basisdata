@@ -4,6 +4,8 @@ import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ProtectedRoute from "./components/ProtectedRoute";
 import NotFound from "./pages/NotFound";
+import ThredCreate from "./pages/ThredCreate";
+import ThredDetails from "./pages/ThredDetails";
 
 const App = () => {
   // console.log({ infoUser });
@@ -13,6 +15,8 @@ const App = () => {
         {/* route protected */}
         <Route element={<ProtectedRoute />}>
           <Route path="/threds" element={<Threds />} />
+          <Route path="/threds/:slug" element={<ThredDetails />} />
+          <Route path="/threds/create" element={<ThredCreate />} />
         </Route>
 
         {/* route auth */}

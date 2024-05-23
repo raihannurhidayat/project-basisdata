@@ -7,6 +7,7 @@ import { RiLogoutBoxRFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "./Loading";
+import { MdCreate } from "react-icons/md";
 
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,11 +45,14 @@ const Navbar = () => {
               <Link>
                 <IoSearch size={30} />
               </Link>
-              <Link>
-                <TiHome size={30} />
+              <Link to="/threds">
+                <TiHome  size={30} />
               </Link>
               <Link>
                 <MdOutlineFavoriteBorder size={30} />
+              </Link>
+              <Link to="/threds/create">
+                <MdCreate size={30} />
               </Link>
               <Link>
                 <FaUserAlt size={30} />
