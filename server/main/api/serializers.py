@@ -106,6 +106,8 @@ class PostRequestSerializer(serializers.ModelSerializer):
 
 class PostResponseSerializer(serializers.ModelSerializer):
     thread = serializers.SlugRelatedField(slug_field="slug", read_only=True)
+    created_by = serializers.SlugRelatedField(
+        slug_field="slug", read_only=True)
 
     class Meta:
         model = Post
