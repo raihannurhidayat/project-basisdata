@@ -24,4 +24,6 @@ urlpatterns = [
 
     path('posts/', views.post_list, name='post_list'),
     path('posts/<int:pk>/', views.post_detail, name='post_detail'),
+
+    path('search/', views.universal_search, name='search')
 ]

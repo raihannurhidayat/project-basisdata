@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
+from django.db.models import Q
 from rest_framework import views, status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
@@ -325,3 +326,41 @@ def post_detail(request, pk):
     elif request.method == 'DELETE':
         post.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# Search Views
+@api_view(['GET'])
+def universal_search(request):
+    query = request.GET.get('q', None)
+    q_type = request.GET.get('type', "user")
+
+    if not query:
+        return Response({'detail': "No keyword provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+    def find_object_type(queryset, serializer, q_type):
+        queryset_count = queryset.count()
+
+        if not queryset_count:
+            return Response({'detail': f"No {q_type} can be found"}, status=status.HTTP_404_NOT_FOUND)
+
+        response = serializer(queryset, many=True)
+        return Response(response.data, status=status.HTTP_200_OK)
+
+    # Try to search for Users
+    if q_type == "user":
+        queryset = User.objects.filter(
+            Q(username__icontains=query) | Q(user_bio__icontains=query))
+        response = find_object_type(queryset, UserSerializer, q_type)
+
+    # Try to search for Threads
+    elif q_type == "threads":
+        queryset = Thread.objects.filter(
+            Q(thread_name__icontains=query) | Q(thread_desc__icontains=query))
+        response = find_object_type(queryset, ThreadResponseSerializer, q_type)
+
+    # Try to search for posts
+    elif q_type == "posts":
+        queryset = Post.objects.filter(Q(post_content__icontains=query))
+        response = find_object_type(queryset, PostResponseSerializer, q_type)
+
+    return response
