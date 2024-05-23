@@ -1,6 +1,6 @@
 {
     "info": {
-        "_postman_id": "f8fb64a2-4b37-4a81-967f-37fcd40b3f6b",
+        "_postman_id": "18f1162c-645a-4bad-ae00-9321c9a0437d",
         "name": "Forum",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": ""
@@ -156,7 +156,7 @@
                                     "language": "json"
                                 }
                             },
-                            "raw": "{\n  \"thread_name\": \"Thread Test2\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}"
+                            "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}"
                         }
                     }
                 },

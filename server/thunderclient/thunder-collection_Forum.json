@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "Forum",
     "collectionId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-    "dateExported": "2024-05-23T10:56:23.626Z",
+    "dateExported": "2024-05-23T12:34:06.347Z",
     "version": "1.2",
     "folders": [
         {
@@ -174,7 +174,7 @@
             "method": "POST",
             "sortNum": 25000,
             "created": "2024-05-22T09:24:02.653Z",
-            "modified": "2024-05-23T04:46:55.793Z",
+            "modified": "2024-05-23T11:53:16.960Z",
             "headers": [
                 {
                     "name": "Content-Type",
@@ -183,7 +183,7 @@
             ],
             "body": {
                 "type": "json",
-                "raw": "{\n  \"thread_name\": \"Thread Test2\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}",
+                "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}",
                 "form": []
             },
             "tests": [
@@ -607,5 +607,5 @@
         },
         "envId": "862e7a01-ca49-41c6-a90e-21755ab15501"
     },
-    "ref": "YW8Sya3sjFZnm7j_qPYkfbnBZuCSEn98-WcHSAYfWvWe-7CP7xwuJKonMP9ltOUil6IcdEjvimlRa6wYNglKFw"
+    "ref": "YW8Sya3sjFZnm7j_qPYkfbnBZuCSEn98-WcHSAYfWvWqBne06EsDaG8yQfNTZT07995Wv1zfn4moahKKurd_OA"
 }
