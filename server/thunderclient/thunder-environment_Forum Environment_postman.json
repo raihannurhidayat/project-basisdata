@@ -1,0 +1,49 @@
+{
+    "name": "Forum Environment",
+    "id": "ca05ea96-8925-4c26-b87a-d46ff24ca8d1",
+    "_postman_variable_scope": "environment",
+    "_postman_exported_at": "2024-05-23T07:06:26.164Z",
+    "_postman_exported_using": "Thunder Client",
+    "values": [
+        {
+            "key": "username",
+            "value": "test user",
+            "enabled": true
+        },
+        {
+            "key": "email",
+            "value": "testuser@gmail.com",
+            "enabled": true
+        },
+        {
+            "key": "password",
+            "value": "testuser",
+            "enabled": true
+        },
+        {
+            "key": "slug",
+            "value": "test-user",
+            "enabled": true
+        },
+        {
+            "key": "superuser",
+            "value": "admin@gmail.com",
+            "enabled": true
+        },
+        {
+            "key": "superuser_pass",
+            "value": "admin",
+            "enabled": true
+        },
+        {
+            "key": "category_id",
+            "value": "1",
+            "enabled": true
+        },
+        {
+            "key": "thread_slug",
+            "value": "thread-test2",
+            "enabled": true
+        }
+    ]
+}

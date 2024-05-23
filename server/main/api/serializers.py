@@ -26,23 +26,65 @@ class AuthSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'profile_picture_url',
-                  'user_bio', 'birth_date', 'date_joined')
+        fields = ('username', 'slug', 'email', 'profile_picture_url',
+                  'user_bio', 'birth_date', 'date_joined',)
 
 
 class CategorySerializer(serializers.ModelSerializer):
+    threads = serializers.SerializerMethodField()
+
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = ('category_id', 'category_name', 'slug', 'threads')
+        read_only_fields = ('category_id', 'slug')
+
+    def get_threads(self, obj):
+        threads = Thread.objects.filter(
+            category=obj.category_id).filter(is_active=True)
+        serializer = ThreadResponseSerializer(threads, many=True)
+
+        return serializer.data
+
+# Thread serializers
 
 
-class ThreadSerializer(serializers.ModelSerializer):
+class ThreadRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thread
-        fields = '__all__'
+        fields = ('thread_name', 'thread_desc', 'category')
 
 
-class PostSerializer(serializers.ModelSerializer):
+class ThreadValidateUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Thread
+        fields = ('thread_name', 'thread_desc', 'category',
+                  'thread_picture_url', 'is_closed')
+
+
+class ThreadResponseSerializer(serializers.ModelSerializer):
+    category = serializers.SlugRelatedField(slug_field="slug", read_only=True)
+    created_by = serializers.SlugRelatedField(
+        slug_field="slug", read_only=True)
+
+    class Meta:
+        model = Thread
+        fields = ('thread_name', 'slug', 'thread_desc', 'category', 'thread_picture_url',
+                  'created_at', 'modified_at', 'created_by', 'is_closed')
+
+
+# Post serializers
+
+
+class PostRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ('post_content', 'reply_to')
+
+
+class PostResponseSerializer(serializers.ModelSerializer):
+    thread = serializers.SlugRelatedField(slug_field="slug", read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ('thread', 'post_id', 'post_content', 'reply_to',
+                  'created_by', 'created_at', 'modified_at')

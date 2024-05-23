@@ -1,0 +1,526 @@
+{
+    "info": {
+        "_postman_id": "de2eb9cd-2205-4878-8d25-dc518c1ccf56",
+        "name": "Forum",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+        "description": ""
+    },
+    "item": [
+        {
+            "name": "User Authentication",
+            "item": [
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "auth/register/",
+                            "path": [
+                                "register"
+                            ],
+                            "host": [
+                                "auth"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"username\": \"{{username}}\",\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Login User",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "auth/login/",
+                            "path": [
+                                "login"
+                            ],
+                            "host": [
+                                "auth"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Logout User",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "auth/logout/",
+                            "path": [
+                                "logout"
+                            ],
+                            "host": [
+                                "auth"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Thread",
+            "item": [
+                {
+                    "name": "Get All Active Threads",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "threads/",
+                            "path": [
+                                ""
+                            ],
+                            "host": [
+                                "threads"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Thread",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "threads/{{thread_slug}}/?page&page_size=2",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": ""
+                                },
+                                {
+                                    "key": "page_size",
+                                    "value": "2"
+                                }
+                            ],
+                            "variable": [],
+                            "path": [
+                                "{{thread_slug}}"
+                            ],
+                            "host": [
+                                "threads"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Thread",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "threads/",
+                            "path": [
+                                ""
+                            ],
+                            "host": [
+                                "threads"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"thread_name\": \"Thread Test2\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Update Thread",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "threads/{{thread_slug}}/",
+                            "path": [
+                                "{{thread_slug}}"
+                            ],
+                            "host": [
+                                "threads"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test, changed\",\n  \"category\": {{category_id}},\n  \"thread_picture_url\":\"\",\n  \"is_closed\": false\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Thread",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "threads/{{thread_slug}}/",
+                            "path": [
+                                "{{thread_slug}}"
+                            ],
+                            "host": [
+                                "threads"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "User",
+            "item": [
+                {
+                    "name": "Get All Active User",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "users/?active_user=False",
+                            "query": [
+                                {
+                                    "key": "active_user",
+                                    "value": "False"
+                                }
+                            ],
+                            "variable": [],
+                            "host": [
+                                "users"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get User Detail",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "users/{{slug}}/",
+                            "path": [
+                                "{{slug}}"
+                            ],
+                            "host": [
+                                "users"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update User Detail",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "users/{{slug}}/",
+                            "path": [
+                                "{{slug}}"
+                            ],
+                            "host": [
+                                "users"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"username\": \"test user changed\",\n  \"slug\": \"test_user\",\n  \"email\": \"testuser@gmail.com\",\n  \"profile_picture_url\": \"\",\n  \"user_bio\": \"The user data has been changed\",\n  \"birth_date\": \"2000-01-01\",\n  \"date_joined\": \"2024-05-21T13:14:59Z\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Delete User",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "users/{{slug}}/",
+                            "path": [
+                                "{{slug}}"
+                            ],
+                            "host": [
+                                "users"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Clean up",
+            "item": [
+                {
+                    "name": "Destroy User",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "superuser/users/{{slug}}",
+                            "path": [
+                                "users",
+                                "{{slug}}"
+                            ],
+                            "host": [
+                                "superuser"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Login Superuser",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "auth/login/",
+                            "path": [
+                                "login"
+                            ],
+                            "host": [
+                                "auth"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"email\": \"{{superuser}}\",\n  \"password\": \"{{superuser_pass}}\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Logout Superuser",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "auth/logout/",
+                            "path": [
+                                "logout"
+                            ],
+                            "host": [
+                                "auth"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Category",
+            "item": [
+                {
+                    "name": "Create Category",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "categories/",
+                            "path": [
+                                ""
+                            ],
+                            "host": [
+                                "categories"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"category_name\": \"Category Test\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Get Category",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "categories/{{category_id}}",
+                            "path": [
+                                "{{category_id}}"
+                            ],
+                            "host": [
+                                "categories"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Another User For Testing",
+            "item": [
+                {
+                    "name": "Register User",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "auth/register/",
+                            "path": [
+                                "register"
+                            ],
+                            "host": [
+                                "auth"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"username\": \"test user2\",\n  \"email\": \"testuser2@gmail.com\",\n  \"password\": \"testuser2\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Login User",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "auth/login/",
+                            "path": [
+                                "login"
+                            ],
+                            "host": [
+                                "auth"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"email\": \"testuser2@gmail.com\",\n  \"password\": \"testuser2\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Delete User",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "users/test-user2/",
+                            "path": [
+                                "test-user2"
+                            ],
+                            "host": [
+                                "users"
+                            ]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Post",
+            "item": [
+                {
+                    "name": "Create Post",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "threads/{{thread_slug}}/",
+                            "path": [
+                                "{{thread_slug}}"
+                            ],
+                            "host": [
+                                "threads"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"post_content\": \"*text bold*\"\n}"
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}
