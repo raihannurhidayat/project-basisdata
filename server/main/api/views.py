@@ -4,6 +4,7 @@ from rest_framework import views, status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
+from .utils import CustomPagination
 from .models import User, Category, Thread, Post
 from .serializers import (
     AuthSerializer,
@@ -12,7 +13,8 @@ from .serializers import (
     ThreadRequestSerializer,
     ThreadValidateUpdateSerializer,
     ThreadResponseSerializer,
-    PostSerializer
+    PostRequestSerializer,
+    PostResponseSerializer,
 )
 
 # Admin Views
@@ -201,15 +203,37 @@ def thread_list(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['GET', 'PUT', 'DELETE'])
+@api_view(['GET', 'POST', 'PUT', 'DELETE'])
 def thread_detail(request, slug):
     thread = get_object_or_404(Thread, slug=slug)
     user = request.user
     created_by = thread.created_by
 
     if request.method == 'GET':
-        serializer = ThreadResponseSerializer(thread)
-        return Response(serializer.data)
+        thread_serializer = ThreadResponseSerializer(thread)
+
+        posts = thread.posts.all()
+        paginator = CustomPagination()
+        paginated_posts = paginator.paginate_queryset(posts, request=request)
+        post_serializer = PostResponseSerializer(paginated_posts, many=True)
+
+        response = thread_serializer.data
+        response['posts'] = paginator.get_paginated_response(
+            post_serializer.data).data
+
+        return Response(response, status=status.HTTP_200_OK)
+
+    elif request.method == 'POST':
+        serializer = PostRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            instance = serializer.save(created_by=request.user, thread=thread)
+
+            response = get_object_or_404(
+                Post, thread=thread, post_id=instance.post_id)
+
+            return Response(PostResponseSerializer(response).data, status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
     if created_by == user:
 
@@ -238,19 +262,23 @@ def thread_detail(request, slug):
 # Views untuk Post
 
 
-@api_view(['GET', 'POST'])
+@api_view(['GET'])
 def post_list(request):
     if request.method == 'GET':
         posts = Post.objects.all()
-        serializer = PostSerializer(posts, many=True)
+        serializer = PostRequestSerializer(posts, many=True)
         return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = PostSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    # elif request.method == 'POST':
+    #     serializer = PostRequestSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         instance = serializer.save(created_by=request.user)
+
+    #         response = get_object_or_404(Post, slug=instance.slug)
+
+    #         return Response(response.data, status=status.HTTP_201_CREATED)
+
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -258,11 +286,11 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
 
     if request.method == 'GET':
-        serializer = PostSerializer(post)
+        serializer = PostRequestSerializer(post)
         return Response(serializer.data)
 
     elif request.method == 'PUT':
-        serializer = PostSerializer(post, data=request.data)
+        serializer = PostRequestSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

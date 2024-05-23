@@ -62,8 +62,9 @@ class ThreadValidateUpdateSerializer(serializers.ModelSerializer):
 
 
 class ThreadResponseSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField()
-    created_by = serializers.StringRelatedField()
+    category = serializers.SlugRelatedField(slug_field="slug", read_only=True)
+    created_by = serializers.SlugRelatedField(
+        slug_field="slug", read_only=True)
 
     class Meta:
         model = Thread
@@ -71,7 +72,19 @@ class ThreadResponseSerializer(serializers.ModelSerializer):
                   'created_at', 'modified_at', 'created_by', 'is_closed')
 
 
-class PostSerializer(serializers.ModelSerializer):
+# Post serializers
+
+
+class PostRequestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ('post_content', 'reply_to')
+
+
+class PostResponseSerializer(serializers.ModelSerializer):
+    thread = serializers.SlugRelatedField(slug_field="slug", read_only=True)
+
+    class Meta:
+        model = Post
+        fields = ('thread', 'post_id', 'post_content', 'reply_to',
+                  'created_by', 'created_at', 'modified_at')
