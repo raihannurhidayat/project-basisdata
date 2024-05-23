@@ -8,14 +8,17 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Loading from "./Loading";
 import { MdCreate } from "react-icons/md";
+import { useInfoUser } from "../hooks/useInfoUser";
 
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
+  const { slug } = useInfoUser();
+
   const handleLogout = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await axios.post(
         "http://localhost:8000/api/auth/logout/",
         "",
@@ -29,7 +32,7 @@ const Navbar = () => {
     } catch (error) {
       console.log(error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   };
 
@@ -46,7 +49,7 @@ const Navbar = () => {
                 <IoSearch size={30} />
               </Link>
               <Link to="/threds">
-                <TiHome  size={30} />
+                <TiHome size={30} />
               </Link>
               <Link>
                 <MdOutlineFavoriteBorder size={30} />
@@ -54,7 +57,7 @@ const Navbar = () => {
               <Link to="/threds/create">
                 <MdCreate size={30} />
               </Link>
-              <Link>
+              <Link to={`/profile/${slug}`}>
                 <FaUserAlt size={30} />
               </Link>
               <Link onClick={handleLogout}>

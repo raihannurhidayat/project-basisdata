@@ -6,6 +6,7 @@ import Search from "../components/Search";
 import logoChat from "../assets/logo-chat.png";
 import { Link } from "react-router-dom";
 import { getApiAllThreds } from "../service/api/Threds";
+import { useInfoUser } from "../hooks/useInfoUser";
 
 const Threds = () => {
   const [threds, setThreds] = useState([]);
