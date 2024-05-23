@@ -5,6 +5,11 @@ Destroy action mean permanently remove an object from database
 | ---------- | ------------------------ | ------------ | -------------- |
 | DELETE     | api/admin/users/:slug/   | Superuser    | Destroy user   |
 | DELETE     | api/admin/threads/:slug/ | Superuser    | Destroy thread |
+## Search
+Destroy action mean permanently remove an object from database
+| HTTP Verbs | Endpoints   | Authenticate | Action                                                  |
+| ---------- | ----------- | ------------ | ------------------------------------------------------- |
+| GET        | api/search/ | User         | Search for users, threads and posts that contains query |
 ## Authentication
 | HTTP Verbs | Endpoints          | Authenticate | Action                                 |
 | ---------- | ------------------ | ------------ | -------------------------------------- |
