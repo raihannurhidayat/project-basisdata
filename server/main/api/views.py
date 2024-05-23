@@ -4,6 +4,7 @@ from rest_framework import views, status, generics, permissions
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
+from .utils import CustomPagination
 from .models import User, Category, Thread, Post
 from .serializers import (
     AuthSerializer,
@@ -12,7 +13,8 @@ from .serializers import (
     ThreadRequestSerializer,
     ThreadValidateUpdateSerializer,
     ThreadResponseSerializer,
-    PostSerializer
+    PostRequestSerializer,
+    PostResponseSerializer,
 )
 
 # Admin Views
@@ -208,8 +210,19 @@ def thread_detail(request, slug):
     created_by = thread.created_by
 
     if request.method == 'GET':
-        serializer = ThreadResponseSerializer(thread)
-        return Response(serializer.data)
+        thread_serializer = ThreadResponseSerializer(thread)
+
+        posts = thread.posts.all()
+        paginator = CustomPagination()
+        paginated_posts = paginator.paginate_queryset(posts, request=request)
+        post_serializer = PostResponseSerializer(paginated_posts, many=True)
+
+        response = thread_serializer.data
+        response['posts'] = paginator.get_paginated_response(
+            post_serializer.data).data
+
+        return Response(response, status=status.HTTP_200_OK)
+
 
     if created_by == user:
 
