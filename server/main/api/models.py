@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from . import managers
+from .managers import UserManager, ActiveManager
 
 # Create your models here.
 
@@ -19,7 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(default=timezone.now)
 
-    objects = managers.UserManager()
+    objects = UserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ('username', )
@@ -78,6 +78,9 @@ class Thread(models.Model):
         User, related_name='threads', on_delete=models.CASCADE)
     is_closed = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
+
+    objects = ActiveManager()
+    full_objects = models.Manager()
 
     def save(self, *args, **kwargs):
         if not self.slug:

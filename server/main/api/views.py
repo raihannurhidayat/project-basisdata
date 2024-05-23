@@ -217,7 +217,7 @@ def category_detail(request, pk):
 @api_view(['GET', 'POST'])
 def thread_list(request):
     if request.method == 'GET':
-        threads = Thread.objects.filter(is_active=True)
+        threads = Thread.objects.all()
         serializer = ThreadResponseSerializer(threads, many=True)
         return Response(serializer.data)
 
