@@ -1,6 +1,6 @@
 {
     "info": {
-        "_postman_id": "643e7331-98ec-48b5-b7c2-d3fa39b966cd",
+        "_postman_id": "f8fb64a2-4b37-4a81-967f-37fcd40b3f6b",
         "name": "Forum",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": ""
@@ -566,6 +566,80 @@
                                 }
                             },
                             "raw": "{\n  \"post_content\": \"*text bold*\"\n}"
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Search",
+            "item": [
+                {
+                    "name": "Search Users",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "search?q={{username}}&type=user",
+                            "query": [
+                                {
+                                    "key": "q",
+                                    "value": "{{username}}"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "user"
+                                }
+                            ],
+                            "variable": [],
+                            "host": [
+                                "search"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Search Threads",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "search?q=test&type=threads",
+                            "query": [
+                                {
+                                    "key": "q",
+                                    "value": "test"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "threads"
+                                }
+                            ],
+                            "variable": [],
+                            "host": [
+                                "search"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Search Posts",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "search?q=text bold&type=posts",
+                            "query": [
+                                {
+                                    "key": "q",
+                                    "value": "text bold"
+                                },
+                                {
+                                    "key": "type",
+                                    "value": "posts"
+                                }
+                            ],
+                            "variable": [],
+                            "host": [
+                                "search"
+                            ]
                         }
                     }
                 }

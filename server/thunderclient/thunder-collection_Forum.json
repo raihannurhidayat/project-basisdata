@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "Forum",
     "collectionId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-    "dateExported": "2024-05-23T09:25:01.740Z",
+    "dateExported": "2024-05-23T10:56:23.626Z",
     "version": "1.2",
     "folders": [
         {
@@ -53,6 +53,13 @@
             "containerId": "",
             "created": "2024-05-22T14:59:38.172Z",
             "sortNum": 50000
+        },
+        {
+            "_id": "4cbd8aa7-418e-4967-81cb-8b155973f7e8",
+            "name": "Search",
+            "containerId": "",
+            "created": "2024-05-23T10:44:58.204Z",
+            "sortNum": 65000
         },
         {
             "_id": "5fbd608d-beb8-4d2a-9391-365a122c36f6",
@@ -520,6 +527,78 @@
                     "isPath": false
                 }
             ]
+        },
+        {
+            "_id": "d53015a5-3d37-4edd-9de0-181ebc1040db",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "4cbd8aa7-418e-4967-81cb-8b155973f7e8",
+            "name": "Search Users",
+            "url": "search?q={{username}}&type=user",
+            "method": "GET",
+            "sortNum": 210000,
+            "created": "2024-05-23T10:45:14.416Z",
+            "modified": "2024-05-23T10:46:57.600Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "q",
+                    "value": "{{username}}",
+                    "isPath": false
+                },
+                {
+                    "name": "type",
+                    "value": "user",
+                    "isPath": false
+                }
+            ]
+        },
+        {
+            "_id": "e3ff9882-9c80-42a8-a444-f41ab8d1eb8b",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "4cbd8aa7-418e-4967-81cb-8b155973f7e8",
+            "name": "Search Threads",
+            "url": "search?q=test&type=threads",
+            "method": "GET",
+            "sortNum": 220000,
+            "created": "2024-05-23T10:48:13.668Z",
+            "modified": "2024-05-23T10:52:54.416Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "q",
+                    "value": "test",
+                    "isPath": false
+                },
+                {
+                    "name": "type",
+                    "value": "threads",
+                    "isPath": false
+                }
+            ]
+        },
+        {
+            "_id": "d753e0e2-6f6c-43db-8e0d-cc1226ea5a1f",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "4cbd8aa7-418e-4967-81cb-8b155973f7e8",
+            "name": "Search Posts",
+            "url": "search?q=text bold&type=posts",
+            "method": "GET",
+            "sortNum": 230000,
+            "created": "2024-05-23T10:50:53.926Z",
+            "modified": "2024-05-23T10:53:22.233Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "q",
+                    "value": "text bold",
+                    "isPath": false
+                },
+                {
+                    "name": "type",
+                    "value": "posts",
+                    "isPath": false
+                }
+            ]
         }
     ],
     "settings": {
@@ -528,5 +607,5 @@
         },
         "envId": "862e7a01-ca49-41c6-a90e-21755ab15501"
     },
-    "ref": "YW8Sya3sjFZnm7j_qPYkfVr9wXWoakHAqjHsvwT9tYf9tK7B4jL8hBtDykq36WMG_jTzHtHYjjZXgTKnpbHPMw"
+    "ref": "YW8Sya3sjFZnm7j_qPYkfbnBZuCSEn98-WcHSAYfWvWe-7CP7xwuJKonMP9ltOUil6IcdEjvimlRa6wYNglKFw"
 }
