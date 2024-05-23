@@ -1,3 +1,4 @@
+from django.db import models
 from django.contrib.auth.models import BaseUserManager
 
 
@@ -25,3 +26,8 @@ class UserManager(BaseUserManager):
             raise ValueError(_("Superuser must have is_superuser=True."))
 
         return self.create_user(username, email, password, **extra_fields)
+
+
+class ActiveManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_active=True)

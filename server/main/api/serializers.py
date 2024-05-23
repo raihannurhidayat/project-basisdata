@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import User, Category, Thread, Post
 
 User = get_user_model()
@@ -21,6 +22,28 @@ class AuthSerializer(serializers.ModelSerializer):
         )
 
         return user
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+
+        # add custom claim
+        token['username'] = user.username
+        token['email'] = user.email
+        token['slug'] = user.slug
+
+        return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+
+        data.update({'username': self.user.username})
+        data.update({'email': self.user.email})
+        data.update({'slug': self.user.slug})
+
+        return data
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -83,6 +106,8 @@ class PostRequestSerializer(serializers.ModelSerializer):
 
 class PostResponseSerializer(serializers.ModelSerializer):
     thread = serializers.SlugRelatedField(slug_field="slug", read_only=True)
+    created_by = serializers.SlugRelatedField(
+        slug_field="slug", read_only=True)
 
     class Meta:
         model = Post

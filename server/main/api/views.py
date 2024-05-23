@@ -9,6 +9,7 @@ from .utils import CustomPagination
 from .models import User, Category, Thread, Post
 from .serializers import (
     AuthSerializer,
+    CustomTokenObtainPairSerializer,
     UserSerializer,
     CategorySerializer,
     ThreadRequestSerializer,
@@ -49,6 +50,8 @@ def destroy_thread(request, slug):
 
 
 class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
+
     def post(self, request, *args, **kwargs):
         response = super().post(request, *args, **kwargs)
 
@@ -214,7 +217,7 @@ def category_detail(request, pk):
 @api_view(['GET', 'POST'])
 def thread_list(request):
     if request.method == 'GET':
-        threads = Thread.objects.filter(is_active=True)
+        threads = Thread.objects.all()
         serializer = ThreadResponseSerializer(threads, many=True)
         return Response(serializer.data)
 
