@@ -27,7 +27,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     def deactivate_user(self):
         # Delete all user detail
         self.is_active = False
-        self.slug = None
+        self._user_deleted = True
+
         self.username = "User Deleted"
         self.email = None
         self.profile_picture_url = None
@@ -36,7 +37,9 @@ class User(AbstractBaseUser, PermissionsMixin):
         self.save()
 
     def save(self, *args, **kwargs):
-        if not self.slug == None and not self.slug:
+        if hasattr(self, '_user_deleted'):
+            self.slug = None
+        elif not self.slug:
             self.slug = slugify(self.username)
         super().save(*args, **kwargs)
 
