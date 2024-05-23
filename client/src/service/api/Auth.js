@@ -11,10 +11,15 @@ export const loginApi = async (email, password) => {
     withCredentials: true,
   });
 
+  console.log(response);
+
   localStorage.setItem(
     "userinfo",
     JSON.stringify({
       status: "login",
+      username: response.data.username,
+      email: response.data.email,
+      slug: response.data.slug,
     })
   );
 
