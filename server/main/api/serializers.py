@@ -62,8 +62,9 @@ class ThreadValidateUpdateSerializer(serializers.ModelSerializer):
 
 
 class ThreadResponseSerializer(serializers.ModelSerializer):
-    category = serializers.StringRelatedField()
-    created_by = serializers.StringRelatedField()
+    category = serializers.SlugRelatedField(slug_field="slug", read_only=True)
+    created_by = serializers.SlugRelatedField(
+        slug_field="slug", read_only=True)
 
     class Meta:
         model = Thread
