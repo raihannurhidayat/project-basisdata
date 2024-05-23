@@ -110,8 +110,34 @@ def user_detail(request, slug):
     auth_user = request.user
 
     if request.method == 'GET':
+
+        user_filter = request.GET.get('filter', None)
+        paginator = CustomPagination()
+
+        if user_filter == "threads":
+            queryset = user.threads.all()
+            paginated_result = paginator.paginate_queryset(
+                queryset, request=request)
+            queryset_serializer = ThreadResponseSerializer(
+                paginated_result, many=True)
+
+            response = paginator.get_paginated_response(
+                queryset_serializer.data).data
+            return Response(response, status=status.HTTP_200_OK)
+
+        elif user_filter == "posts":
+            queryset = user.posts.all()
+            paginated_result = paginator.paginate_queryset(
+                queryset, request=request)
+            queryset_serializer = PostResponseSerializer(
+                paginated_result, many=True)
+
+            response = paginator.get_paginated_response(
+                queryset_serializer.data).data
+            return Response(response, status=status.HTTP_200_OK)
+
         serializer = UserSerializer(user)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     # check if it is the user that authenticated
     if auth_user.slug == user.slug:
