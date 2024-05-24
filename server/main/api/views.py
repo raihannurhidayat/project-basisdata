@@ -322,18 +322,21 @@ def post_detail(request, thread_slug, post_id):
         serializer = PostRequestSerializer(post)
         return Response(serializer.data)
 
-    if created_by == user :
+    if created_by == user:
         if request.method == 'PUT':
             serializer = PostRequestSerializer(post, data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                response = get_object_or_404(Post, thread=thread, post_id=post_id)
+
+                response = get_object_or_404(
+                    Post, thread=thread, post_id=post_id)
 
                 return Response(PostResponseSerializer(response).data, status=status.HTTP_200_OK)
+
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         elif request.method == 'DELETE':
-            
+
             post.post_content = ""
             post.save()
             return Response(status=status.HTTP_204_NO_CONTENT)
@@ -341,6 +344,8 @@ def post_detail(request, thread_slug, post_id):
         return Response(status=status.HTTP_403_FORBIDDEN)
 
 # Search Views
+
+
 @api_view(['GET'])
 def universal_search(request):
     query = request.GET.get('q', None)
