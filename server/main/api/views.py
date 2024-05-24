@@ -312,26 +312,50 @@ def post_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def post_detail(request, pk):
-    post = get_object_or_404(Post, pk=pk)
+def post_detail(request, thread_slug, post_id):
+    thread = get_object_or_404(Thread, slug=thread_slug)
+    post = get_object_or_404(Post, thread=thread, post_id=post_id)
+    user = request.user
+    created_by = post.created_by
 
     if request.method == 'GET':
-        serializer = PostRequestSerializer(post)
-        return Response(serializer.data)
+        serializer = PostResponseSerializer(post)
 
-    elif request.method == 'PUT':
-        serializer = PostRequestSerializer(post, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if not post.post_content:
+            return Response(serializer.data, status=status.HTTP_200_OK)
 
-    elif request.method == 'DELETE':
-        post.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+    # check if object requested is created by user
+    if created_by == user:
+        # content empty (empty means post has been deleted)
+        if not post.post_content:
+            return Response({'detail': "Trying to modify deleted post"}, status=status.HTTP_404_NOT_FOUND)
+
+        if request.method == 'PUT':
+            serializer = PostRequestSerializer(post, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+
+                response = get_object_or_404(
+                    Post, thread=thread, post_id=post_id)
+
+                return Response(PostResponseSerializer(response).data, status=status.HTTP_200_OK)
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+        elif request.method == 'DELETE':
+
+            post.post_content = ""
+            post.save()
+
+            return Response(status=status.HTTP_204_NO_CONTENT)
+    else:
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 # Search Views
+
+
 @api_view(['GET'])
 def universal_search(request):
     query = request.GET.get('q', None)

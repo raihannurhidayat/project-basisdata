@@ -1,8 +1,8 @@
 {
     "name": "Forum Environment",
-    "id": "ca05ea96-8925-4c26-b87a-d46ff24ca8d1",
+    "id": "73640ba4-9f7e-444e-a15e-6197aff0903c",
     "_postman_variable_scope": "environment",
-    "_postman_exported_at": "2024-05-23T07:06:26.164Z",
+    "_postman_exported_at": "2024-05-24T02:06:35.865Z",
     "_postman_exported_using": "Thunder Client",
     "values": [
         {
@@ -42,7 +42,12 @@
         },
         {
             "key": "thread_slug",
-            "value": "thread-test2",
+            "value": "thread-test5",
+            "enabled": true
+        },
+        {
+            "key": "post_id",
+            "value": "12",
             "enabled": true
         }
     ]

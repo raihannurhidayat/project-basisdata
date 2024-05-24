@@ -105,11 +105,32 @@ class PostRequestSerializer(serializers.ModelSerializer):
 
 
 class PostResponseSerializer(serializers.ModelSerializer):
+    detail = serializers.SerializerMethodField()
     thread = serializers.SlugRelatedField(slug_field="slug", read_only=True)
     created_by = serializers.SlugRelatedField(
         slug_field="slug", read_only=True)
 
+    optional_fields = ('detail',)
+
     class Meta:
         model = Post
-        fields = ('thread', 'post_id', 'post_content', 'reply_to',
+        fields = ('detail', 'thread', 'post_id', 'post_content', 'reply_to',
                   'created_by', 'created_at', 'modified_at')
+
+    def get_detail(self, object):
+        if not object.post_content:
+            return {'deleted': True, 'message': "Post has been deleted"}
+
+        return None
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+
+        for field in self.optional_fields:
+            try:
+                if rep[field] is None:
+                    rep.pop(field)
+            except KeyError:
+                pass
+
+        return rep

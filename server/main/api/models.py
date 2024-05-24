@@ -112,17 +112,18 @@ class Post(models.Model):
         )
 
     def save(self, *args, **kwargs):
-        if not self.post_id:
-            # get id of latest post
-            last_post = Post.objects.filter(
-                thread=self.thread).order_by('-post_id').first()
+        if not self.id:
+            if not self.post_id:
+                # get id of latest post
+                last_post = Post.objects.filter(
+                    thread=self.thread).order_by('-post_id').first()
 
-            if last_post:
-                self.post_id = last_post.post_id + 1
-            else:
-                self.post_id = 1
+                if last_post:
+                    self.post_id = last_post.post_id + 1
+                else:
+                    self.post_id = 1
 
-            super().save(*args, **kwargs)
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"Post({self.thread.thread_id}:{self.post_id}) by {self.created_by.slug}"

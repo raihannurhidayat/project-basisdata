@@ -1,6 +1,6 @@
 {
     "info": {
-        "_postman_id": "18f1162c-645a-4bad-ae00-9321c9a0437d",
+        "_postman_id": "60b1d721-4bf9-4e70-99e5-4e38e63d1009",
         "name": "Forum",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": ""
@@ -109,7 +109,7 @@
                     "request": {
                         "method": "GET",
                         "url": {
-                            "raw": "threads/{{thread_slug}}/?page&page_size=2",
+                            "raw": "threads/{{thread_slug}}/?page&page_size=10",
                             "query": [
                                 {
                                     "key": "page",
@@ -117,7 +117,7 @@
                                 },
                                 {
                                     "key": "page_size",
-                                    "value": "2"
+                                    "value": "10"
                                 }
                             ],
                             "variable": [],
@@ -264,14 +264,10 @@
                     "request": {
                         "method": "GET",
                         "url": {
-                            "raw": "users/?active_user=False",
-                            "query": [
-                                {
-                                    "key": "active_user",
-                                    "value": "False"
-                                }
+                            "raw": "users/",
+                            "path": [
+                                ""
                             ],
-                            "variable": [],
                             "host": [
                                 "users"
                             ]
@@ -566,6 +562,66 @@
                                 }
                             },
                             "raw": "{\n  \"post_content\": \"*text bold*\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Update Post",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "{{thread_slug}}/{{post_id}}/",
+                            "path": [
+                                "{{post_id}}"
+                            ],
+                            "host": [
+                                "{{thread_slug}}"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"post_content\": \"New changes\"\n}"
+                        }
+                    }
+                },
+                {
+                    "name": "Delete Post",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "{{thread_slug}}/{{post_id}}/",
+                            "path": [
+                                "{{post_id}}"
+                            ],
+                            "host": [
+                                "{{thread_slug}}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Get Post",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "{{thread_slug}}/{{post_id}}/",
+                            "path": [
+                                "{{post_id}}"
+                            ],
+                            "host": [
+                                "{{thread_slug}}"
+                            ]
                         }
                     }
                 }

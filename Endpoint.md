@@ -41,12 +41,10 @@ Destroy action mean permanently remove an object from database
 | POST       | api/threads/:slug/ | User         | Create new post in current thread       |
 | PUT        | api/threads/:slug/ | User         | Update thread detail                    |
 | DELETE     | api/threads/:slug/ | User         | Delete thread (set thread as inactive)  |
-## Post (Not Fully Implemented)
-| HTTP Verbs | Endpoints | Authenticate | Action |
-| ---------- | --------- | ------------ | ------ |
-
-<!-- | GET        | api/:thread/posts/          | User         | Get all posts                           |
-| POST       | api/:thread/posts/          | User         | Create a new post in specified thread   |
-| GET        | api/:thread/posts/:post_id/ | User         | Get post in specified thread            |
-| PUT        | api/:thread/posts/:post_id/ | User         | Update post content in specified thread |
-| DELETE     | api/:thread/posts/:post_id/ | User         | Delete post content in specified thread | -->
+## Post
+| HTTP Verbs | Endpoints             | Authenticate | Action                                  |
+| ---------- | --------------------- | ------------ | --------------------------------------- |
+| GET        | api/posts/            | User         | Get all posts                           |
+| GET        | api/:thread/:post_id/ | User         | Get post in specified thread            |
+| PUT        | api/:thread/:post_id/ | User         | Update post content in specified thread |
+| DELETE     | api/:thread/:post_id/ | User         | Delete post in specified thread         |

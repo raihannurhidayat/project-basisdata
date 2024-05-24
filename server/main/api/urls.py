@@ -23,7 +23,7 @@ urlpatterns = [
     path('threads/<slug:slug>/', views.thread_detail, name='thread_detail'),
 
     path('posts/', views.post_list, name='post_list'),
-    path('posts/<int:pk>/', views.post_detail, name='post_detail'),
+    path('<slug:thread_slug>/<int:post_id>/', views.post_detail, name='post_detail'),
 
     path('search/', views.universal_search, name='search')
 ]
