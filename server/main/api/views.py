@@ -312,31 +312,33 @@ def post_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-def post_detail(request, thread_id, post_id):
-    post = get_object_or_404(Post, thread__slug=thread_id, post_id=post_id)
+def post_detail(request, thread_slug, post_id):
+    thread = get_object_or_404(Thread, slug=thread_slug)
+    post = get_object_or_404(Post, thread=thread, post_id=post_id)
+    user = request.user
+    created_by = post.created_by
 
     if request.method == 'GET':
         serializer = PostRequestSerializer(post)
         return Response(serializer.data)
 
-    elif request.method == 'PUT':
-        if post.created_by != User:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-        
-        serializer = PostRequestSerializer(post, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    if created_by == user :
+        if request.method == 'PUT':
+            serializer = PostRequestSerializer(post, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                response = get_object_or_404(Post, thread=thread, post_id=post_id)
 
-    elif request.method == 'DELETE':
-        if post.created_by != User:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-        
-        post.post_content = ""
-        post.save()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+                return Response(PostResponseSerializer(response).data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+        elif request.method == 'DELETE':
+            
+            post.post_content = ""
+            post.save()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+    else:
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 # Search Views
 @api_view(['GET'])
