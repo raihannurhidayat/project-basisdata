@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "Forum",
     "collectionId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-    "dateExported": "2024-05-23T12:34:06.347Z",
+    "dateExported": "2024-05-24T02:05:49.057Z",
     "version": "1.2",
     "folders": [
         {
@@ -266,19 +266,12 @@
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "0041311c-31df-4d60-a0a7-64060672d400",
             "name": "Get All Active User",
-            "url": "users/?active_user=False",
+            "url": "users/",
             "method": "GET",
             "sortNum": 60000,
             "created": "2024-05-22T00:23:26.621Z",
-            "modified": "2024-05-22T01:23:37.766Z",
-            "headers": [],
-            "params": [
-                {
-                    "name": "active_user",
-                    "value": "False",
-                    "isPath": false
-                }
-            ]
+            "modified": "2024-05-23T18:27:05.491Z",
+            "headers": []
         },
         {
             "_id": "0380eb38-1482-4693-98d9-0dd482cde237",
@@ -331,11 +324,11 @@
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
             "name": "Get Thread",
-            "url": "threads/{{thread_slug}}/?page&page_size=2",
+            "url": "threads/{{thread_slug}}/?page&page_size=10",
             "method": "GET",
             "sortNum": 100000,
             "created": "2024-05-22T04:55:29.079Z",
-            "modified": "2024-05-23T05:02:57.786Z",
+            "modified": "2024-05-24T02:02:57.679Z",
             "headers": [],
             "params": [
                 {
@@ -345,7 +338,7 @@
                 },
                 {
                     "name": "page_size",
-                    "value": "2",
+                    "value": "10",
                     "isPath": false
                 }
             ]
@@ -477,7 +470,7 @@
             "method": "POST",
             "sortNum": 180000,
             "created": "2024-05-23T04:16:01.942Z",
-            "modified": "2024-05-23T04:35:58.248Z",
+            "modified": "2024-05-24T00:23:05.450Z",
             "headers": [
                 {
                     "name": "Content-Type",
@@ -488,7 +481,15 @@
                 "type": "json",
                 "raw": "{\n  \"post_content\": \"*text bold*\"\n}",
                 "form": []
-            }
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.post_id",
+                    "action": "setto",
+                    "value": "{{post_id}}"
+                }
+            ]
         },
         {
             "_id": "17b35ab8-5345-4f00-9066-bc0f4eb16d4d",
@@ -537,7 +538,7 @@
             "method": "GET",
             "sortNum": 210000,
             "created": "2024-05-23T10:45:14.416Z",
-            "modified": "2024-05-23T10:46:57.600Z",
+            "modified": "2024-05-23T18:31:42.522Z",
             "headers": [],
             "params": [
                 {
@@ -551,6 +552,18 @@
                     "isPath": false
                 }
             ]
+        },
+        {
+            "_id": "0b0a96b8-9fbc-4b72-a72a-df47a8c5b81d",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "95f33a7d-e4b6-43a1-aba5-d094926a2400",
+            "name": "Get Post",
+            "url": "{{thread_slug}}/{{post_id}}/",
+            "method": "GET",
+            "sortNum": 210000,
+            "created": "2024-05-24T00:57:36.905Z",
+            "modified": "2024-05-24T00:57:50.232Z",
+            "headers": []
         },
         {
             "_id": "e3ff9882-9c80-42a8-a444-f41ab8d1eb8b",
@@ -599,6 +612,40 @@
                     "isPath": false
                 }
             ]
+        },
+        {
+            "_id": "c6366d6a-3a72-4049-b102-a3137dcdea7f",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "95f33a7d-e4b6-43a1-aba5-d094926a2400",
+            "name": "Update Post",
+            "url": "{{thread_slug}}/{{post_id}}/",
+            "method": "PUT",
+            "sortNum": 240000,
+            "created": "2024-05-24T00:21:55.888Z",
+            "modified": "2024-05-24T00:25:05.404Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"post_content\": \"New changes\"\n}",
+                "form": []
+            }
+        },
+        {
+            "_id": "2ecc7d86-8630-4be3-8b9b-28f0970fe647",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "95f33a7d-e4b6-43a1-aba5-d094926a2400",
+            "name": "Delete Post",
+            "url": "{{thread_slug}}/{{post_id}}/",
+            "method": "DELETE",
+            "sortNum": 250000,
+            "created": "2024-05-24T00:22:03.691Z",
+            "modified": "2024-05-24T00:25:22.987Z",
+            "headers": []
         }
     ],
     "settings": {
@@ -607,5 +654,5 @@
         },
         "envId": "862e7a01-ca49-41c6-a90e-21755ab15501"
     },
-    "ref": "YW8Sya3sjFZnm7j_qPYkfbnBZuCSEn98-WcHSAYfWvWqBne06EsDaG8yQfNTZT07995Wv1zfn4moahKKurd_OA"
+    "ref": "YW8Sya3sjFZnm7j_qPYkffSMxi6aDcgEA_C-_IaxHkgjA3sSHjC6ro_mUqttZ7hTcwzPnPgwcrzKq8g7kqMnjg"
 }
