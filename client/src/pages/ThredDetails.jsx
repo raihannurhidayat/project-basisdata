@@ -22,7 +22,7 @@ const ThredDetails = () => {
   }, []);
 
   return (
-    <div className="bg-white min-h-screen rounded-md">
+    <div className="bg-white min-h-screen rounded-md px-12">
       <h1>{thredDetail.thread_name}</h1>
       <div>
         {/* {thredDetail.thread_desc && HTMLReactParser(thredDetail.thread_desc)} */}

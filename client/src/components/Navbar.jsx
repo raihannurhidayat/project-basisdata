@@ -54,7 +54,7 @@ const Navbar = () => {
               <Link>
                 <MdOutlineFavoriteBorder size={30} />
               </Link>
-              <Link to="/threds/create">
+              <Link to="/threds/post">
                 <MdCreate size={30} />
               </Link>
               <Link to={`/profile/${slug}`}>
