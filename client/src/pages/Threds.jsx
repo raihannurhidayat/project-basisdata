@@ -5,13 +5,19 @@ import { formatDistanceToNow } from "date-fns";
 import Search from "../components/Search";
 import logoChat from "../assets/logo-chat.png";
 import { Link } from "react-router-dom";
-import { getApiAllThreds } from "../service/api/Threds";
+import { getApiAllThreds, searchApiThred } from "../service/api/Threds";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 import { useInfoUser } from "../hooks/useInfoUser";
+
+const MySwal = withReactContent(Swal);
 
 const Threds = () => {
   const [threds, setThreds] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTemp, setSearchTemp] = useState("");
+  const [isNotFound, setIsNotFound] = useState(false)
+  const [messageIsError, setMessageIsError] = useState("")
 
   const getAllTreds = async () => {
     try {
@@ -27,19 +33,47 @@ const Threds = () => {
     }
   };
 
+  const searchThred = async () => {
+    try {
+      setIsLoading(true);
+      const resposne = await searchApiThred(searchTemp, "threads");
+      setThreds(resposne);
+    } catch (error) {
+      console.log(error);
+      setMessageIsError(error.response.data.detail)
+      setIsNotFound(true)
+    } finally {
+      setIsLoading(false);
+      setSearchTemp("")
+    }
+  };
+
   useEffect(() => {
     getAllTreds();
   }, []);
 
+  useEffect(() => {
+    if (isNotFound) {
+      MySwal.fire({
+        title: "Oops!",
+        text: messageIsError,
+        icon: "error",
+        confirmButtonText: "OK",
+      }).then(() => {
+        setIsNotFound(false);
+      });
+    }
+  }, [isNotFound]);
+
   return (
-    <div>
+    <>
       {isLoading ? (
         <Loading />
       ) : (
         <>
           <div className="flex justify-end my-4">
             <h2 className="text-xl ">Board Index</h2>
-            <Search setSearchTemp={setSearchTemp} />
+            <Search searchTemp={searchTemp} searchThred={searchThred} setSearchTemp={setSearchTemp} />
           </div>
 
           <div className="my-4 text-white text-sm">
@@ -103,7 +137,7 @@ const Threds = () => {
           </div>
         </>
       )}
-    </div>
+    </>
   );
 };
 
