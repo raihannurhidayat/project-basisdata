@@ -218,8 +218,13 @@ def category_detail(request, pk):
 def thread_list(request):
     if request.method == 'GET':
         threads = Thread.objects.all()
-        serializer = ThreadResponseSerializer(threads, many=True)
-        return Response(serializer.data)
+        paginator = CustomPagination()
+        paginated = paginator.paginate_queryset(threads, request=request)
+        serializer = ThreadResponseSerializer(paginated, many=True)
+
+        response = paginator.get_paginated_response(serializer.data).data
+
+        return Response(response, status=status.HTTP_200_OK)
 
     elif request.method == 'POST':
         serializer = ThreadRequestSerializer(data=request.data)

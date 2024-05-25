@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "Forum",
     "collectionId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-    "dateExported": "2024-05-24T02:05:49.057Z",
+    "dateExported": "2024-05-25T12:02:18.959Z",
     "version": "1.2",
     "folders": [
         {
@@ -208,6 +208,36 @@
             "headers": []
         },
         {
+            "_id": "0ab32774-157f-4372-98ec-e35465e3dd4f",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
+            "name": "Create Thread With Desc",
+            "url": "threads/",
+            "method": "POST",
+            "sortNum": 37500,
+            "created": "2024-05-24T15:24:45.236Z",
+            "modified": "2024-05-24T15:24:45.236Z",
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "body": {
+                "type": "json",
+                "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}",
+                "form": []
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.slug",
+                    "action": "setto",
+                    "value": "{{thread_slug}}"
+                }
+            ]
+        },
+        {
             "_id": "923bc139-5ccc-4eec-bf3e-1e335ec999ae",
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "93af0f87-cc53-45f5-b291-45a53b4ea278",
@@ -232,12 +262,24 @@
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
             "name": "Get All Active Threads",
-            "url": "threads/",
+            "url": "threads/?page&page_size=2",
             "method": "GET",
             "sortNum": 50000,
             "created": "2024-05-21T06:53:44.728Z",
-            "modified": "2024-05-21T13:27:40.330Z",
-            "headers": []
+            "modified": "2024-05-25T11:58:59.874Z",
+            "headers": [],
+            "params": [
+                {
+                    "name": "page",
+                    "value": "",
+                    "isPath": false
+                },
+                {
+                    "name": "page_size",
+                    "value": "2",
+                    "isPath": false
+                }
+            ]
         },
         {
             "_id": "7e96e37e-f2a8-4e07-b584-79fcf7f888d9",
@@ -654,5 +696,5 @@
         },
         "envId": "862e7a01-ca49-41c6-a90e-21755ab15501"
     },
-    "ref": "YW8Sya3sjFZnm7j_qPYkffSMxi6aDcgEA_C-_IaxHkgjA3sSHjC6ro_mUqttZ7hTcwzPnPgwcrzKq8g7kqMnjg"
+    "ref": "YW8Sya3sjFZnm7j_qPYkfZ_YIZghx6nWMmkxDkrL5HDNFNJUi3X4tZdpnabuVCvFG0tYJhKmZfnd_fMaQuKsZA"
 }
