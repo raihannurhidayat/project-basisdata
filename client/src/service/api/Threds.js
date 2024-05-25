@@ -42,6 +42,23 @@ export const searchApiThred = async (query, type) => {
 };
 
 export const paginationApiThred = async (link) => {
-  const response = await axios.get(link, {withCredentials: true});
-  return response.data
+  const response = await axios.get(link, { withCredentials: true });
+  return response.data;
+};
+
+export const getApiThredByUser = async (slug) => {
+  const response = await axios.get(
+    `${URL.SERVER}/api/users/${slug}?filter=threads`,
+    { withCredentials: true }
+  );
+
+  return response.data;
+};
+
+export const deleteApiThredByUser = async (slug) => {
+  const response = await axios.delete(`${URL.SERVER}/api/threads/${slug}`, {
+    withCredentials: true,
+  });
+
+  return response;
 };

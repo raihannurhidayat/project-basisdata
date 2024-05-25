@@ -10,3 +10,7 @@ body {
   font-style: normal;
   min-height: 100vh;
 }
+
+.revert-tailwind * {
+	all: revert;
+}
