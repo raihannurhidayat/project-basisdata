@@ -30,3 +30,13 @@ export const createApiThred = async (title, content) => {
     }
   );
 };
+
+export const searchApiThred = async (query, type) => {
+  const response = await axios.get(
+    `${URL.SERVER}/api/search?q=${query}&type=${type}`,
+    { withCredentials: true }
+  );
+
+  console.log(response);
+  return response.data;
+};

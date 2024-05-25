@@ -19,7 +19,7 @@ const App = () => {
         <Route element={<ProtectedRoute />}>
           <Route path="/threds" element={<Threds />} />
           <Route path="/threds/:slug" element={<ThredDetails />} />
-          {/* <Route path="/threds/create" element={<ThredCreate />} /> */}
+          <Route path="/threds/create" element={<ThredCreate />} />
           <Route path="/threds/post" element={<ThredPost />} />
           <Route path="/profile/:slug" element={<Profile />} />
           <Route path="/profile/update/:slug" element={<ProfileUpdate />} />
