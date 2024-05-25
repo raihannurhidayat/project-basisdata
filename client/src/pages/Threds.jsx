@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Loading from "../components/Loading";
 import { formatDistanceToNow } from "date-fns";
 import Search from "../components/Search";
@@ -8,7 +7,7 @@ import { Link } from "react-router-dom";
 import { getApiAllThreds, searchApiThred } from "../service/api/Threds";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import { useInfoUser } from "../hooks/useInfoUser";
+import Paginate from "../components/Paginate";
 
 const MySwal = withReactContent(Swal);
 
@@ -16,15 +15,22 @@ const Threds = () => {
   const [threds, setThreds] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTemp, setSearchTemp] = useState("");
-  const [isNotFound, setIsNotFound] = useState(false)
-  const [messageIsError, setMessageIsError] = useState("")
+  const [isNotFound, setIsNotFound] = useState(false);
+  const [messageIsError, setMessageIsError] = useState("");
+  const [page, setPage] = useState(1);
+  const [nextPage, setNextPage] = useState(null);
+  const [prevPage, setPrevPage] = useState(null);
+  const [isPagination, setIsPagination] = useState(true);
 
   const getAllTreds = async () => {
     try {
       setIsLoading(true);
       const response = await getApiAllThreds();
-      setThreds(response);
-      console.log(response);
+      setThreds(response.results);
+      setNextPage(response.next);
+      setPrevPage(response.previous);
+      setIsPagination(true)
+      setPage(1);
     } catch (error) {
       console.log(error);
       localStorage.clear();
@@ -38,13 +44,14 @@ const Threds = () => {
       setIsLoading(true);
       const resposne = await searchApiThred(searchTemp, "threads");
       setThreds(resposne);
+      setIsPagination(false)
     } catch (error) {
       console.log(error);
-      setMessageIsError(error.response.data.detail)
-      setIsNotFound(true)
+      setMessageIsError(error.response.data.detail);
+      setIsNotFound(true);
     } finally {
       setIsLoading(false);
-      setSearchTemp("")
+      setSearchTemp("");
     }
   };
 
@@ -73,7 +80,11 @@ const Threds = () => {
         <>
           <div className="flex justify-end my-4">
             <h2 className="text-xl ">Board Index</h2>
-            <Search searchTemp={searchTemp} searchThred={searchThred} setSearchTemp={setSearchTemp} />
+            <Search
+              searchTemp={searchTemp}
+              searchThred={searchThred}
+              setSearchTemp={setSearchTemp}
+            />
           </div>
 
           <div className="my-4 text-white text-sm">
@@ -134,6 +145,19 @@ const Threds = () => {
                 ))}
               </tbody>
             </table>
+            {isPagination && (
+              <div className="my-3 flex justify-end">
+                <Paginate
+                  nextPage={nextPage}
+                  setNextPage={setNextPage}
+                  prevPage={prevPage}
+                  setPrevPage={setPrevPage}
+                  page={page}
+                  setPage={setPage}
+                  setThreds={setThreds}
+                />
+              </div>
+            )}
           </div>
         </>
       )}

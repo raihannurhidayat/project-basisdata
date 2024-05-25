@@ -10,10 +10,12 @@ export const getApiDetailThred = async (slug) => {
 };
 
 export const getApiAllThreds = async () => {
-  const response = await axios.get(`${URL.SERVER}/api/threads/`, {
-    withCredentials: true,
-  });
-
+  const response = await axios.get(
+    `${URL.SERVER}/api/threads?page=&page_size=12`,
+    {
+      withCredentials: true,
+    }
+  );
   return response.data;
 };
 
@@ -36,7 +38,10 @@ export const searchApiThred = async (query, type) => {
     `${URL.SERVER}/api/search?q=${query}&type=${type}`,
     { withCredentials: true }
   );
-
-  console.log(response);
   return response.data;
+};
+
+export const paginationApiThred = async (link) => {
+  const response = await axios.get(link, {withCredentials: true});
+  return response.data
 };
