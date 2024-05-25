@@ -1,6 +1,6 @@
 {
     "info": {
-        "_postman_id": "60b1d721-4bf9-4e70-99e5-4e38e63d1009",
+        "_postman_id": "939d92b3-8cec-403f-8ff0-6003903d4c09",
         "name": "Forum",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": ""
@@ -94,10 +94,18 @@
                     "request": {
                         "method": "GET",
                         "url": {
-                            "raw": "threads/",
-                            "path": [
-                                ""
+                            "raw": "threads/?page&page_size=2",
+                            "query": [
+                                {
+                                    "key": "page",
+                                    "value": ""
+                                },
+                                {
+                                    "key": "page_size",
+                                    "value": "2"
+                                }
                             ],
+                            "variable": [],
                             "host": [
                                 "threads"
                             ]
@@ -202,6 +210,36 @@
                             "host": [
                                 "threads"
                             ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Thread With Desc",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "threads/",
+                            "path": [
+                                ""
+                            ],
+                            "host": [
+                                "threads"
+                            ]
+                        },
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            },
+                            "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}"
                         }
                     }
                 }
