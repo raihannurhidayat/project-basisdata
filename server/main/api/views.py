@@ -104,8 +104,14 @@ class UserRegister(generics.CreateAPIView):
 def user_list(request):
     if request.method == 'GET':
         users = User.objects.filter(is_active=True)
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+
+        paginator = CustomPagination()
+        paginated_users = paginator.paginate_queryset(users, request=request)
+        user_serializer = UserSerializer(paginated_users, many=True)
+
+        response = paginator.get_paginated_response(user_serializer.data).data
+
+        return Response(response, status=status.HTTP_200_OK)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -378,8 +384,15 @@ def universal_search(request):
         if not queryset_count:
             return Response({'detail': f"No {q_type} can be found"}, status=status.HTTP_404_NOT_FOUND)
 
-        response = serializer(queryset, many=True)
-        return Response(response.data, status=status.HTTP_200_OK)
+        paginator = CustomPagination()
+        paginated_response = paginator.paginate_queryset(
+            queryset=queryset, request=request)
+        paginated_serializer = serializer(paginated_response, many=True)
+
+        response = paginator.get_paginated_response(
+            paginated_serializer.data).data
+
+        return Response(response, status=status.HTTP_200_OK)
 
     # Try to search for Users
     if q_type == "user":
