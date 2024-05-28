@@ -104,8 +104,14 @@ class UserRegister(generics.CreateAPIView):
 def user_list(request):
     if request.method == 'GET':
         users = User.objects.filter(is_active=True)
-        serializer = UserSerializer(users, many=True)
-        return Response(serializer.data)
+
+        paginator = CustomPagination()
+        paginated_users = paginator.paginate_queryset(users, request=request)
+        user_serializer = UserSerializer(paginated_users, many=True)
+
+        response = paginator.get_paginated_response(user_serializer.data).data
+
+        return Response(response, status=status.HTTP_200_OK)
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
@@ -174,6 +180,7 @@ def user_detail(request, slug):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([permissions.IsAdminUser])
 def category_list(request):
     if request.method == 'GET':
         categories = Category.objects.all()
@@ -191,6 +198,7 @@ def category_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([permissions.IsAdminUser])
 def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
 
@@ -287,8 +295,7 @@ def thread_detail(request, slug):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         elif request.method == 'DELETE':
-            thread.is_active = False
-            thread.save()
+            thread.deactivate_thread()
 
             return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -328,16 +335,17 @@ def post_detail(request, thread_slug, post_id):
     if request.method == 'GET':
         serializer = PostResponseSerializer(post)
 
-        if not post.post_content:
+        if not post.is_active:
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     # check if object requested is created by user
     if created_by == user:
-        # content empty (empty means post has been deleted)
-        if not post.post_content:
-            return Response({'detail': "Trying to modify deleted post"}, status=status.HTTP_404_NOT_FOUND)
+        # inactive/deleted post, cannot be modified
+        if not post.is_active:
+            return Response({'detail': "Trying to make changes to deleted post"},
+                            status=status.HTTP_404_NOT_FOUND)
 
         if request.method == 'PUT':
             serializer = PostRequestSerializer(post, data=request.data)
@@ -352,13 +360,12 @@ def post_detail(request, thread_slug, post_id):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         elif request.method == 'DELETE':
-
-            post.post_content = ""
-            post.save()
+            post.deactivate_post()
 
             return Response(status=status.HTTP_204_NO_CONTENT)
     else:
         return Response(status=status.HTTP_403_FORBIDDEN)
+
 
 # Search Views
 
@@ -377,8 +384,15 @@ def universal_search(request):
         if not queryset_count:
             return Response({'detail': f"No {q_type} can be found"}, status=status.HTTP_404_NOT_FOUND)
 
-        response = serializer(queryset, many=True)
-        return Response(response.data, status=status.HTTP_200_OK)
+        paginator = CustomPagination()
+        paginated_response = paginator.paginate_queryset(
+            queryset=queryset, request=request)
+        paginated_serializer = serializer(paginated_response, many=True)
+
+        response = paginator.get_paginated_response(
+            paginated_serializer.data).data
+
+        return Response(response, status=status.HTTP_200_OK)
 
     # Try to search for Users
     if q_type == "user":
