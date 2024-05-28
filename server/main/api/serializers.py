@@ -47,6 +47,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    profile_picture_url = serializers.ImageField(required=False)
+
     class Meta:
         model = User
         fields = ('username', 'slug', 'email', 'profile_picture_url',
@@ -78,6 +80,8 @@ class ThreadRequestSerializer(serializers.ModelSerializer):
 
 
 class ThreadValidateUpdateSerializer(serializers.ModelSerializer):
+    thread_picture_url = serializers.ImageField(required=False)
+
     class Meta:
         model = Thread
         fields = ('thread_name', 'thread_desc', 'category',
