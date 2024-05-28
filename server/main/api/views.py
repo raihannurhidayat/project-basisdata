@@ -174,6 +174,7 @@ def user_detail(request, slug):
 
 
 @api_view(['GET', 'POST'])
+@permission_classes([permissions.IsAdminUser])
 def category_list(request):
     if request.method == 'GET':
         categories = Category.objects.all()
@@ -191,6 +192,7 @@ def category_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@permission_classes([permissions.IsAdminUser])
 def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
 
