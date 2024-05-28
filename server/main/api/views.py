@@ -150,6 +150,11 @@ def user_detail(request, slug):
             serializer = UserSerializer(user, data=request.data)
             if serializer.is_valid():
                 serializer.save()
+
+                if 'profile_picture_url' in request.FILES:
+                    user.profile_picture = request.FILES['profile_picture_url']
+                    user.save()
+
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -167,38 +172,9 @@ def user_detail(request, slug):
 
     else:
         return Response(status=status.HTTP_403_FORBIDDEN)
-
-# views upload profile
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
-def upload_profile_picture(request):
-    if request.method == 'POST' :
-        user = request.user
-        if 'profile_picture_url' in request.FILES:
-            user.profile_picture = request.FILES['profile_picture_url']
-            user.save()
-            serializer = UserSerializer(user)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"error": "Profile picture not provided"}, status=status.HTTP_400_BAD_REQUEST)
  
 # Views untuk Category
 
-@api_view(['POST'])
-@permission_classes([permissions.IsAuthenticated])
-def upload_thread_picture(request, slug):
-    thread = get_object_or_404(Thread, slug=slug)
-    user = request.user
-
-    if request.method == 'POST':
-        if thread.created_by != user:
-            return Response(status=status.HTTP_403_FORBIDDEN)
-
-        if 'thread_picture_url' in request.FILES:
-            thread.thread_picture = request.FILES['thread_picture_url']
-            thread.save()
-            serializer = ThreadResponseSerializer(thread)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response({"error": "Thread picture not provided"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'POST'])
 def category_list(request):
@@ -306,8 +282,8 @@ def thread_detail(request, slug):
             if serializer.is_valid():
                 serializer.save()
                 
-                if 'thread_picture' in request.FILES:
-                    thread.thread_picture = request.FILES['thread_picture']
+                if 'thread_picture_url' in request.FILES:
+                    thread.thread_picture = request.FILES['thread_picture_url']
                     thread.save()    
         
                 response = get_object_or_404(Thread, slug=slug)
