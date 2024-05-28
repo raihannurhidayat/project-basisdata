@@ -305,7 +305,11 @@ def thread_detail(request, slug):
                 thread, data=request.data)
             if serializer.is_valid():
                 serializer.save()
-
+                
+                if 'thread_picture' in request.FILES:
+                    thread.thread_picture = request.FILES['thread_picture']
+                    thread.save()    
+        
                 response = get_object_or_404(Thread, slug=slug)
 
                 return Response(ThreadResponseSerializer(response).data, status=status.HTTP_200_OK)
