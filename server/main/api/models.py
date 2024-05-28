@@ -2,7 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from .managers import UserManager, ActiveManager
+from .managers import UserManager, ActiveManager, PostManager
 
 # Create your models here.
 
@@ -12,7 +12,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True, null=True)
     email = models.EmailField(max_length=100, unique=True, null=True)
-    profile_picture_url = models.TextField(blank=True, null=True)
+    profile_picture_url = models.ImageField(
+        upload_to='profile_pictures/', null=True, blank=True)
     user_bio = models.TextField(blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
     is_staff = models.BooleanField(default=False)
@@ -66,12 +67,13 @@ class Category(models.Model):
 
 class Thread(models.Model):
     thread_id = models.AutoField(primary_key=True)
-    thread_name = models.CharField(max_length=50, unique=True)
-    slug = models.SlugField(max_length=50, unique=True)
+    thread_name = models.CharField(max_length=50, null=True, unique=True)
+    slug = models.SlugField(max_length=50, null=True, unique=True)
     thread_desc = models.TextField(blank=True, null=True)
     category = models.ForeignKey(
         Category, related_name='threads', on_delete=models.CASCADE)
-    thread_picture_url = models.TextField(blank=True, null=True)
+    thread_picture_url = models.ImageField(
+        upload_to='thread_pics/', null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
@@ -82,13 +84,27 @@ class Thread(models.Model):
     objects = ActiveManager()
     full_objects = models.Manager()
 
+    def deactivate_thread(self):
+        self.is_closed = True
+        self.is_active = False
+        self._is_deleted = True
+
+        self.thread_name = None
+        self.slug = None
+        self.thread_desc = None
+        self.thread_picture_url = None
+
+        self.save()
+
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if hasattr(self, '_is_deleted'):
+            self.slug = None
+        elif not self.slug:
             self.slug = slugify(self.thread_name)
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.thread_name
+        return self.thread_name if self.thread_name else "Thread Deleted"
 
 
 class Post(models.Model):
@@ -103,6 +119,9 @@ class Post(models.Model):
         User, related_name='posts', on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+
+    objects = PostManager()
 
     class Meta:
         constraints = (
@@ -110,6 +129,12 @@ class Post(models.Model):
                 fields=('thread', 'post_id'), name="thread_post_id"
             ),
         )
+
+    def deactivate_post(self):
+        self.is_active = False
+
+        self.post_content = "Post has been deleted"
+        self.save()
 
     def save(self, *args, **kwargs):
         if not self.id:

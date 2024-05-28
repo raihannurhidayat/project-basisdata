@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "environmentName": "Forum Environment",
     "environmentId": "862e7a01-ca49-41c6-a90e-21755ab15501",
-    "dateExported": "2024-05-24T02:06:10.911Z",
+    "dateExported": "2024-05-28T13:36:08.533Z",
     "version": "1.2",
     "variables": [
         {
@@ -31,16 +31,16 @@
         },
         {
             "name": "category_id",
-            "value": "1"
+            "value": ""
         },
         {
             "name": "thread_slug",
-            "value": "thread-test5"
+            "value": "thread-test"
         },
         {
             "name": "post_id",
-            "value": "12"
+            "value": ""
         }
     ],
-    "ref": "2NXkN64f-mOZ6CyhUOJmkXTpQYxVPrdLEY7zWIQu05pyh4lAFRdDQUBGSKu7vTAG"
+    "ref": "2NXkN64f-mOZ6CyhUOJmkWY8UHJcofD2NEpQwmrjCGJM6T_EQDyqrdZus3gO2MC3"
 }
