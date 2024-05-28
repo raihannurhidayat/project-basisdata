@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "Forum",
     "collectionId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-    "dateExported": "2024-05-25T12:02:18.959Z",
+    "dateExported": "2024-05-28T13:35:57.734Z",
     "version": "1.2",
     "folders": [
         {
@@ -208,36 +208,6 @@
             "headers": []
         },
         {
-            "_id": "0ab32774-157f-4372-98ec-e35465e3dd4f",
-            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-            "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
-            "name": "Create Thread With Desc",
-            "url": "threads/",
-            "method": "POST",
-            "sortNum": 37500,
-            "created": "2024-05-24T15:24:45.236Z",
-            "modified": "2024-05-24T15:24:45.236Z",
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json"
-                }
-            ],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}",
-                "form": []
-            },
-            "tests": [
-                {
-                    "type": "set-env-var",
-                    "custom": "json.slug",
-                    "action": "setto",
-                    "value": "{{thread_slug}}"
-                }
-            ]
-        },
-        {
             "_id": "923bc139-5ccc-4eec-bf3e-1e335ec999ae",
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "93af0f87-cc53-45f5-b291-45a53b4ea278",
@@ -328,25 +298,43 @@
             "headers": []
         },
         {
-            "_id": "6ddebe5b-a273-47b7-9ac1-bef79f80ba36",
+            "_id": "d5c543d9-c160-4807-bfa7-c8a066c521c9",
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "0041311c-31df-4d60-a0a7-64060672d400",
-            "name": "Update User Detail",
+            "name": "Update User Detail With Image",
             "url": "users/{{slug}}/",
             "method": "PUT",
-            "sortNum": 80000,
-            "created": "2024-05-22T00:32:18.574Z",
-            "modified": "2024-05-22T17:34:53.696Z",
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json"
-                }
-            ],
+            "sortNum": 85000,
+            "created": "2024-05-28T11:54:25.471Z",
+            "modified": "2024-05-28T13:19:13.507Z",
+            "headers": [],
             "body": {
-                "type": "json",
-                "raw": "{\n  \"username\": \"test user changed\",\n  \"slug\": \"test_user\",\n  \"email\": \"testuser@gmail.com\",\n  \"profile_picture_url\": \"\",\n  \"user_bio\": \"The user data has been changed\",\n  \"birth_date\": \"2000-01-01\",\n  \"date_joined\": \"2024-05-21T13:14:59Z\"\n}",
-                "form": []
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "{{username}}"
+                    },
+                    {
+                        "name": "slug",
+                        "value": "{{slug}}"
+                    },
+                    {
+                        "name": "user_bio",
+                        "value": "The user data has been with profile picture"
+                    },
+                    {
+                        "name": "birth_date",
+                        "value": "2000-01-01"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "profile_picture_url",
+                        "value": "c:\\Users\\lfaja\\Pictures\\animek\\_b54da09f-db4f-4def-b8b0-93fc9dbcff71.jpg"
+                    }
+                ]
             }
         },
         {
@@ -360,6 +348,41 @@
             "created": "2024-05-22T01:25:35.746Z",
             "modified": "2024-05-22T01:27:54.839Z",
             "headers": []
+        },
+        {
+            "_id": "8cfffba3-050c-4077-944b-6447428c807e",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "0041311c-31df-4d60-a0a7-64060672d400",
+            "name": "Update User Detail",
+            "url": "users/{{slug}}/",
+            "method": "PUT",
+            "sortNum": 90000,
+            "created": "2024-05-28T13:30:57.105Z",
+            "modified": "2024-05-28T13:33:47.755Z",
+            "headers": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "username",
+                        "value": "{{username}}"
+                    },
+                    {
+                        "name": "slug",
+                        "value": "{{slug}}"
+                    },
+                    {
+                        "name": "user_bio",
+                        "value": "The user data has been with profile picture"
+                    },
+                    {
+                        "name": "birth_date",
+                        "value": "2000-01-01"
+                    }
+                ],
+                "files": []
+            }
         },
         {
             "_id": "56898bc6-fa72-480c-8ca2-3bbc203940af",
@@ -418,6 +441,41 @@
             "headers": []
         },
         {
+            "_id": "1f14e079-b2da-4008-b70e-9932849aacc0",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
+            "name": "Update Thread",
+            "url": "threads/{{thread_slug}}/",
+            "method": "PUT",
+            "sortNum": 127500,
+            "created": "2024-05-28T13:30:11.800Z",
+            "modified": "2024-05-28T13:30:29.986Z",
+            "headers": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "thread_name",
+                        "value": "Thread Test"
+                    },
+                    {
+                        "name": "thread_desc",
+                        "value": "This is a test, changed with picture"
+                    },
+                    {
+                        "name": "category",
+                        "value": "{{category_id}}"
+                    },
+                    {
+                        "name": "is_closed",
+                        "value": "false"
+                    }
+                ],
+                "files": []
+            }
+        },
+        {
             "_id": "7fa3b327-f589-4300-adf0-ec9313b01528",
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "9876d163-01e7-49aa-845e-585aa8b04853",
@@ -448,33 +506,41 @@
             ]
         },
         {
-            "_id": "9ade414b-4fba-46b7-b014-328141da3d8a",
+            "_id": "e3adc3a0-225a-486f-93a4-68b414a5982b",
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
-            "name": "Update Thread",
+            "name": "Update Thread With Image",
             "url": "threads/{{thread_slug}}/",
             "method": "PUT",
-            "sortNum": 150000,
-            "created": "2024-05-22T14:11:32.198Z",
-            "modified": "2024-05-22T17:35:25.426Z",
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json"
-                }
-            ],
+            "sortNum": 155000,
+            "created": "2024-05-28T11:54:47.006Z",
+            "modified": "2024-05-28T13:29:07.798Z",
+            "headers": [],
             "body": {
-                "type": "json",
-                "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test, changed\",\n  \"category\": {{category_id}},\n  \"thread_picture_url\":\"\",\n  \"is_closed\": false\n}",
-                "form": []
-            },
-            "preReq": {
-                "runRequests": [
+                "type": "formdata",
+                "raw": "",
+                "form": [
                     {
-                        "reqId": "56898bc6-fa72-480c-8ca2-3bbc203940af",
-                        "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-                        "triggerCondition": "run-always",
-                        "triggerValue": ""
+                        "name": "thread_name",
+                        "value": "Thread Test"
+                    },
+                    {
+                        "name": "thread_desc",
+                        "value": "This is a test, changed with picture"
+                    },
+                    {
+                        "name": "category",
+                        "value": "{{category_id}}"
+                    },
+                    {
+                        "name": "is_closed",
+                        "value": "false"
+                    }
+                ],
+                "files": [
+                    {
+                        "name": "thread_picture_url",
+                        "value": "c:\\Users\\lfaja\\Pictures\\animek\\_b54da09f-db4f-4def-b8b0-93fc9dbcff71.jpg"
                     }
                 ]
             }
@@ -696,5 +762,5 @@
         },
         "envId": "862e7a01-ca49-41c6-a90e-21755ab15501"
     },
-    "ref": "YW8Sya3sjFZnm7j_qPYkfZ_YIZghx6nWMmkxDkrL5HDNFNJUi3X4tZdpnabuVCvFG0tYJhKmZfnd_fMaQuKsZA"
+    "ref": "YW8Sya3sjFZnm7j_qPYkfdL5Vu0m8GYl7t2gvDlB7OqjT-9bsWJZE0RjamGt00TXfzTCHke5HLAkj4i85yzCeA"
 }

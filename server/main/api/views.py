@@ -1,9 +1,9 @@
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from django.db.models import Q
-from rest_framework import views, status, generics, permissions
+from rest_framework import views, status, generics, permissions, parsers
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .utils import CustomPagination
 from .models import User, Category, Thread, Post
@@ -109,6 +109,7 @@ def user_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
+@parser_classes([parsers.MultiPartParser, parsers.FormParser])
 def user_detail(request, slug):
     user = get_object_or_404(User, slug=slug)
     auth_user = request.user
@@ -151,10 +152,6 @@ def user_detail(request, slug):
             if serializer.is_valid():
                 serializer.save()
 
-                if 'profile_picture_url' in request.FILES:
-                    user.profile_picture = request.FILES['profile_picture_url']
-                    user.save()
-
                 return Response(serializer.data)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -172,7 +169,7 @@ def user_detail(request, slug):
 
     else:
         return Response(status=status.HTTP_403_FORBIDDEN)
- 
+
 # Views untuk Category
 
 
@@ -243,6 +240,7 @@ def thread_list(request):
 
 
 @api_view(['GET', 'POST', 'PUT', 'DELETE'])
+@parser_classes([parsers.MultiPartParser, parsers.FormParser])
 def thread_detail(request, slug):
     thread = get_object_or_404(Thread, slug=slug)
     user = request.user
@@ -281,11 +279,7 @@ def thread_detail(request, slug):
                 thread, data=request.data)
             if serializer.is_valid():
                 serializer.save()
-                
-                if 'thread_picture_url' in request.FILES:
-                    thread.thread_picture = request.FILES['thread_picture_url']
-                    thread.save()    
-        
+
                 response = get_object_or_404(Thread, slug=slug)
 
                 return Response(ThreadResponseSerializer(response).data, status=status.HTTP_200_OK)
