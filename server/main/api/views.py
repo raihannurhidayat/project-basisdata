@@ -174,8 +174,8 @@ def user_detail(request, slug):
 def upload_profile_picture(request):
     if request.method == 'POST' :
         user = request.user
-        if 'profile_picture' in request.FILES:
-            user.profile_picture = request.FILES['profile_picture']
+        if 'profile_picture_url' in request.FILES:
+            user.profile_picture = request.FILES['profile_picture_url']
             user.save()
             serializer = UserSerializer(user)
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -193,8 +193,8 @@ def upload_thread_picture(request, slug):
         if thread.created_by != user:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
-        if 'thread_picture' in request.FILES:
-            thread.thread_picture = request.FILES['thread_picture']
+        if 'thread_picture_url' in request.FILES:
+            thread.thread_picture = request.FILES['thread_picture_url']
             thread.save()
             serializer = ThreadResponseSerializer(thread)
             return Response(serializer.data, status=status.HTTP_200_OK)
