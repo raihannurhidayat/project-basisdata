@@ -31,3 +31,8 @@ class UserManager(BaseUserManager):
 class ActiveManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(is_active=True)
+
+
+class PostManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().order_by('post_id')
