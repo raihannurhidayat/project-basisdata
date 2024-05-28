@@ -1,6 +1,6 @@
 {
     "info": {
-        "_postman_id": "939d92b3-8cec-403f-8ff0-6003903d4c09",
+        "_postman_id": "ca32aff7-ea3f-46cb-a271-93c56b1f1041",
         "name": "Forum",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": ""
@@ -169,36 +169,6 @@
                     }
                 },
                 {
-                    "name": "Update Thread",
-                    "request": {
-                        "method": "PUT",
-                        "url": {
-                            "raw": "threads/{{thread_slug}}/",
-                            "path": [
-                                "{{thread_slug}}"
-                            ],
-                            "host": [
-                                "threads"
-                            ]
-                        },
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            },
-                            "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test, changed\",\n  \"category\": {{category_id}},\n  \"thread_picture_url\":\"\",\n  \"is_closed\": false\n}"
-                        }
-                    }
-                },
-                {
                     "name": "Delete Thread",
                     "request": {
                         "method": "DELETE",
@@ -214,32 +184,87 @@
                     }
                 },
                 {
-                    "name": "Create Thread With Desc",
+                    "name": "Update Thread With Image",
                     "request": {
-                        "method": "POST",
+                        "method": "PUT",
                         "url": {
-                            "raw": "threads/",
+                            "raw": "threads/{{thread_slug}}/",
                             "path": [
-                                ""
+                                "{{thread_slug}}"
                             ],
                             "host": [
                                 "threads"
                             ]
                         },
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
                         "body": {
-                            "mode": "raw",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "thread_name",
+                                    "value": "Thread Test",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "thread_desc",
+                                    "value": "This is a test, changed with picture",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "category",
+                                    "value": "{{category_id}}",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "is_closed",
+                                    "value": "false",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "thread_picture_url",
+                                    "src": "c:\\Users\\lfaja\\Pictures\\animek\\_b54da09f-db4f-4def-b8b0-93fc9dbcff71.jpg",
+                                    "type": "file"
                                 }
-                            },
-                            "raw": "{\n  \"thread_name\": \"Thread Test\",\n  \"thread_desc\": \"This is a test\",\n  \"category\": {{category_id}}\n}"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update Thread",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "threads/{{thread_slug}}/",
+                            "path": [
+                                "{{thread_slug}}"
+                            ],
+                            "host": [
+                                "threads"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "thread_name",
+                                    "value": "Thread Test",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "thread_desc",
+                                    "value": "This is a test, changed with picture",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "category",
+                                    "value": "{{category_id}}",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "is_closed",
+                                    "value": "false",
+                                    "type": "default"
+                                }
+                            ]
                         }
                     }
                 }
@@ -328,6 +353,66 @@
                     }
                 },
                 {
+                    "name": "Delete User",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "users/{{slug}}/",
+                            "path": [
+                                "{{slug}}"
+                            ],
+                            "host": [
+                                "users"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Update User Detail With Image",
+                    "request": {
+                        "method": "PUT",
+                        "url": {
+                            "raw": "users/{{slug}}/",
+                            "path": [
+                                "{{slug}}"
+                            ],
+                            "host": [
+                                "users"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "username",
+                                    "value": "{{username}}",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "slug",
+                                    "value": "{{slug}}",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "user_bio",
+                                    "value": "The user data has been with profile picture",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "birth_date",
+                                    "value": "2000-01-01",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "profile_picture_url",
+                                    "src": "c:\\Users\\lfaja\\Pictures\\animek\\_b54da09f-db4f-4def-b8b0-93fc9dbcff71.jpg",
+                                    "type": "file"
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
                     "name": "Update User Detail",
                     "request": {
                         "method": "PUT",
@@ -340,34 +425,29 @@
                                 "users"
                             ]
                         },
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
                         "body": {
-                            "mode": "raw",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "username",
+                                    "value": "{{username}}",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "slug",
+                                    "value": "{{slug}}",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "user_bio",
+                                    "value": "The user data has been with profile picture",
+                                    "type": "default"
+                                },
+                                {
+                                    "key": "birth_date",
+                                    "value": "2000-01-01",
+                                    "type": "default"
                                 }
-                            },
-                            "raw": "{\n  \"username\": \"test user changed\",\n  \"slug\": \"test_user\",\n  \"email\": \"testuser@gmail.com\",\n  \"profile_picture_url\": \"\",\n  \"user_bio\": \"The user data has been changed\",\n  \"birth_date\": \"2000-01-01\",\n  \"date_joined\": \"2024-05-21T13:14:59Z\"\n}"
-                        }
-                    }
-                },
-                {
-                    "name": "Delete User",
-                    "request": {
-                        "method": "DELETE",
-                        "url": {
-                            "raw": "users/{{slug}}/",
-                            "path": [
-                                "{{slug}}"
-                            ],
-                            "host": [
-                                "users"
                             ]
                         }
                     }
