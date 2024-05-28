@@ -52,7 +52,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'slug', 'email', 'profile_picture_url',
-                  'user_bio', 'birth_date', 'date_joined',)
+                  'user_bio', 'birth_date', 'date_joined')
+        read_only_fields = ('email', 'date_joined')
 
 
 class CategorySerializer(serializers.ModelSerializer):
