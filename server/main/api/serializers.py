@@ -110,32 +110,32 @@ class PostRequestSerializer(serializers.ModelSerializer):
 
 
 class PostResponseSerializer(serializers.ModelSerializer):
-    detail = serializers.SerializerMethodField()
+    # detail = serializers.SerializerMethodField()
     thread = serializers.SlugRelatedField(slug_field="slug", read_only=True)
     created_by = serializers.SlugRelatedField(
         slug_field="slug", read_only=True)
 
-    optional_fields = ('detail',)
+    # optional_fields = ('detail',)
 
     class Meta:
         model = Post
-        fields = ('detail', 'thread', 'post_id', 'post_content', 'reply_to',
-                  'created_by', 'created_at', 'modified_at')
+        fields = ('thread', 'post_id', 'post_content', 'reply_to',
+                  'created_by', 'created_at', 'modified_at', 'is_active')
 
-    def get_detail(self, object):
-        if not object.post_content:
-            return {'deleted': True, 'message': "Post has been deleted"}
+    # def get_detail(self, object):
+    #     if not object.post_content:
+    #         return {'deleted': True, 'message': "Post has been deleted"}
 
-        return None
+    #     return None
 
-    def to_representation(self, instance):
-        rep = super().to_representation(instance)
+    # def to_representation(self, instance):
+    #     rep = super().to_representation(instance)
 
-        for field in self.optional_fields:
-            try:
-                if rep[field] is None:
-                    rep.pop(field)
-            except KeyError:
-                pass
+    #     for field in self.optional_fields:
+    #         try:
+    #             if rep[field] is None:
+    #                 rep.pop(field)
+    #         except KeyError:
+    #             pass
 
-        return rep
+    #     return rep
