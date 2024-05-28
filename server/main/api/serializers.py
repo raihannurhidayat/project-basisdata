@@ -49,7 +49,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('username', 'slug', 'email', 'profile_picture_url',
+        fields = ('username', 'slug', 'email', 'profile_picture',
                   'user_bio', 'birth_date', 'date_joined',)
 
 
@@ -81,7 +81,7 @@ class ThreadValidateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thread
         fields = ('thread_name', 'thread_desc', 'category',
-                  'thread_picture_url', 'is_closed')
+                  'thread_picture', 'is_closed')
 
 
 class ThreadResponseSerializer(serializers.ModelSerializer):
@@ -91,7 +91,7 @@ class ThreadResponseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Thread
-        fields = ('thread_name', 'slug', 'thread_desc', 'category', 'thread_picture_url',
+        fields = ('thread_name', 'slug', 'thread_desc', 'category', 'thread_picture',
                   'created_at', 'modified_at', 'created_by', 'is_closed')
 
 

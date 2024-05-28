@@ -12,7 +12,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=100)
     slug = models.SlugField(max_length=100, unique=True, null=True)
     email = models.EmailField(max_length=100, unique=True, null=True)
-    profile_picture_url = models.TextField(blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_pictures/', null=True, blank=True)
     user_bio = models.TextField(blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
     is_staff = models.BooleanField(default=False)
@@ -71,7 +71,7 @@ class Thread(models.Model):
     thread_desc = models.TextField(blank=True, null=True)
     category = models.ForeignKey(
         Category, related_name='threads', on_delete=models.CASCADE)
-    thread_picture_url = models.TextField(blank=True, null=True)
+    thread_picture = models.ImageField(upload_to='thread_pics/', null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     modified_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
