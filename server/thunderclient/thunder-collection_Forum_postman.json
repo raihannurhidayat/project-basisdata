@@ -1,6 +1,6 @@
 {
     "info": {
-        "_postman_id": "d31fd525-2629-4324-874e-d5d0ba76c222",
+        "_postman_id": "b49eee9c-3713-46cd-8d91-16d8b1584751",
         "name": "Forum",
         "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
         "description": ""
@@ -113,7 +113,7 @@
                     "request": {
                         "method": "GET",
                         "url": {
-                            "raw": "threads/{{thread_slug}}5/?page",
+                            "raw": "threads/{{thread_slug}}/?page",
                             "query": [
                                 {
                                     "key": "page",
@@ -122,7 +122,7 @@
                             ],
                             "variable": [],
                             "path": [
-                                "{{thread_slug}}5"
+                                "{{thread_slug}}"
                             ],
                             "host": [
                                 "threads"
@@ -171,6 +171,31 @@
                             ],
                             "host": [
                                 "threads"
+                            ]
+                        }
+                    }
+                },
+                {
+                    "name": "Create Post",
+                    "request": {
+                        "method": "POST",
+                        "url": {
+                            "raw": "threads/{{thread_slug}}/",
+                            "path": [
+                                "{{thread_slug}}"
+                            ],
+                            "host": [
+                                "threads"
+                            ]
+                        },
+                        "body": {
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "post_content",
+                                    "value": "*text bold*",
+                                    "type": "default"
+                                }
                             ]
                         }
                     }
@@ -654,36 +679,6 @@
             "name": "Post",
             "item": [
                 {
-                    "name": "Create Post",
-                    "request": {
-                        "method": "POST",
-                        "url": {
-                            "raw": "threads/{{thread_slug}}/",
-                            "path": [
-                                "{{thread_slug}}"
-                            ],
-                            "host": [
-                                "threads"
-                            ]
-                        },
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
-                        "body": {
-                            "mode": "raw",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
-                                }
-                            },
-                            "raw": "{\n  \"post_content\": \"*text bold*\"\n}"
-                        }
-                    }
-                },
-                {
                     "name": "Update Post",
                     "request": {
                         "method": "PUT",
@@ -696,20 +691,15 @@
                                 "{{thread_slug}}"
                             ]
                         },
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application/json"
-                            }
-                        ],
                         "body": {
-                            "mode": "raw",
-                            "options": {
-                                "raw": {
-                                    "language": "json"
+                            "mode": "formdata",
+                            "formdata": [
+                                {
+                                    "key": "post_content",
+                                    "value": "New changes",
+                                    "type": "default"
                                 }
-                            },
-                            "raw": "{\n  \"post_content\": \"New changes\"\n}"
+                            ]
                         }
                     }
                 },

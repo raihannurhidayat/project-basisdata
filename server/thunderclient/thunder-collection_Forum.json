@@ -2,7 +2,7 @@
     "clientName": "Thunder Client",
     "collectionName": "Forum",
     "collectionId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-    "dateExported": "2024-05-28T14:54:05.796Z",
+    "dateExported": "2024-05-30T10:24:01.265Z",
     "version": "1.2",
     "folders": [
         {
@@ -208,6 +208,36 @@
             "headers": []
         },
         {
+            "_id": "d40ef4b3-688d-4638-b445-cb90a9f7796b",
+            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
+            "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
+            "name": "Create Post",
+            "url": "threads/{{thread_slug}}/",
+            "method": "POST",
+            "sortNum": 37500,
+            "created": "2024-05-23T04:16:01.942Z",
+            "modified": "2024-05-30T10:20:35.027Z",
+            "headers": [],
+            "body": {
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "post_content",
+                        "value": "*text bold*"
+                    }
+                ]
+            },
+            "tests": [
+                {
+                    "type": "set-env-var",
+                    "custom": "json.post_id",
+                    "action": "setto",
+                    "value": "{{post_id}}"
+                }
+            ]
+        },
+        {
             "_id": "923bc139-5ccc-4eec-bf3e-1e335ec999ae",
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "93af0f87-cc53-45f5-b291-45a53b4ea278",
@@ -384,11 +414,11 @@
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "077e5d84-1414-4413-8dc6-59994d0c6ad4",
             "name": "Get Thread",
-            "url": "threads/{{thread_slug}}5/?page",
+            "url": "threads/{{thread_slug}}/?page",
             "method": "GET",
             "sortNum": 100000,
             "created": "2024-05-22T04:55:29.079Z",
-            "modified": "2024-05-28T14:40:57.177Z",
+            "modified": "2024-05-30T10:23:03.603Z",
             "headers": [],
             "params": [
                 {
@@ -560,36 +590,6 @@
             "headers": []
         },
         {
-            "_id": "d40ef4b3-688d-4638-b445-cb90a9f7796b",
-            "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
-            "containerId": "95f33a7d-e4b6-43a1-aba5-d094926a2400",
-            "name": "Create Post",
-            "url": "threads/{{thread_slug}}/",
-            "method": "POST",
-            "sortNum": 180000,
-            "created": "2024-05-23T04:16:01.942Z",
-            "modified": "2024-05-24T00:23:05.450Z",
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json"
-                }
-            ],
-            "body": {
-                "type": "json",
-                "raw": "{\n  \"post_content\": \"*text bold*\"\n}",
-                "form": []
-            },
-            "tests": [
-                {
-                    "type": "set-env-var",
-                    "custom": "json.post_id",
-                    "action": "setto",
-                    "value": "{{post_id}}"
-                }
-            ]
-        },
-        {
             "_id": "17b35ab8-5345-4f00-9066-bc0f4eb16d4d",
             "colId": "59c30600-f5f2-4f78-a744-ff47ab06a159",
             "containerId": "c474d45a-edb2-413c-a0e0-26725600a5e1",
@@ -745,17 +745,17 @@
             "method": "PUT",
             "sortNum": 240000,
             "created": "2024-05-24T00:21:55.888Z",
-            "modified": "2024-05-24T00:25:05.404Z",
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json"
-                }
-            ],
+            "modified": "2024-05-30T10:21:58.944Z",
+            "headers": [],
             "body": {
-                "type": "json",
-                "raw": "{\n  \"post_content\": \"New changes\"\n}",
-                "form": []
+                "type": "formdata",
+                "raw": "",
+                "form": [
+                    {
+                        "name": "post_content",
+                        "value": "New changes"
+                    }
+                ]
             }
         },
         {
@@ -777,5 +777,5 @@
         },
         "envId": "862e7a01-ca49-41c6-a90e-21755ab15501"
     },
-    "ref": "YW8Sya3sjFZnm7j_qPYkfdL5Vu0m8GYl7t2gvDlB7OqTejTSF83kmSWuGU6Hl78zSwFxhXkTOffBPCO9786ExQ"
+    "ref": "YW8Sya3sjFZnm7j_qPYkfQDuGq1wS6sFzZB662svu-yEFE0kaXKr05PTqyGW4JtgcBuig30mm5GCt1bnIHXKZQ"
 }
