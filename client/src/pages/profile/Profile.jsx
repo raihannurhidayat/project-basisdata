@@ -12,6 +12,9 @@ import { formatDistanceToNow } from "date-fns";
 import { FaRegTrashCan } from "react-icons/fa6";
 import Loading from "../../components/Loading";
 import Paginate from "../../components/Paginate";
+import { GrUpdate } from "react-icons/gr";
+import { MdDateRange } from "react-icons/md";
+import { format } from "date-fns";
 
 const Profile = () => {
   const { slug } = useParams();
@@ -27,12 +30,12 @@ const Profile = () => {
 
   const getUserDetails = async () => {
     const response = await getApiUserDetails(slug);
+    console.log(response);
     setUserInfo(response);
   };
 
   const getThredByUser = async () => {
     const response = await getApiThredByUser(slug);
-    console.log(response);
     SetCount(response.count);
     setThreds(response.results);
     setNextPage(response.next);
@@ -68,26 +71,46 @@ const Profile = () => {
             backgroundImage: `url(${bg})`,
           }}
         ></div>
-
-        <div className="absolute inset-0 flex justify-center items-center top-32 md:top-48 z-50">
-          <img
-            src={profile}
-            alt="Profile"
-            className="w-[174px] rounded-full border-4 border-white bg-white shadow-lg"
-          />
+        <div className="absolute inset-0 flex justify-center items-center top-32 md:top-48 z-50 bg-white">
+          <div className="relative w-[150px] h-[150px] rounded-full overflow-hidden border-4 border-white bg-white shadow-lg flex justify-center items-center">
+            <img
+              src={
+                userInfo?.profile_picture_url
+                  ? `http://localhost:8000${userInfo?.profile_picture_url}`
+                  : profile
+              }
+              alt="Profile"
+              className="w-full h-full object-cover"
+            />
+          </div>
         </div>
       </div>
       <div className="flex justify-center items-center z-10">
-        <div className="text-center mt-16 bg-white pt-[96px] px-20 absolute top-[222px] rounded-md pb-8">
+        <div className="text-center mt-20 bg-white pt-[96px] px-20 absolute top-[222px] rounded-md pb-8">
           <h1 className="text-2xl font-bold">{userInfo?.username}</h1>
           <p className="text-gray-600">{userInfo?.user_bio}</p>
-          <Link to={`/profile/update/${slug}`} className="btn btn-outline btn-primary mt-2">Update</Link>
+          {userInfo?.date_joined && (
+            <div className="flex items-center justify-center gap-5">
+              <div>
+                <MdDateRange size={30} />
+              </div>
+              <p>
+                Join {format(new Date(userInfo?.date_joined), "MMMM dd, yyyy")}
+              </p>
+              <Link
+                to={`/profile/update/${slug}`}
+                className="right-[340px] cursor-pointer hover:bg-teal-200 p-2 rounded-full transition-all ease-in-out duration-150"
+              >
+                <GrUpdate size={20} />
+              </Link>
+            </div>
+          )}
         </div>
       </div>
       {/* profile end */}
 
       {/* info activity start */}
-      <div className="mx-80 mt-64 mb-36">
+      <div className="mx-80 mt-72 mb-24">
         <div className="flex justify-between">
           <div className="bg-[#D9D9D9] py-8 px-10 flex flex-col items-center justify-center rounded-xl">
             <h1 className="font-bold text-3xl">{count}</h1>

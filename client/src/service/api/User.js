@@ -14,14 +14,22 @@ export const getApiUserDetails = async (username) => {
 
 export const updateApiUserDetails = async (user, data) => {
   try {
+    // const response = await axios.put(
+    //   `${URL.SERVER}/api/users/${user}/`,
+    //   {
+    //     username: data.username,
+    //     profile_picture_url: data.profile_picture_url,
+    //     user_bio: data.user_bio,
+    //     birth_date: data.birth_date,
+    //   },
+    //   {
+    //     withCredentials: true,
+    //   }
+    // );
+
     const response = await axios.put(
       `${URL.SERVER}/api/users/${user}/`,
-      {
-        username: data.username,
-        profile_picture_url: data.profile_picture_url,
-        user_bio: data.user_bio,
-        birth_date: data.birth_date,
-      },
+      data,
       {
         withCredentials: true,
       }
