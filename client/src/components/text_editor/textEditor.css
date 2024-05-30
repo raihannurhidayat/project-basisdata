@@ -4,6 +4,10 @@
 .ql-font span[data-value="arial"]::before {
   font-family: Arial, sans-serif;
 }
+
+/* .ql-align-center{
+  text-align: center;
+} */
 .ql-font-comic-sans,
 .ql-font span[data-value="comic-sans"]::before {
   font-family: "Comic Sans MS", cursive, sans-serif;

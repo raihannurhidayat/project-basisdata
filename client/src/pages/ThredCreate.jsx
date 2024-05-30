@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Impor CSS untuk tema Snow
+import 'react-quill/dist/quill.snow.css';
+import 'quill/dist/quill.core.css';
+import 'quill/dist/quill.snow.css';
 import InputForm from "../components/InputForm";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -17,15 +19,58 @@ const ThredCreate = () => {
 
   const navigate = useNavigate();
 
+  const reactQuillRef = useRef(null);
+
+  const handleImage = useCallback(() => {
+    const url = prompt("Enter the image URL:");
+    if (url) {
+      const quill = reactQuillRef.current.getEditor();
+      const range = quill.getSelection();
+      const delta = quill.clipboard.convert(`<img src="${url}" style="width: 100px; height: auto;" />`);
+      // quill.updateContents(delta, 'user');
+      quill.setSelection(range.index + 1);
+      quill.insertEmbed(range.index, "image", url);
+
+      setTimeout(() => {
+        const editorContainer = reactQuillRef.current.getEditor().container;
+        const images = editorContainer.getElementsByTagName('img');
+        const image = images[images.length - 1];
+        if (image) {
+          image.style.width = '250px';
+          image.style.height = 'auto';
+        }
+      }, 100);
+    }
+  }, []);
+
   const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["link", "video"],
-      ["clean"],
-    ],
+    toolbar: {
+      container: [
+        [{ header: [1, 2, false] }],
+        ["bold", "italic", "underline", "strike"],
+        [{ list: "ordered" }, { list: "bullet" }],
+        ["link", "video"],
+        ["image"],
+        ["clean"],
+      ],
+      handlers: {
+        image: handleImage,
+      },
+    },
   };
+
+  const formats = [
+    "header",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "list",
+    "bullet",
+    "link",
+    "video",
+    "image",
+  ];
 
   const handleChange = (value) => {
     setContent(value);
@@ -67,6 +112,8 @@ const ThredCreate = () => {
           <ReactQuill
             className="my-4"
             modules={modules}
+            ref={reactQuillRef}
+            formats={formats}
             value={content}
             onChange={handleChange} // Menangani perubahan nilai editor
             theme="snow"

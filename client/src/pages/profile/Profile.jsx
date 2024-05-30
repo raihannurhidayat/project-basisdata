@@ -78,9 +78,10 @@ const Profile = () => {
         </div>
       </div>
       <div className="flex justify-center items-center z-10">
-        <div className="text-center mt-16 bg-white pt-[96px] px-20 absolute top-[222px] rounded-md pb-12">
+        <div className="text-center mt-16 bg-white pt-[96px] px-20 absolute top-[222px] rounded-md pb-8">
           <h1 className="text-2xl font-bold">{userInfo?.username}</h1>
           <p className="text-gray-600">{userInfo?.user_bio}</p>
+          <Link to={`/profile/update/${slug}`} className="btn btn-outline btn-primary mt-2">Update</Link>
         </div>
       </div>
       {/* profile end */}
@@ -176,7 +177,7 @@ const Profile = () => {
             </table>
           </div>
           <div>
-          <div className="my-3 flex justify-end mx-52">
+            <div className="my-3 flex justify-end mx-52">
               <Paginate
                 nextPage={nextPage}
                 setNextPage={setNextPage}
