@@ -123,14 +123,6 @@ class PostResponseSerializer(serializers.ModelSerializer):
         fields = ('thread', 'post_id', 'post_content', 'reply_to',
                   'created_by', 'created_at', 'modified_at', 'is_active')
 
-        read_only_fields = ('thread', 'post_id', 'created_by',
-                            'created_at', 'modified_at', 'is_active')
-
-        extra_kwargs = {
-            'post_content': {'write_only': True},
-            'reply_to': {'write_only': True}
-        }
-
     # def get_detail(self, object):
     #     if not object.post_content:
     #         return {'deleted': True, 'message': "Post has been deleted"}
