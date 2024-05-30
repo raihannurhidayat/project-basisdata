@@ -133,7 +133,7 @@ const Threds = () => {
                       {thred.category}
                     </td>
                     <td className="border border-white px-2 py-1 text-center">
-                      {thred.created_by}
+                      {thred.created_by.username}
                     </td>
                     <td className="border border-white px-2 py-1 text-center">
                       {formatDistanceToNow(new Date(thred.created_at), {
