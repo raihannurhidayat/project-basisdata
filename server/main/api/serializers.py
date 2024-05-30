@@ -112,8 +112,9 @@ class PostRequestSerializer(serializers.ModelSerializer):
 class PostResponseSerializer(serializers.ModelSerializer):
     # detail = serializers.SerializerMethodField()
     thread = serializers.SlugRelatedField(slug_field="slug", read_only=True)
-    created_by = serializers.SlugRelatedField(
-        slug_field="slug", read_only=True)
+    # created_by = serializers.SlugRelatedField(
+    #     slug_field="slug", read_only=True)
+    created_by = UserSerializer(read_only=True)
 
     # optional_fields = ('detail',)
 
