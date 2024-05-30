@@ -21,13 +21,14 @@ const ThredDetails = () => {
 
   const [thredDetail, setThredDetail] = useState({});
   const [content, setContent] = useState("");
-  const [isSuccess, setIsSuccess] = useState(false)
+  const [isSuccess, setIsSuccess] = useState(false);
   const [contentPost, setContentPost] = useState("");
   const userInfo = useInfoUser();
   const reactQuillRef = useRef(null);
 
   const detailThred = async () => {
     const data = await getApiDetailThred(slug);
+    console.log(data);
     setThredDetail(data);
     console.log(data);
   };
@@ -116,7 +117,7 @@ const ThredDetails = () => {
     try {
       const response = await createApiPost(formData, slug);
       console.log("Success");
-      setIsSuccess(true)
+      setIsSuccess(true);
     } catch (error) {
       console.log(error);
     }
@@ -132,7 +133,7 @@ const ThredDetails = () => {
       }).then(() => {
         setIsSuccess(false);
         detailThred();
-        setContentPost("")
+        setContentPost("");
       });
     }
   }, [isSuccess]);
@@ -144,16 +145,22 @@ const ThredDetails = () => {
       <div className="px-12">
         <div className="py-12 flex">
           {/* profile */}
-          <div className="">
-            <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-4 border-white bg-white shadow-lg flex justify-center items-center">
+          <div className="max-w-32">
+            <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-4 border-white bg-white shadow-lg flex justify-center items-center mx-auto">
               <img
-                src={logo}
+                src={
+                  thredDetail?.created_by?.profile_picture_url
+                    ? `http://localhost:8000${thredDetail?.created_by?.profile_picture_url}`
+                    : logo
+                }
                 alt="Profile"
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="text-center">
-              <h1 className="text-xl font-bold">{thredDetail.created_by}</h1>
+              <h1 className="text-xl font-bold">
+                {thredDetail?.created_by?.username}
+              </h1>
             </div>
           </div>
           <div className="ml-6 w-full">
@@ -178,11 +185,11 @@ const ThredDetails = () => {
 
       {/* Posts Thread profile start */}
       {thredDetail?.posts?.results && (
-        <div className="bg-white rounded-b-md py-1 flex">
+        <div className="bg-white rounded-b-md py-1 flex justify-end px-12">
           {thredDetail?.posts?.results?.map((user, index) => {
-            const url = user.created_by.profile_picture_url
-            if(!printedUrls.has(url)){
-              printedUrls.add(url)
+            const url = user.created_by.profile_picture_url;
+            if (!printedUrls.has(url)) {
+              printedUrls.add(url);
               return (
                 <div
                   key={index}
@@ -198,7 +205,7 @@ const ThredDetails = () => {
                     className="w-full h-full object-cover"
                   />
                 </div>
-              )
+              );
             }
           })}
         </div>
