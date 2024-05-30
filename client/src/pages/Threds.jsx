@@ -43,7 +43,7 @@ const Threds = () => {
     try {
       setIsLoading(true);
       const resposne = await searchApiThred(searchTemp, "threads");
-      setThreds(resposne);
+      setThreds(resposne.results);
       setIsPagination(false)
     } catch (error) {
       console.log(error);
@@ -127,7 +127,6 @@ const Threds = () => {
                       >
                         {thred.thread_name}
                       </Link>
-                      <p>Title Threds</p>
                       <p>Category: education</p>
                     </td>
                     <td className="border border-white px-2 py-1 text-center">

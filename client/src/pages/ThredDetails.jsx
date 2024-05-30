@@ -8,20 +8,22 @@ import "react-quill/dist/quill.snow.css";
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import { useInfoUser } from "../hooks/useInfoUser";
-import InputForm from "../components/InputForm";
 import ReactQuill from "react-quill";
+import { createApiPost } from "../service/api/posts";
+import Posts from "../components/Posts";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const MySwal = withReactContent(Swal);
 
 const ThredDetails = () => {
   const { slug } = useParams();
 
   const [thredDetail, setThredDetail] = useState({});
   const [content, setContent] = useState("");
-
-  const [titlePost, setTitlePost] = useState("");
+  const [isSuccess, setIsSuccess] = useState(false)
   const [contentPost, setContentPost] = useState("");
-
   const userInfo = useInfoUser();
-
   const reactQuillRef = useRef(null);
 
   const detailThred = async () => {
@@ -62,9 +64,9 @@ const ThredDetails = () => {
       const delta = quill.clipboard.convert(
         `<img src="${url}" style="width: 100px; height: auto;" />`
       );
-      quill.updateContents(delta, "user");
+      // quill.updateContents(delta, 'user');
       quill.setSelection(range.index + 1);
-      // quill.insertEmbed(range.index, "image", url);
+      quill.insertEmbed(range.index, "image", url);
 
       setTimeout(() => {
         const editorContainer = reactQuillRef.current.getEditor().container;
@@ -86,7 +88,6 @@ const ThredDetails = () => {
         [{ list: "ordered" }, { list: "bullet" }],
         ["link", "video"],
         ["image"],
-        [{ align: [] }],
         ["clean"],
       ],
       handlers: {
@@ -108,61 +109,51 @@ const ThredDetails = () => {
     "image",
   ];
 
-  const handleCreatePost = () => {};
-  // post end
+  const handleCreatePost = async () => {
+    const formData = new FormData();
+    formData.append("post_content", contentPost);
+
+    try {
+      const response = await createApiPost(formData, slug);
+      console.log("Success");
+      setIsSuccess(true)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      MySwal.fire({
+        icon: "success",
+        title: "Sukses!",
+        text: "Create Posts Success!",
+        confirmButtonText: "OK",
+      }).then(() => {
+        setIsSuccess(false);
+        detailThred();
+        setContentPost("")
+      });
+    }
+  }, [isSuccess]);
+
+  const printedUrls = new Set();
 
   return (
     <div className="bg-[#76ABAE] rounded-md ">
       <div className="px-12">
-        {/* <div className="bg-[#D9D9D9] w-full  rounded-sm mt-4"> */}
-        {/* content start */}
-        {/* <div className="px-3 py-4">
-            <div className="flex justify-between gap-6 border-slate-700 border-2 py-2 px-4 rounded-md">
-              <div className="flex items-center gap-6">
-                <img
-                  src={logo}
-                  alt="profile picture"
-                  className="h-[80px] border rounded-full border-black p-2"
-                />
-                <div>
-                  <h2 className="text-3xl font-bold">
-                    {thredDetail.created_by}
-                  </h2>
-                  <h2>{userInfo.email}</h2>
-                </div>
-              </div>
-              <div>
-                {thredDetail.created_at && (
-                  <h2>
-                    {format(new Date(thredDetail.created_at), "MMMM dd, yyyy")}
-                  </h2>
-                )}
-              </div>
-            </div>
-            <div className="px-6 py-4  border-2 border-black rounded-md my-3">
-              <div className="">
-                <div>
-                  <h1 className="text-4xl font-bold">
-                    {thredDetail.thread_name}
-                  </h1>
-                </div>
-                <div className="revert-tailwind">
-                  {content && (
-                    <div dangerouslySetInnerHTML={{ __html: content }} />
-                  )}
-                </div>
-              </div>
-            </div>
-          </div> */}
-        {/* content end */}
-        {/* </div> */}
         <div className="py-12 flex">
           {/* profile */}
-          <div className="w-[200px]">
-            <img src={logo} alt="logo" className="h-[90px] mx-auto" />
+          <div className="">
+            <div className="w-[100px] h-[100px] rounded-full overflow-hidden border-4 border-white bg-white shadow-lg flex justify-center items-center">
+              <img
+                src={logo}
+                alt="Profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
             <div className="text-center">
               <h1 className="text-xl font-bold">{thredDetail.created_by}</h1>
-              <h1 className="text-sm font-semibold italic">{userInfo.email}</h1>
             </div>
           </div>
           <div className="ml-6 w-full">
@@ -183,15 +174,50 @@ const ThredDetails = () => {
             </div>
           </div>
         </div>
-        
-        {/* create post start */}
-        {/* <div className="w-full mx-auto p-3 bg-white my-12 rounded-md">
+      </div>
+
+      {/* Posts Thread profile start */}
+      {thredDetail?.posts?.results && (
+        <div className="bg-white rounded-b-md py-1 flex">
+          {thredDetail?.posts?.results?.map((user, index) => {
+            const url = user.created_by.profile_picture_url
+            if(!printedUrls.has(url)){
+              printedUrls.add(url)
+              return (
+                <div
+                  key={index}
+                  className="w-[60px] h-[60px] rounded-full overflow-hidden border-4 border-white bg-white shadow-lg flex justify-center items-center"
+                >
+                  <img
+                    src={
+                      user?.created_by?.profile_picture_url
+                        ? `http://localhost:8000${url}`
+                        : logo
+                    }
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              )
+            }
+          })}
+        </div>
+      )}
+
+      {/* Posts Thread profile start */}
+      <div className="px-12 my-8">
+        {thredDetail?.posts?.results?.map((posts, index) => (
+          <div key={index}>
+            <Posts posts={posts} />
+          </div>
+        ))}
+      </div>
+
+      {/* create post start */}
+      <div className="px-12 my-8 py-8">
+        <div className="p-3 bg-white my-12 rounded-md ">
           <div>
             <h2 className="text-4xl font-bold my-2">Create Post</h2>
-            <InputForm
-              onChange={(e) => setTitlePost(e.target.value)}
-              label="Title"
-            />
           </div>
           <div className="">
             <ReactQuill
@@ -200,7 +226,7 @@ const ThredDetails = () => {
               ref={reactQuillRef}
               formats={formats}
               value={contentPost}
-              onChange={(contentPost) => setContentPost(contentPost)} // Menangani perubahan nilai editor
+              onChange={(contentPost) => setContentPost(contentPost)}
               theme="snow"
             />
             <button
@@ -211,10 +237,9 @@ const ThredDetails = () => {
               Create
             </button>
           </div>
-        </div> */}
-        {/* create post end */}
+        </div>
       </div>
-      <div className="bg-white rounded-b-md py-3"></div>
+      {/* create post end */}
     </div>
   );
 };

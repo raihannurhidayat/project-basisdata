@@ -7,6 +7,7 @@ import {
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import logo from "../../assets/logo-unsil.png";
+import axios from "axios";
 
 const MySwal = withReactContent(Swal);
 
@@ -17,6 +18,8 @@ const ProfileUpdate = () => {
   const [profile_picture_url, setProfile_picture_url] = useState("");
   const [birth_date, setBirth_date] = useState();
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [message, setMessage] = useState("");
 
   const { slug } = useParams();
 
@@ -24,6 +27,7 @@ const ProfileUpdate = () => {
 
   const getUserDetails = async () => {
     const response = await getApiUserDetails(slug);
+    console.log(response);
     setUserInfo(response);
     setUsername(response.username);
     setBio(response.user_bio);
@@ -39,12 +43,22 @@ const ProfileUpdate = () => {
       birth_date: birth_date || null,
     };
 
+    const formData = new FormData();
+    formData.append("username", username || userInfo.username);
+    formData.append("user_bio", bio || userInfo.user_bio || null);
+    formData.append(
+      "profile_picture_url",
+      profile_picture_url || userInfo.profile_picture_url || null
+    );
+
     try {
-      const response = await updateApiUserDetails(slug, data);
+      const response = await updateApiUserDetails(slug, formData);
       console.log(response);
       setIsSuccess(true);
     } catch (error) {
       console.log(error);
+      setIsError(true);
+      setMessage(error.response.data.profile_picture_url[0]);
     }
   };
 
@@ -66,12 +80,37 @@ const ProfileUpdate = () => {
     }
   }, [isSuccess]);
 
+  useEffect(() => {
+    if (isError) {
+      MySwal.fire({
+        title: "Oops!",
+        text: message,
+        icon: "error",
+        confirmButtonText: "OK",
+      }).then(() => {
+        setIsError(false);
+      });
+    }
+  }, [isError]);
+
   return (
     <div className="bg-white min-h-screen rounded-md">
       <div className="flex justify-center flex-col items-center w-3/4 mx-auto py-12">
-        <div className="p-5 rounded-full border shadow-md my-2">
-          <img src={logo} width={200} alt="" />
+        {/* <div className="w-[300px] h-[300px] rounded-full overflow-hidden border-4 border-white bg-white shadow-lg flex justify-center items-center">
+          <img
+            src={`http://localhost:8000${userInfo?.profile_picture_url}`}
+            alt="Profile"
+            className="w-full h-full object-cover"
+          />
+        </div> */}
+        <div className="w-[300px] h-[300px] rounded-full overflow-hidden border-4 border-white bg-white shadow-lg flex justify-center items-center m">
+          <img
+            src={userInfo?.profile_picture_url ? `http://localhost:8000${userInfo?.profile_picture_url}` : logo}
+            alt="Profile"
+            className="w-full h-full object-cover"
+          />
         </div>
+
         <form
           onSubmit={handleSubmit}
           className="bg-white w-2/4 flex flex-col justify-center mb-12"
@@ -87,6 +126,18 @@ const ProfileUpdate = () => {
               value={userInfo?.email}
               className="input input-bordered my-2 input-disabled"
               disabled
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="picture" className="text-xl">
+              Picture
+            </label>
+            <input
+              name="picture"
+              id="picture"
+              type="file"
+              className="file-input w-full max-w-xs"
+              onChange={(e) => setProfile_picture_url(e.target.files[0])}
             />
           </div>
           <div className="flex flex-col">
