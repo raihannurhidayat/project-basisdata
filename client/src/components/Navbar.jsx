@@ -5,6 +5,7 @@ import { MdOutlineFavoriteBorder } from "react-icons/md";
 import { FaUserAlt } from "react-icons/fa";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { Link, useNavigate } from "react-router-dom";
+import { FaDonate } from "react-icons/fa";
 import axios from "axios";
 import Loading from "./Loading";
 import { MdCreate } from "react-icons/md";
@@ -59,6 +60,9 @@ const Navbar = () => {
               </Link>
               <Link to={`/profile/${slug}`}>
                 <FaUserAlt size={30} />
+              </Link>
+              <Link>
+                <FaDonate size={30} />
               </Link>
               <Link onClick={handleLogout}>
                 <RiLogoutBoxRFill size={30} />
