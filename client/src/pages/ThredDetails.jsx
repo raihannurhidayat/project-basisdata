@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getApiDetailThred } from "../service/api/Threds";
+import { getApiDetailThred, paginationApiPost } from "../service/api/Threds";
 import { format } from "date-fns";
-import logo from "../assets/logo-unsil.png";
+import logo from "../assets/default-profile.jpg";
 import "../components/text_editor/textEditor.css";
 import "react-quill/dist/quill.snow.css";
 import "quill/dist/quill.core.css";
@@ -13,6 +13,7 @@ import { createApiPost } from "../service/api/posts";
 import Posts from "../components/Posts";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import Paginate from "../components/Paginate";
 
 const MySwal = withReactContent(Swal);
 
@@ -20,17 +21,31 @@ const ThredDetails = () => {
   const { slug } = useParams();
 
   const [thredDetail, setThredDetail] = useState({});
+  const [posts, setPosts] = useState([]);
   const [content, setContent] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
   const [contentPost, setContentPost] = useState("");
+
+  const [page, setPage] = useState(1);
+  const [nextPage, setNextPage] = useState(null);
+  const [prevPage, setPrevPage] = useState(null);
+
   const userInfo = useInfoUser();
   const reactQuillRef = useRef(null);
 
+  const scrollTop = () => {
+    scrollTo({
+      behavior: "smooth",
+      top: 0,
+    });
+  };
+
   const detailThred = async () => {
     const data = await getApiDetailThred(slug);
-    console.log(data);
     setThredDetail(data);
-    console.log(data);
+    setPosts(data.posts.results);
+    setNextPage(data.posts.next);
+    setPrevPage(data.posts.previous);
   };
 
   const convertToHtml = () => {
@@ -54,6 +69,7 @@ const ThredDetails = () => {
 
   useEffect(() => {
     detailThred();
+    scrollTop()
   }, []);
 
   // post start
@@ -117,6 +133,7 @@ const ThredDetails = () => {
     try {
       const response = await createApiPost(formData, slug);
       console.log("Success");
+      setPage(1)
       setIsSuccess(true);
     } catch (error) {
       console.log(error);
@@ -213,11 +230,23 @@ const ThredDetails = () => {
 
       {/* Posts Thread profile start */}
       <div className="px-12 my-8">
-        {thredDetail?.posts?.results?.map((posts, index) => (
+        {posts?.map((posts, index) => (
           <div key={index}>
-            <Posts posts={posts} />
+            <Posts display="thread" posts={posts} />
           </div>
         ))}
+        <div className="text-end">
+          <Paginate
+            nextPage={nextPage}
+            setNextPage={setNextPage}
+            prevPage={prevPage}
+            setPrevPage={setPrevPage}
+            page={page}
+            setPage={setPage}
+            setThreds={setPosts}
+            paginationApi={paginationApiPost}
+          />
+        </div>
       </div>
 
       {/* create post start */}

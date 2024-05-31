@@ -9,6 +9,8 @@ import ThredDetails from "./pages/ThredDetails";
 import ProfileUpdate from "./pages/profile/ProfileUpdate";
 import ThredPost from "./pages/ThredPost";
 import Profile from "./pages/profile/Profile";
+import ThredUpdate from "./pages/ThredUpdate";
+import PostUpdate from "./pages/PostUpdate";
 
 const App = () => {
   // console.log({ infoUser });
@@ -20,9 +22,11 @@ const App = () => {
           <Route path="/threds" element={<Threds />} />
           <Route path="/threds/:slug" element={<ThredDetails />} />
           <Route path="/threds/create" element={<ThredCreate />} />
+          <Route path="/threds/update/:slug" element={<ThredUpdate />} />
           <Route path="/threds/post" element={<ThredPost />} />
           <Route path="/profile/:slug" element={<Profile />} />
           <Route path="/profile/update/:slug" element={<ProfileUpdate />} />
+          <Route path="/post/update/:thread_slug/:post_id" element={<PostUpdate />} />
         </Route>
 
         {/* route auth */}

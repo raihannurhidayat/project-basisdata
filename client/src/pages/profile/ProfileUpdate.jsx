@@ -6,7 +6,7 @@ import {
 } from "../../service/api/User";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-import logo from "../../assets/logo-unsil.png";
+import logo from "../../assets/default-profile.jpg";
 import axios from "axios";
 
 const MySwal = withReactContent(Swal);
@@ -35,13 +35,6 @@ const ProfileUpdate = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const data = {
-      username: username || userInfo.username,
-      profile_picture_url: profile_picture_url || null,
-      user_bio: bio || null,
-      birth_date: birth_date || null,
-    };
 
     const formData = new FormData();
     formData.append("username", username || userInfo.username);
@@ -96,13 +89,6 @@ const ProfileUpdate = () => {
   return (
     <div className="bg-white min-h-screen rounded-md">
       <div className="flex justify-center flex-col items-center w-3/4 mx-auto py-12">
-        {/* <div className="w-[300px] h-[300px] rounded-full overflow-hidden border-4 border-white bg-white shadow-lg flex justify-center items-center">
-          <img
-            src={`http://localhost:8000${userInfo?.profile_picture_url}`}
-            alt="Profile"
-            className="w-full h-full object-cover"
-          />
-        </div> */}
         <div className="w-[300px] h-[300px] rounded-full overflow-hidden border-4 border-white bg-white shadow-lg flex justify-center items-center m">
           <img
             src={userInfo?.profile_picture_url ? `http://localhost:8000${userInfo?.profile_picture_url}` : logo}

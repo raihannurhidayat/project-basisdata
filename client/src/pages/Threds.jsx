@@ -4,7 +4,7 @@ import { formatDistanceToNow } from "date-fns";
 import Search from "../components/Search";
 import logoChat from "../assets/logo-chat.png";
 import { Link } from "react-router-dom";
-import { getApiAllThreds, searchApiThred } from "../service/api/Threds";
+import { getApiAllThreds, paginationApiThred, searchApiThred } from "../service/api/Threds";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Paginate from "../components/Paginate";
@@ -22,6 +22,13 @@ const Threds = () => {
   const [prevPage, setPrevPage] = useState(null);
   const [isPagination, setIsPagination] = useState(true);
 
+  const scrollTop = () => {
+    scrollTo({
+      behavior: "smooth",
+      top: 0,
+    });
+  };
+
   const getAllTreds = async () => {
     try {
       setIsLoading(true);
@@ -29,7 +36,7 @@ const Threds = () => {
       setThreds(response.results);
       setNextPage(response.next);
       setPrevPage(response.previous);
-      setIsPagination(true)
+      setIsPagination(true);
       setPage(1);
     } catch (error) {
       console.log(error);
@@ -44,7 +51,7 @@ const Threds = () => {
       setIsLoading(true);
       const resposne = await searchApiThred(searchTemp, "threads");
       setThreds(resposne.results);
-      setIsPagination(false)
+      setIsPagination(false);
     } catch (error) {
       console.log(error);
       setMessageIsError(error.response.data.detail);
@@ -113,15 +120,21 @@ const Threds = () => {
                 {threds.map((thred, index) => (
                   <tr key={index}>
                     <td className="border border-white px-2 py-1 w-1/12">
-                      <img
-                        className="mx-auto"
-                        width={35}
-                        src={logoChat}
-                        alt="Logo Chat"
-                      />
+                      <div className="w-[50px] h-[50px] rounded-full overflow-hidden border-2 border-white shadow-lg flex justify-center items-center mx-auto">
+                        <img
+                          src={
+                            thred.thread_picture_url
+                              ? `http://localhost:8000${thred.thread_picture_url}`
+                              : logoChat
+                          }
+                          alt="Profile"
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
                     </td>
                     <td className="border border-white px-2 py-1">
                       <Link
+                        onClick={scrollTop}
                         to={`/threds/${thred.slug}`}
                         className="underline hover:text-blue-500 transition-all ease-in-out duration-300"
                       >
@@ -154,6 +167,7 @@ const Threds = () => {
                   page={page}
                   setPage={setPage}
                   setThreds={setThreds}
+                  paginationApi={paginationApiThred}
                 />
               </div>
             )}

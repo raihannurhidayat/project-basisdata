@@ -1,5 +1,4 @@
 import React from "react";
-import { paginationApiThred } from "../service/api/Threds";
 
 const Paginate = ({
   page,
@@ -8,7 +7,8 @@ const Paginate = ({
   prevPage,
   setPrevPage,
   setPage,
-  setThreds
+  setThreds,
+  paginationApi
 }) => {
 
   const scrollTop = () => {
@@ -20,7 +20,8 @@ const Paginate = ({
   
   const handleNextClick = async () => {
     setPage((prev) => prev + 1);
-    const response = await paginationApiThred(nextPage);
+    const response = await paginationApi(nextPage);
+    console.log(response)
     setThreds(response.results)
     setPrevPage(response.previous);
     setNextPage(response.next);
@@ -29,7 +30,7 @@ const Paginate = ({
 
   const handlePrevClick = async () => {
     setPage((prev) => prev - 1);
-    const response = await paginationApiThred(prevPage);
+    const response = await paginationApi(prevPage);
     setPrevPage(response.previous);
     setNextPage(response.next);
     setThreds(response.results)
