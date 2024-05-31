@@ -83,6 +83,7 @@ class ThreadRequestSerializer(serializers.ModelSerializer):
 
 class ThreadValidateUpdateSerializer(serializers.ModelSerializer):
     thread_picture_url = serializers.ImageField(required=False)
+    thread_name = serializers.CharField(required=False)
 
     class Meta:
         model = Thread
