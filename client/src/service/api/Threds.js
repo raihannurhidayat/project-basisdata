@@ -46,6 +46,12 @@ export const paginationApiThred = async (link) => {
   return response.data;
 };
 
+export const paginationApiPost = async (link) => {
+  const response = await axios.get(link, { withCredentials: true });
+  console.log(response.data.posts);
+  return response.data.posts;
+};
+
 export const getApiThredByUser = async (slug) => {
   const response = await axios.get(
     `${URL.SERVER}/api/users/${slug}?filter=threads`,
@@ -60,5 +66,14 @@ export const deleteApiThredByUser = async (slug) => {
     withCredentials: true,
   });
 
+  return response;
+};
+
+export const updateApiThred = async (slug, formData) => {
+  const response = await axios.put(
+    `${URL.SERVER}/api/threads/${slug}/`,
+    formData,
+    { withCredentials: true }
+  );
   return response;
 };

@@ -52,9 +52,9 @@ const Navbar = () => {
               <Link to="/threds">
                 <TiHome size={30} />
               </Link>
-              <Link>
+              {/* <Link>
                 <MdOutlineFavoriteBorder size={30} />
-              </Link>
+              </Link> */}
               <Link to="/threds/create">
                 <MdCreate size={30} />
               </Link>
