@@ -176,6 +176,7 @@ def user_detail(request, slug):
     else:
         return Response(status=status.HTTP_403_FORBIDDEN)
 
+
 # Views untuk Category
 
 

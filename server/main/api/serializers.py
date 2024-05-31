@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
@@ -82,6 +83,7 @@ class ThreadRequestSerializer(serializers.ModelSerializer):
 
 class ThreadValidateUpdateSerializer(serializers.ModelSerializer):
     thread_picture_url = serializers.ImageField(required=False)
+    thread_name = serializers.CharField(required=False)
 
     class Meta:
         model = Thread
@@ -94,11 +96,21 @@ class ThreadResponseSerializer(serializers.ModelSerializer):
     # created_by = serializers.SlugRelatedField(
     #     slug_field="slug", read_only=True)
     created_by = UserSerializer(read_only=True)
+    since_last_post = serializers.SerializerMethodField()
 
     class Meta:
         model = Thread
         fields = ('thread_name', 'slug', 'thread_desc', 'category', 'thread_picture_url',
-                  'created_at', 'modified_at', 'created_by', 'is_closed')
+                  'created_at', 'modified_at', 'created_by', 'is_closed', 'since_last_post')
+
+    def get_since_last_post(self, object):
+        try:
+            queryset = Post.objects.filter(
+                thread=object).latest('created_at')
+        except ObjectDoesNotExist as e:
+            queryset = object
+
+        return queryset.created_at
 
 
 # Post serializers
