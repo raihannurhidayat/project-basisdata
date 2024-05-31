@@ -70,7 +70,6 @@ const Profile = () => {
   const getPostByUser = async () => {
     try {
       const response = await getApiPostByUser(slug);
-      console.log(response);
       setPosts(response);
       setPostCount(response.count);
       setPostsValue(response.results);

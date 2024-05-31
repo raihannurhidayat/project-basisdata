@@ -42,6 +42,5 @@ export const updateApiPost = async (thread, id, formData) => {
 
 export const paginationApiGetPost = async (link) => {
   const response = await axios.get(link, { withCredentials: true });
-  console.log(response.data);
   return response.data;
 };

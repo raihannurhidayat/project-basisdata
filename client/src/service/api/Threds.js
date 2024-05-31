@@ -5,7 +5,6 @@ export const getApiDetailThred = async (slug) => {
   const response = await axios.get(`${URL.SERVER}/api/threads/${slug}`, {
     withCredentials: true,
   });
-  console.log({ response });
   return response.data;
 };
 
@@ -48,7 +47,6 @@ export const paginationApiThred = async (link) => {
 
 export const paginationApiPost = async (link) => {
   const response = await axios.get(link, { withCredentials: true });
-  console.log(response.data.posts);
   return response.data.posts;
 };
 
