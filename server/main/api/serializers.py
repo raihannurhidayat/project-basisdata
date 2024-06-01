@@ -53,8 +53,8 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'slug', 'email', 'profile_picture_url',
-                  'user_bio', 'birth_date', 'date_joined')
-        read_only_fields = ('email', 'date_joined')
+                  'user_bio', 'birth_date', 'date_joined', 'is_staff', 'is_superuser')
+        read_only_fields = ('email', 'date_joined', 'is_superuser')
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -63,7 +63,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('category_id', 'category_name', 'slug', 'threads')
-        read_only_fields = ('category_id', 'slug')
+        read_only_fields = ('category_id', 'slug', 'threads')
 
     def get_threads(self, obj):
         threads = Thread.objects.filter(
