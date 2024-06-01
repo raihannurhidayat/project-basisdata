@@ -54,7 +54,7 @@ const Posts = ({ posts, display, thread }) => {
               {display == "profile" && (
                 <div>
                   <div className="absolute top-[1px] -right-[14px]">
-                    <Link to={`/threds/${thread}`}>
+                    <Link to={`/threds/${posts.thread}`}>
                       <FaExternalLinkAlt
                         className="hover:text-blue-900 transition-all ease-in-out duration-150"
                         size={12}

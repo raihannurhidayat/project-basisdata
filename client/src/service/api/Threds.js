@@ -18,13 +18,13 @@ export const getApiAllThreds = async () => {
   return response.data;
 };
 
-export const createApiThred = async (title, content) => {
+export const createApiThred = async (title, content, category) => {
   const response = await axios.post(
     `${URL.SERVER}/api/threads/`,
     {
       thread_name: title,
       thread_desc: content,
-      category: 1,
+      category: category,
     },
     {
       withCredentials: true,

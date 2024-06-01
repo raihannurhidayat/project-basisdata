@@ -71,18 +71,18 @@ const Threds = () => {
     }
   };
 
-  const searchPost = async () => {
-    setPostIsNotFound(false)
-    try {
-      const response = await searchApiPost(postSearchTemp, "posts");
-      setPost(response.results);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
-      setPostIsNotFound(true)
-      setMessageIsError(error.response.data.detail)
-    }
-  };
+  // const searchPost = async () => {
+  //   setPostIsNotFound(false)
+  //   try {
+  //     const response = await searchApiPost(postSearchTemp, "posts");
+  //     setPost(response.results);
+  //     console.log(response);
+  //   } catch (error) {
+  //     console.log(error);
+  //     setPostIsNotFound(true)
+  //     setMessageIsError(error.response.data.detail)
+  //   }
+  // };
 
   useEffect(() => {
     getAllTreds();
@@ -113,37 +113,9 @@ const Threds = () => {
               searchTemp={searchTemp}
               searchThred={searchThred}
               setSearchTemp={setSearchTemp}
+              type={"Threads"}
             />
           </div>
-
-          {/* Open the modal using document.getElementById('ID').showModal() method */}
-
-          <dialog id="my_modal_2" className="modal">
-            <div className="modal-box w-11/12 max-w-5xl">
-              <h1>Search Post</h1>
-              <Search
-                searchThred={searchPost}
-                searchTemp={postSearchTemp}
-                setSearchTemp={setPostSearchTemp}
-              />
-              {searchTemp}
-              {post.length > 0 && !postIsNotFound ? (
-                <>
-                  {post?.map((item, index) => (
-                    <div key={index}>
-                      <Posts display="profile" posts={item} />
-                    </div>
-                  ))}
-                </>
-              ) : <>
-                <h1>{messageIsError}</h1>
-              </>}
-            </div>
-            <form method="dialog" className="modal-backdrop">
-              <button>close</button>
-            </form>
-          </dialog>
-
           <div className="my-4 text-white text-sm">
             <table className="table-auto mx-auto border-collapse w-full">
               <thead className="text-left">

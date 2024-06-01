@@ -13,7 +13,6 @@ import ThredUpdate from "./pages/ThredUpdate";
 import PostUpdate from "./pages/PostUpdate";
 
 const App = () => {
-  // console.log({ infoUser });
   return (
     <BrowserRouter>
       <Routes>

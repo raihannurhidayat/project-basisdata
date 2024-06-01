@@ -21,8 +21,6 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    
-
     try {
       setIsLoading(true);
       const response = await loginApi(email, password)
