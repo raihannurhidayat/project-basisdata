@@ -14,6 +14,7 @@ import {
 } from "../service/api/Threds";
 import HTMLReactParser from "html-react-parser";
 import { useInfoUser } from "../hooks/useInfoUser";
+import { getApiCategory } from "../service/api/Category";
 
 const MySwal = withReactContent(Swal);
 
@@ -23,6 +24,8 @@ const ThredUpdate = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [thread_picture_url, setThread_picture_url] = useState();
   const [isError, setIsError] = useState(false);
+  const [categoryId, setCategoryId] = useState(1);
+  const [category, setCategory] = useState([]);
   const [message, setMessage] = useState("");
 
   const [detailThred, setDetailThred] = useState({});
@@ -44,6 +47,16 @@ const ThredUpdate = () => {
     setThread_picture_url(response.thread_picture_url);
   };
 
+  const getCategory = async () => {
+    try {
+      const response = await getApiCategory();
+      console.log(response);
+      setCategory(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (detailThred?.thread_desc) {
       setTimeout(() => {
@@ -60,6 +73,7 @@ const ThredUpdate = () => {
 
   useEffect(() => {
     getDetailThread();
+    getCategory();
   }, []);
 
   const handleImage = useCallback(() => {
@@ -123,7 +137,7 @@ const ThredUpdate = () => {
     const formData = new FormData();
     // formData.append("thread_name", title);
     formData.append("thread_desc", content || detailThred.thread_desc || null);
-    formData.append("category", 1);
+    formData.append("category", categoryId);
     formData.append("is_closed", detailThred.is_closed || false);
     formData.append(
       "thread_picture_url",
@@ -185,6 +199,26 @@ const ThredUpdate = () => {
               onChange={(e) => setThread_picture_url(e.target.files[0])}
             />
           </div>
+        </div>
+        <div className="max-w-sm my-3">
+          <label
+            htmlFor="countries"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Select an option
+          </label>
+          <select
+            id="countries"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            onClick={(e) => setCategoryId(e.target.value)}
+          >
+            <option disabled>Choose a Category</option>
+            {category.map((item, index) => (
+              <option key={index} value={item.category_id}>
+                {item.category_name}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="">
           <ReactQuill

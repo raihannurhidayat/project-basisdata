@@ -10,12 +10,35 @@ import axios from "axios";
 import Loading from "./Loading";
 import { MdCreate } from "react-icons/md";
 import { useInfoUser } from "../hooks/useInfoUser";
+import Search from "./Search";
+import { searchApiPost } from "../service/api/posts";
+import Posts from "./Posts";
 
 const Navbar = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [post, setPost] = useState([]);
+  const [postIsNotFound, setPostIsNotFound] = useState(false)
+  const [postSearchTemp, setPostSearchTemp] = useState("");
+  const [messageIsError, setMessageIsError] = useState("");
+
   const navigate = useNavigate();
 
   const { slug } = useInfoUser();
+
+  const searchPost = async () => {
+    setPostIsNotFound(false)
+    try {
+      const response = await searchApiPost(postSearchTemp, "posts");
+      setPost(response.results);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      setPostIsNotFound(true)
+      setMessageIsError(error.response.data.detail)
+    } finally {
+      setPostSearchTemp("")
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -56,9 +79,6 @@ const Navbar = () => {
               <Link to="/threds">
                 <TiHome size={30} />
               </Link>
-              {/* <Link>
-                <MdOutlineFavoriteBorder size={30} />
-              </Link> */}
               <Link to="/threds/create">
                 <MdCreate size={30} />
               </Link>
@@ -72,6 +92,32 @@ const Navbar = () => {
                 <RiLogoutBoxRFill size={30} />
               </Link>
             </div>
+
+            <dialog id="my_modal_2" className="modal">
+            <div className="modal-box w-11/12 max-w-5xl">
+              <h1>Search Post</h1>
+              <Search
+                searchThred={searchPost}
+                searchTemp={postSearchTemp}
+                setSearchTemp={setPostSearchTemp}
+                type={"Posts"}
+              />
+              {post.length > 0 && !postIsNotFound ? (
+                <>
+                  {post?.map((item, index) => (
+                    <div key={index}>
+                      <Posts display="profile" posts={item} />
+                    </div>
+                  ))}
+                </>
+              ) : <>
+                <h1>{messageIsError}</h1>
+              </>}
+            </div>
+            <form method="dialog" className="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
           </div>
         </>
       )}

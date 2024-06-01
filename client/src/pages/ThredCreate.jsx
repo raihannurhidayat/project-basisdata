@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import { createApiThred } from "../service/api/Threds";
 import HTMLReactParser from "html-react-parser";
+import { getApiCategory } from "../service/api/Category";
 
 const MySwal = withReactContent(Swal);
 
@@ -17,6 +18,8 @@ const ThredCreate = () => {
   const [category, setCatagory] = useState(1);
   const [title, setTitle] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [categoryDetail, setCategoryDetail] = useState([]);
+  const [isError, setIsError] = useState(false);
 
   const navigate = useNavigate();
 
@@ -46,9 +49,14 @@ const ThredCreate = () => {
     }
   }, []);
 
-  // const getCategory = async () => {
-  //   const response = await 
-  // }
+  const getCategory = async () => {
+    const response = await getApiCategory();
+    setCategoryDetail(response);
+  };
+
+  useEffect(() => {
+    getCategory();
+  }, []);
 
   const modules = {
     toolbar: {
@@ -84,14 +92,17 @@ const ThredCreate = () => {
   };
 
   const handleCreateThred = async () => {
-    try {
-      // const response = await createApiThred(title, content);
-      console.log(category)
-      setIsSuccess(true);
-    } catch (error) {
-      console.log(error);
-      localStorage.clear();
-      navigate("/auth/login");
+    if (!title || !content || !category) {
+      setIsError(true);
+    } else {
+      try {
+        const response = await createApiThred(title, content, category);
+        setIsSuccess(true);
+      } catch (error) {
+        console.log(error);
+        localStorage.clear();
+        navigate("/auth/login");
+      }
     }
   };
 
@@ -108,6 +119,19 @@ const ThredCreate = () => {
       });
     }
   }, [isSuccess]);
+
+  useEffect(() => {
+    if (isError) {
+      MySwal.fire({
+        title: "Oops!",
+        text: "Fields is blank",
+        icon: "error",
+        confirmButtonText: "OK",
+      }).then(() => {
+        setIsError(false);
+      });
+    }
+  }, [isError]);
 
   return (
     <div className="min-h-screen bg-white flex rounded-md">
@@ -128,11 +152,12 @@ const ThredCreate = () => {
             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             onClick={(e) => setCatagory(e.target.value)}
           >
-            <option disabled>Choose a country</option>
-            <option value={1} >United States</option>
-            <option value={2}>Canada</option>
-            <option value={3}>France</option>
-            <option value={4}>Germany</option>
+            <option disabled>Choose a Category</option>
+            {categoryDetail.map((item, index) => (
+              <option key={index} value={item.category_id}>
+                {item.category_name}
+              </option>
+            ))}
           </select>
         </div>
         <div className="">
@@ -142,7 +167,7 @@ const ThredCreate = () => {
             ref={reactQuillRef}
             formats={formats}
             value={content}
-            onChange={handleChange} // Menangani perubahan nilai editor
+            onChange={handleChange}
             theme="snow"
           />
           <button
