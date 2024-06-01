@@ -200,7 +200,7 @@ def category_list(request):
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
-@permission_classes([permissions.IsAdminUser])
+@permission_classes([IsAdminUserOrReadOnly])
 def category_detail(request, pk):
     category = get_object_or_404(Category, pk=pk)
 
