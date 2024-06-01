@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css';
-import 'quill/dist/quill.core.css';
-import 'quill/dist/quill.snow.css';
+import "react-quill/dist/quill.snow.css";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
 import InputForm from "../components/InputForm";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -14,6 +14,7 @@ const MySwal = withReactContent(Swal);
 
 const ThredCreate = () => {
   const [content, setContent] = useState("");
+  const [category, setCatagory] = useState(1);
   const [title, setTitle] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -26,22 +27,28 @@ const ThredCreate = () => {
     if (url) {
       const quill = reactQuillRef.current.getEditor();
       const range = quill.getSelection();
-      const delta = quill.clipboard.convert(`<img src="${url}" style="width: 100px; height: auto;" />`);
+      const delta = quill.clipboard.convert(
+        `<img src="${url}" style="width: 100px; height: auto;" />`
+      );
       // quill.updateContents(delta, 'user');
       quill.setSelection(range.index + 1);
       quill.insertEmbed(range.index, "image", url);
 
       setTimeout(() => {
         const editorContainer = reactQuillRef.current.getEditor().container;
-        const images = editorContainer.getElementsByTagName('img');
+        const images = editorContainer.getElementsByTagName("img");
         const image = images[images.length - 1];
         if (image) {
-          image.style.width = '250px';
-          image.style.height = 'auto';
+          image.style.width = "250px";
+          image.style.height = "auto";
         }
       }, 100);
     }
   }, []);
+
+  // const getCategory = async () => {
+  //   const response = await 
+  // }
 
   const modules = {
     toolbar: {
@@ -78,7 +85,8 @@ const ThredCreate = () => {
 
   const handleCreateThred = async () => {
     try {
-      const response = await createApiThred(title, content);
+      // const response = await createApiThred(title, content);
+      console.log(category)
       setIsSuccess(true);
     } catch (error) {
       console.log(error);
@@ -107,6 +115,25 @@ const ThredCreate = () => {
         <div>
           <h2 className="text-4xl font-bold my-2">Create Thred</h2>
           <InputForm onChange={(e) => setTitle(e.target.value)} label="Title" />
+        </div>
+        <div className="max-w-sm my-3">
+          <label
+            htmlFor="countries"
+            className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+          >
+            Select an option
+          </label>
+          <select
+            id="countries"
+            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            onClick={(e) => setCatagory(e.target.value)}
+          >
+            <option disabled>Choose a country</option>
+            <option value={1} >United States</option>
+            <option value={2}>Canada</option>
+            <option value={3}>France</option>
+            <option value={4}>Germany</option>
+          </select>
         </div>
         <div className="">
           <ReactQuill

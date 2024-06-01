@@ -46,7 +46,11 @@ const Navbar = () => {
           <div className="bg-white mx-8 mt-4 py-3 px-12 rounded-md">
             <div className="flex items-center justify-between">
               <h1 className="text-4xl font-bold italic">SHIL.IT</h1>
-              <Link>
+              <Link
+                onClick={() =>
+                  document.getElementById("my_modal_2").showModal()
+                }
+              >
                 <IoSearch size={30} />
               </Link>
               <Link to="/threds">

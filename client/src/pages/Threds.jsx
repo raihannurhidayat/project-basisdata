@@ -4,10 +4,16 @@ import { formatDistanceToNow } from "date-fns";
 import Search from "../components/Search";
 import logoChat from "../assets/logo-chat.png";
 import { Link } from "react-router-dom";
-import { getApiAllThreds, paginationApiThred, searchApiThred } from "../service/api/Threds";
+import {
+  getApiAllThreds,
+  paginationApiThred,
+  searchApiThred,
+} from "../service/api/Threds";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Paginate from "../components/Paginate";
+import { searchApiPost } from "../service/api/posts";
+import Posts from "../components/Posts";
 
 const MySwal = withReactContent(Swal);
 
@@ -15,13 +21,16 @@ const Threds = () => {
   const [threds, setThreds] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [searchTemp, setSearchTemp] = useState("");
+  const [postSearchTemp, setPostSearchTemp] = useState("");
   const [isNotFound, setIsNotFound] = useState(false);
   const [messageIsError, setMessageIsError] = useState("");
   const [page, setPage] = useState(1);
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
   const [isPagination, setIsPagination] = useState(true);
-
+  const [post, setPost] = useState([]);
+  const [postIsNotFound, setPostIsNotFound] = useState(false)
+ 
   const scrollTop = () => {
     scrollTo({
       behavior: "smooth",
@@ -62,6 +71,19 @@ const Threds = () => {
     }
   };
 
+  const searchPost = async () => {
+    setPostIsNotFound(false)
+    try {
+      const response = await searchApiPost(postSearchTemp, "posts");
+      setPost(response.results);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+      setPostIsNotFound(true)
+      setMessageIsError(error.response.data.detail)
+    }
+  };
+
   useEffect(() => {
     getAllTreds();
   }, []);
@@ -93,6 +115,34 @@ const Threds = () => {
               setSearchTemp={setSearchTemp}
             />
           </div>
+
+          {/* Open the modal using document.getElementById('ID').showModal() method */}
+
+          <dialog id="my_modal_2" className="modal">
+            <div className="modal-box w-11/12 max-w-5xl">
+              <h1>Search Post</h1>
+              <Search
+                searchThred={searchPost}
+                searchTemp={postSearchTemp}
+                setSearchTemp={setPostSearchTemp}
+              />
+              {searchTemp}
+              {post.length > 0 && !postIsNotFound ? (
+                <>
+                  {post?.map((item, index) => (
+                    <div key={index}>
+                      <Posts display="profile" posts={item} />
+                    </div>
+                  ))}
+                </>
+              ) : <>
+                <h1>{messageIsError}</h1>
+              </>}
+            </div>
+            <form method="dialog" className="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
 
           <div className="my-4 text-white text-sm">
             <table className="table-auto mx-auto border-collapse w-full">
@@ -149,7 +199,7 @@ const Threds = () => {
                       {thred.created_by.username}
                     </td>
                     <td className="border border-white px-2 py-1 text-center">
-                      {formatDistanceToNow(new Date(thred.created_at), {
+                      {formatDistanceToNow(new Date(thred.since_last_post), {
                         addSuffix: true,
                       })}
                     </td>
