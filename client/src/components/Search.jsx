@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Search = ({ setSearchTemp,searchTemp, searchThred }) => {
+const Search = ({ setSearchTemp, searchTemp, searchThred }) => {
   const [search, setSearch] = useState("");
 
   return (

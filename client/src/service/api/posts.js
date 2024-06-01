@@ -37,10 +37,21 @@ export const updateApiPost = async (thread, id, formData) => {
     }
   );
 
-  return response.data
+  return response.data;
 };
 
 export const paginationApiGetPost = async (link) => {
   const response = await axios.get(link, { withCredentials: true });
   return response.data;
+};
+
+export const searchApiPost = async (query, type) => {
+  const response = await axios.get(
+    `${URL.SERVER}/api/search?q=${query}&type=${type}`,
+    { withCredentials: true }
+  );
+
+  console.log(response.data)
+
+  return response.data
 };
