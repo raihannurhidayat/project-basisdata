@@ -51,7 +51,15 @@ export const searchApiPost = async (query, type) => {
     { withCredentials: true }
   );
 
-  console.log(response.data)
+  console.log(response.data);
 
-  return response.data
+  return response.data;
+};
+
+export const deleteApiPost = async (thread, id) => {
+  const response = await axios.delete(`${URL.SERVER}/api/${thread}/${id}/`, {
+    withCredentials: true,
+  });
+
+  return response
 };

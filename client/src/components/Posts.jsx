@@ -4,11 +4,26 @@ import { useInfoUser } from "../hooks/useInfoUser";
 import { BsPencilSquare } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { deleteApiPost } from "../service/api/posts";
 
-const Posts = ({ posts, display, thread }) => {
+const Posts = ({ posts, display, thread, getPost, search }) => {
   const [contentPost, setContentPost] = useState(posts.post_content);
   const userActive = posts.created_by.username;
   const userInfo = useInfoUser();
+
+  console.log(posts);
+
+  const deletePost = async () => {
+    try {
+      const response = await deleteApiPost(posts.thread, posts.post_id);
+      console.log("Success");
+      getPost();
+      setContentPost(posts.post_content);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     setContentPost(posts.post_content);
@@ -75,12 +90,25 @@ const Posts = ({ posts, display, thread }) => {
               )}
             </div>
             {userActive === userInfo.username && (
-              <Link
-                to={`/post/update/${posts.thread}/${posts.post_id}`}
-                className="hover:bg-white rounded-full p-2 transition-all ease-in-out duration-150 cursor-pointer"
-              >
-                <BsPencilSquare size={30} />
-              </Link>
+              <>
+                <div>
+                  <Link
+                    to={`/post/update/${posts.thread}/${posts.post_id}`}
+                    className="hover:text-yellow-500 rounded-full p-2 transition-all ease-in-out duration-150 cursor-pointer"
+                  >
+                    <BsPencilSquare size={30} />
+                  </Link>
+                  {!search && (
+                    <div>
+                      <FaRegTrashCan
+                        onClick={deletePost}
+                        size={30}
+                        className="cursor-pointer hover:text-red-500 transition-all ease-in-out duration-200"
+                      />
+                    </div>
+                  )}
+                </div>
+              </>
             )}
           </div>
         </div>
