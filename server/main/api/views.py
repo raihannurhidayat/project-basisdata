@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes, parser_classes
 from rest_framework_simplejwt.views import TokenObtainPairView
 from .utils import CustomPagination
+from .permissions import IsAdminUserOrReadOnly
 from .models import User, Category, Thread, Post
 from .serializers import (
     AuthSerializer,
@@ -181,7 +182,7 @@ def user_detail(request, slug):
 
 
 @api_view(['GET', 'POST'])
-@permission_classes([permissions.IsAdminUser])
+@permission_classes([IsAdminUserOrReadOnly])
 def category_list(request):
     if request.method == 'GET':
         categories = Category.objects.all()
