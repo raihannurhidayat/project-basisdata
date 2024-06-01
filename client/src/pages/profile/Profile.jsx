@@ -70,6 +70,7 @@ const Profile = () => {
   const getPostByUser = async () => {
     try {
       const response = await getApiPostByUser(slug);
+      console.log(response)
       setPosts(response);
       setPostCount(response.count);
       setPostsValue(response.results);
@@ -275,7 +276,7 @@ const Profile = () => {
           <div>
             {postsValue?.map((post, index) => (
               <div key={index}>
-                <Posts thread={post.thread} display="profile" posts={post} />
+                <Posts thread={post.thread} display="profile" posts={post} getPost={getPostByUser} />
               </div>
             ))}
             <div className="text-end">

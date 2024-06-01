@@ -232,7 +232,7 @@ const ThredDetails = () => {
       <div className="px-12 my-8">
         {posts?.map((posts, index) => (
           <div key={index}>
-            <Posts display="thread" posts={posts} />
+            <Posts display="thread" posts={posts} getPost={detailThred} />
           </div>
         ))}
         <div className="text-end">

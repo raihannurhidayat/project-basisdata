@@ -21,6 +21,8 @@ const Navbar = () => {
   const [postSearchTemp, setPostSearchTemp] = useState("");
   const [messageIsError, setMessageIsError] = useState("");
 
+  const search = true
+
   const navigate = useNavigate();
 
   const { slug } = useInfoUser();
@@ -106,7 +108,7 @@ const Navbar = () => {
                 <>
                   {post?.map((item, index) => (
                     <div key={index}>
-                      <Posts display="profile" posts={item} />
+                      <Posts display="profile" posts={item} search={search} />
                     </div>
                   ))}
                 </>
