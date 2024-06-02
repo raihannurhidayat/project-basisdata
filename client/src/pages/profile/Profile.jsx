@@ -70,7 +70,7 @@ const Profile = () => {
   const getPostByUser = async () => {
     try {
       const response = await getApiPostByUser(slug);
-      console.log(response)
+      console.log(response);
       setPosts(response);
       setPostCount(response.count);
       setPostsValue(response.results);
@@ -271,30 +271,37 @@ const Profile = () => {
 
       {/* data post start */}
       <div className="mx-40">
-        <h1 className="text-2xl font-bold">My Post</h1>
         {postsValue.length > 0 ? (
-          <div>
-            {postsValue?.map((post, index) => (
-              <div key={index}>
-                <Posts thread={post.thread} display="profile" posts={post} getPost={getPostByUser} />
+          <>
+            <h1 className="text-2xl font-bold">My Post</h1>
+            <div>
+              {postsValue?.map((post, index) => (
+                <div key={index}>
+                  <Posts
+                    thread={post.thread}
+                    display="profile"
+                    posts={post}
+                    getPost={getPostByUser}
+                  />
+                </div>
+              ))}
+              <div className="text-end">
+                <Paginate
+                  nextPage={postNextPage}
+                  setNextPage={setPostNextPage}
+                  prevPage={postPrevPage}
+                  setPrevPage={setPostPrevPage}
+                  page={postPage}
+                  setPage={setPostPage}
+                  setThreds={setPostsValue}
+                  paginationApi={paginationApiGetPost}
+                />
               </div>
-            ))}
-            <div className="text-end">
-              <Paginate
-                nextPage={postNextPage}
-                setNextPage={setPostNextPage}
-                prevPage={postPrevPage}
-                setPrevPage={setPostPrevPage}
-                page={postPage}
-                setPage={setPostPage}
-                setThreds={setPostsValue}
-                paginationApi={paginationApiGetPost}
-              />
             </div>
-          </div>
+          </>
         ) : (
           <div>
-            <h1 className="mx-40 text-2xl font-bold my-3">No Posts</h1>
+            <h1 className="text-2xl font-bold my-3">No Posts</h1>
           </div>
         )}
       </div>
