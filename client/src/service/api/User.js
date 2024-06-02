@@ -24,18 +24,17 @@ export const updateApiUserDetails = async (user, data) => {
 };
 
 export const getApiAllUsers = async () => {
-  const response = await axios.get(`${URL.SERVER}/api/users/`, {withCredentials: true})
-  return response.data
-}
+  const response = await axios.get(`${URL.SERVER}/api/users/`, {
+    withCredentials: true,
+  });
+  return response.data;
+};
 
 export const isAdminApiCheck = async (slug) => {
-  const response = await axios.get(
-    `${URL.SERVER}/api/users/${slug}/`,
-    {
-      withCredentials: true,
-    }
-  );
-  
+  const response = await axios.get(`${URL.SERVER}/api/users/${slug}/`, {
+    withCredentials: true,
+  });
+
   localStorage.setItem(
     "role",
     JSON.stringify({
@@ -45,4 +44,15 @@ export const isAdminApiCheck = async (slug) => {
   );
 
   return response.data;
+};
+
+export const deleteApiUserByAdmin = async (slug) => {
+  try {
+    const response = await axios.delete(`${URL.SERVER}/api/superuser/users/${slug}/`, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 };

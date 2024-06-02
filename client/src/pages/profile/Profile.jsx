@@ -23,6 +23,7 @@ import { BsPencilSquare } from "react-icons/bs";
 import { paginationApiGetPost } from "../../service/api/posts";
 import Posts from "../../components/Posts";
 import { FaExternalLinkAlt } from "react-icons/fa";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const Profile = () => {
   const { slug } = useParams();
@@ -37,6 +38,7 @@ const Profile = () => {
   const [threds, setThreds] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [count, SetCount] = useState(0);
+  const [isStaff, setIsStaff] = useState(false);
 
   const [postCount, setPostCount] = useState(0);
   const [postPage, setPostPage] = useState(1);
@@ -54,6 +56,7 @@ const Profile = () => {
 
   const getUserDetails = async () => {
     const response = await getApiUserDetails(slug);
+    setIsStaff(response.is_staff);
     setUserInfo(response);
   };
 
@@ -119,7 +122,17 @@ const Profile = () => {
       </div>
       <div className="flex justify-center items-center z-10">
         <div className="text-center mt-20 bg-white pt-[96px] px-20 absolute top-[222px] rounded-md pb-8">
-          <h1 className="text-2xl font-bold">{userInfo?.username}</h1>
+          <div className="relative">
+            <h1 className="text-2xl font-bold relative">
+              {userInfo?.username}
+              {isStaff && (
+                <IoMdCheckmarkCircleOutline
+                  size={22}
+                  className="text-blue-700 absolute -top-1 right-14"
+                />
+              )}
+            </h1>
+          </div>
           <p className="text-gray-600">{userInfo?.user_bio}</p>
           {userInfo?.date_joined && (
             <div className="flex items-center justify-center gap-2">
@@ -208,13 +221,19 @@ const Profile = () => {
                           <Link
                             onClick={scrollTop}
                             to={`/threds/${thred.slug}`}
-                            className="underline hover:text-blue-500 transition-all ease-in-out duration-300"
+                            className="underline relative hover:text-blue-500 transition-all ease-in-out duration-300"
                           >
                             {thred.thread_name}
+                            {thred.created_by.is_staff && (
+                              <IoMdCheckmarkCircleOutline
+                                size={22}
+                                className="text-blue-700 absolute -top-1 -right-6"
+                              />
+                            )}
                           </Link>
                           <p>Category: education</p>
                         </td>
-                        <td className="border border-white px-2 py-1 text-center">
+                        <td className="border border-white px-2 py-1 text-center capitalize">
                           {thred.category}
                         </td>
                         <td className="border border-white px-2 py-1 text-center">

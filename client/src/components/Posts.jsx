@@ -6,7 +6,8 @@ import { Link } from "react-router-dom";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { deleteApiPost } from "../service/api/posts";
-import logo from "../assets/default-profile.jpg"
+import logo from "../assets/default-profile.jpg";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const Posts = ({ posts, display, thread, getPost, search }) => {
   const [contentPost, setContentPost] = useState(posts.post_content);
@@ -66,6 +67,12 @@ const Posts = ({ posts, display, thread, getPost, search }) => {
             <div className="relative">
               <h1 className="text-2xl font-bold">
                 {posts.created_by.username}
+                {posts?.created_by?.is_staff && (
+                  <IoMdCheckmarkCircleOutline
+                    size={22}
+                    className="text-blue-700 absolute -top-1 -left-4"
+                  />
+                )}
               </h1>
               {display == "profile" && (
                 <div>

@@ -14,6 +14,7 @@ import Posts from "../components/Posts";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import Paginate from "../components/Paginate";
+import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 
 const MySwal = withReactContent(Swal);
 
@@ -69,7 +70,7 @@ const ThredDetails = () => {
 
   useEffect(() => {
     detailThred();
-    scrollTop()
+    scrollTop();
   }, []);
 
   // post start
@@ -133,7 +134,7 @@ const ThredDetails = () => {
     try {
       const response = await createApiPost(formData, slug);
       console.log("Success");
-      setPage(1)
+      setPage(1);
       setIsSuccess(true);
     } catch (error) {
       console.log(error);
@@ -175,8 +176,14 @@ const ThredDetails = () => {
               />
             </div>
             <div className="text-center">
-              <h1 className="text-xl font-bold">
+              <h1 className="text-xl font-bold relative">
                 {thredDetail?.created_by?.username}
+                {thredDetail?.created_by?.is_staff && (
+                  <IoMdCheckmarkCircleOutline
+                    size={22}
+                    className="text-blue-700 absolute -top-1 -right-1"
+                  />
+                )}
               </h1>
             </div>
           </div>
