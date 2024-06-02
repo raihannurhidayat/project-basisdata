@@ -11,6 +11,8 @@ import ThredPost from "./pages/ThredPost";
 import Profile from "./pages/profile/Profile";
 import ThredUpdate from "./pages/ThredUpdate";
 import PostUpdate from "./pages/PostUpdate";
+import AdminPage from "./pages/Admin/AdminPage";
+import ProtectedRouteAdmin from "./components/ProtectedRouteAdmin";
 
 const App = () => {
   return (
@@ -25,13 +27,21 @@ const App = () => {
           <Route path="/threds/post" element={<ThredPost />} />
           <Route path="/profile/:slug" element={<Profile />} />
           <Route path="/profile/update/:slug" element={<ProfileUpdate />} />
-          <Route path="/post/update/:thread_slug/:post_id" element={<PostUpdate />} />
+          <Route
+            path="/post/update/:thread_slug/:post_id"
+            element={<PostUpdate />}
+          />
+        </Route>
+
+        {/* route admin */}
+        <Route element={<ProtectedRouteAdmin />}>
+          <Route path="/admin" element={<AdminPage />} />
         </Route>
 
         {/* route auth */}
         <Route path="/auth/login" element={<Login />} />
         <Route path="/auth/register" element={<Register />} />
-        
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
