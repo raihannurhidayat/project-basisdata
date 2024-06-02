@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getApiAllUsers } from "../../service/api/User";
+import { deleteApiUserByAdmin, getApiAllUsers } from "../../service/api/User";
 import Loading from "../Loading";
 
 const User = () => {
@@ -11,6 +11,18 @@ const User = () => {
       setIsLoading(true);
       const response = await getApiAllUsers();
       setUsers(response.results);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteUserByAdmin = async (slug) => {
+    try {
+      setIsLoading(true);
+      const resposne = await deleteApiUserByAdmin(slug);
+      getAllUser();
     } catch (error) {
       console.log(error);
     } finally {
@@ -39,15 +51,6 @@ const User = () => {
               <th scope="col" className="px-6 py-3">
                 Staff
               </th>
-              {/* <th scope="col" className="px-6 py-3">
-                  False
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Cheating
-                </th>
-                <th scope="col" className="px-6 py-3">
-                  Skor
-                </th> */}
               <th scope="col" className="px-6 py-3">
                 Action
               </th>
@@ -88,15 +91,9 @@ const User = () => {
                 <td className="px-6 py-4 flex gap-4">
                   <div
                     href="#"
-                    className="font-medium text-blue-600 dark:text-blue-500 cursor-pointer inline bg-yellow-300 py-2 px-3 rounded-sm"
-                  >
-                    Edit
-                  </div>
-                  <div
-                    href="#"
                     className="font-medium text-white dark:text-blue-500 cursor-pointer inline bg-red-600 py-2 px-3 rounded-sm"
                     onClick={() => {
-                      // deletedUSer(item.id);
+                      deleteUserByAdmin(item.slug);
                     }}
                   >
                     Delete
