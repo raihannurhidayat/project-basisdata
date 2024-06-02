@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { deleteApiPost } from "../service/api/posts";
+import logo from "../assets/default-profile.jpg"
 
 const Posts = ({ posts, display, thread, getPost, search }) => {
   const [contentPost, setContentPost] = useState(posts.post_content);

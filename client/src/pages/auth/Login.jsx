@@ -7,6 +7,7 @@ import withReactContent from "sweetalert2-react-content";
 import logoUnsil from "../../assets/logo-unsil.png";
 import InputForm from "../../components/InputForm";
 import { loginApi } from "../../service/api/Auth";
+import { isAdminApiCheck } from "../../service/api/User";
 
 const MySwal = withReactContent(Swal);
 
@@ -24,6 +25,8 @@ const Login = () => {
     try {
       setIsLoading(true);
       const response = await loginApi(email, password)
+      console.log(response)
+      const res = await isAdminApiCheck(response.data.slug)
     } catch (error) {
       console.log(error.response.data.detail);
       setIsError(true);
@@ -66,7 +69,7 @@ const Login = () => {
                 />
               </div>
               <div className="flex justify-center items-center flex-col gap-8">
-                <h2 className="text-3xl font-bold">Login To Yout Account</h2>
+                <h2 className="text-3xl font-bold">Login To Your Account</h2>
                 <form onSubmit={handleSubmit} className=" py-8 px-12">
                   <div className="">
                     <InputForm

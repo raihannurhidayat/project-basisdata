@@ -65,19 +65,19 @@ const Navbar = () => {
     }
   };
 
-  const isAdminCheck = async () => {
-    const response = await isAdminApiCheck();
-    setIsRole({
-      is_staff: response.is_staff,
-      is_superuser: response.is_superuser,
-    });
-  };
-
-  useEffect(() => {
-    isAdminCheck();
-  }, []);
-
+  // const isAdminCheck = async () => {
+  //   const response = await isAdminApiCheck();
+  //   setIsRole({
+  //     is_staff: response.is_staff,
+  //     is_superuser: response.is_superuser,
+  //   });
+  // };
   const infoRole = useInfoRole();
+  
+  useEffect(() => {
+    // isAdminCheck();
+  }, [infoRole?.is_staff]);
+
 
   return (
     <div>
@@ -104,12 +104,12 @@ const Navbar = () => {
               <Link to={`/profile/${slug}`}>
                 <FaUserAlt size={30} />
               </Link>
-              {infoRole?.is_staff ? (
+              {infoRole.is_staff ? (
                 <Link to={'/admin'}>
                   <MdAdminPanelSettings size={30} />
                 </Link>
               ) : (
-                <Link>
+                <Link to={"https://saweria.co/widgets/qr?streamKey=5ccd417d63379d1fed7883eada98af21"}>
                   <FaDonate size={30} />
                 </Link>
               )}

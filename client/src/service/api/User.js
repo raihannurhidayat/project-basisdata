@@ -25,23 +25,22 @@ export const updateApiUserDetails = async (user, data) => {
 
 export const getApiAllUsers = async () => {
   const response = await axios.get(`${URL.SERVER}/api/users/`, {withCredentials: true})
-  console.log(response.data)
   return response.data
 }
 
-export const isAdminApiCheck = async () => {
+export const isAdminApiCheck = async (slug) => {
   const response = await axios.get(
-    `${URL.SERVER}/api/users/${infoUser?.slug}/`,
+    `${URL.SERVER}/api/users/${slug}/`,
     {
       withCredentials: true,
     }
   );
-
+  
   localStorage.setItem(
     "role",
     JSON.stringify({
-      is_staff: true,
-      is_superuser: true,
+      is_staff: response.data.is_staff,
+      is_superuser: response.data.is_superuser,
     })
   );
 
