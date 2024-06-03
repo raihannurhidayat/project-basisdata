@@ -97,7 +97,7 @@ const Posts = ({ posts, display, thread, getPost, search }) => {
                 <div dangerouslySetInnerHTML={{ __html: contentPost }} />
               )}
             </div>
-            {userActive === userInfo.username && (
+            {userActive === userInfo.username && posts.is_active &&(
               <>
                 <div>
                   <Link

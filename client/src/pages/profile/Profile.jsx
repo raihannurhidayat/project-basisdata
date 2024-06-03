@@ -231,7 +231,12 @@ const Profile = () => {
                               />
                             )}
                           </Link>
-                          <p>Category: education</p>
+                          <p>
+                            {format(
+                              new Date(thred.created_at),
+                              "MMMM dd, yyyy"
+                            )}
+                          </p>
                         </td>
                         <td className="border border-white px-2 py-1 text-center capitalize">
                           {thred.category}
