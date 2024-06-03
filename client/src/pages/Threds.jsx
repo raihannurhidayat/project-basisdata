@@ -112,7 +112,6 @@ const Threds = () => {
       ) : (
         <>
           <div className="flex justify-end my-4">
-            {/* <h2 className="text-xl ">Board Index</h2> */}
             <Search
               searchTemp={searchTemp}
               searchThred={searchThred}
