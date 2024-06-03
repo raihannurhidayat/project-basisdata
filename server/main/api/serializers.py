@@ -31,18 +31,15 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token = super().get_token(user)
 
         # add custom claim
-        token['username'] = user.username
-        token['email'] = user.email
-        token['slug'] = user.slug
+        serializer = UserSerializer(user).data
+        token['detail'] = serializer
 
         return token
 
     def validate(self, attrs):
         data = super().validate(attrs)
 
-        data.update({'username': self.user.username})
-        data.update({'email': self.user.email})
-        data.update({'slug': self.user.slug})
+        data.update(UserSerializer(self.user).data)
 
         return data
 
